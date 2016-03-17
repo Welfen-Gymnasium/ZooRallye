@@ -8,4 +8,7 @@
     <string name="nav_settings">Einstellungen</string>
     <string name="nav_statistics">Statistiken</string>
     <string name="nav_zoos">Zoos</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="about_authors">Entwickelt von:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a></string>
+    <string name="action_about">Über uns</string>
 </resources>
