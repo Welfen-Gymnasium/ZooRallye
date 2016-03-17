@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zoo Rallye</string>
+    <string name="nav_animals">Tiere</string>
+    <string name="nav_challenge">Monatliche Challenge</string>
+    <string name="nav_offline">Offline Inhalte</string>
+    <string name="nav_rally">Rallye</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="nav_statistics">Statistiken</string>
+    <string name="nav_zoos">Zoos</string>
+</resources>

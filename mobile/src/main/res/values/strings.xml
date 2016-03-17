@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Zoo Rally</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <string name="nav_rally">Rally</string>
+    <string name="nav_statistics">Statistics</string>
+    <string name="nav_animals">Animals</string>
+    <string name="nav_zoos">Zoos</string>
+    <string name="nav_challenge">Monthly Challenge</string>
+    <string name="nav_offline">Offline Content</string>
+    <string name="nav_settings">Settings</string>
+
+</resources>
