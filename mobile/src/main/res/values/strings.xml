@@ -17,4 +17,9 @@
     <string name="answer_true">True</string>
     <string name="answer_false">False</string>
 
+    <string name="action_settings">Settings</string>
+    <string name="about_header" translatable="false">DeepSpace Development</string>
+    <string name="about_authors">Developed by:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> and <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a></string>
+    <string name="action_about">About</string>
+
 </resources>
