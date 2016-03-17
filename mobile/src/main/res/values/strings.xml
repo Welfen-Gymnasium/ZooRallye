@@ -11,5 +11,10 @@
     <string name="nav_challenge">Monthly Challenge</string>
     <string name="nav_offline">Offline Content</string>
     <string name="nav_settings">Settings</string>
+    <string name="question_recline">Recline</string>
+    <string name="question_submit">Submit</string>
+    <string name="statement_true_or_false">Is this statement true or false?</string>
+    <string name="answer_true">True</string>
+    <string name="answer_false">False</string>
 
 </resources>
