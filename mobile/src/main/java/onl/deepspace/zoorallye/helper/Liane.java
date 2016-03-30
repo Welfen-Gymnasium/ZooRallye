@@ -12,17 +12,12 @@ import onl.deepspace.zoorallye.R;
  * Created by Sese on 17.03.2016.
  **/
 
-
 public class Liane {
 
     public static void addLiane(View uview){
 
         final View view = uview;
         final ViewOverlay overlay = view.getOverlay();
-
-        final Drawable topLiane = view.getResources().getDrawable(R.drawable.top_liane);
-        final Drawable rightLiane = view.getResources().getDrawable(R.drawable.right_liane);
-        final Drawable leftLiane = view.getResources().getDrawable(R.drawable.left_liane);
 
         view.post(new Runnable() {
             @Override
