@@ -21,5 +21,6 @@
     <string name="about_header" translatable="false">DeepSpace Development</string>
     <string name="about_authors">Developed by:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> and <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a></string>
     <string name="action_about">About</string>
+    <string name="nav_map">Map</string>
 
 </resources>

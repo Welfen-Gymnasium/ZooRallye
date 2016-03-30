@@ -3,6 +3,8 @@ package onl.deepspace.zoorallye;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,10 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import onl.deepspace.zoorallye.helper.Database;
-import onl.deepspace.zoorallye.helper.Liane;
+import onl.deepspace.zoorallye.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,22 +77,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_rally) {
+        Fragment fragment;
 
+        switch(item.getItemId()){
+            case R.id.nav_map: fragment = new MapFragment(); break;
+            default: fragment = null;
+        }
+
+        /*if (id == R.id.nav_rally) {
         } else if (id == R.id.nav_statistics) {
-
+        } else if (id == R.id.nav_map) {
         } else if (id == R.id.nav_animals) {
-
         } else if (id == R.id.nav_zoos) {
-
         } else if (id == R.id.nav_challenge) {
-
         } else if (id == R.id.nav_offline) {
+        } else if (id == R.id.nav_settings) {*/
 
-        } else if (id == R.id.nav_settings) {
-
+        if(fragment != null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
