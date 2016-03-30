@@ -1,8 +1,11 @@
 package onl.deepspace.zoorallye;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+
+import onl.deepspace.zoorallye.QuestionFragments.SortFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,8 +41,21 @@ public class MainActivity extends AppCompatActivity
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ArrayList<String> answers = new ArrayList<>();
+        answers.add("answer");
+        answers.add("answer 2");
+        answers.add("Herr Günther");
+        answers.add("answer 3");
+
+        SortFragment fragment = SortFragment.newInstance("question", answers);
+        ft.add(R.id.drawer_layout, fragment);
+        ft.commit();
+
         //Init Lianes
-        
+
     }
 
     @Override
