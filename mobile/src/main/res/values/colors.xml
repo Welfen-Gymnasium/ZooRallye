@@ -6,5 +6,5 @@
     <color name="answerTrue">#4CAF50</color>
     <color name="answerFalse">#F44336</color>
     <color name="question_image_background">#FFFFFF</color>
-    <color name="icon">#939393</color>
+    <color name="icon">#61000000</color>
 </resources>

@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import onl.deepspace.zoorallye.QuestionFragments.SortFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
-        Fragment fragment;
+        Fragment fragment = null;
 
         switch(item.getItemId()){
             case R.id.nav_map: fragment = new MapFragment(); break;
