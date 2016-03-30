@@ -11,4 +11,10 @@
     <string name="action_settings">Einstellungen</string>
     <string name="about_authors">Entwickelt von:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a></string>
     <string name="action_about">Über uns</string>
+    <string name="question_submit">Abschicken</string>
+    <string name="answer_false">Falsch</string>
+    <string name="answer_true">Wahr</string>
+    <string name="question_recline">Ablehnen</string>
+    <string name="statement_true_or_false">Ist diese Aussage wahr oder falsch?</string>
+    <string name="nav_map">Karte</string>
 </resources>

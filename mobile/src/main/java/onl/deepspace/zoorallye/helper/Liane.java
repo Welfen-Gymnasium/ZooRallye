@@ -1,16 +1,10 @@
 package onl.deepspace.zoorallye.helper;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewOverlay;
+
+import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 
@@ -18,88 +12,47 @@ import onl.deepspace.zoorallye.R;
  * Created by Sese on 17.03.2016.
  **/
 
+public class Liane {
 
-public class Liane extends Drawable {
+    public static void addLiane(View uview){
 
-    private final double SQRT_2 = Math.sqrt(2);
-    private final Rect mTextBounds;
-    private Paint mPaintFill;
-    private Paint mPaintText;
-    private String mMessage = "I'M A PIRATE BANNER";
-    private int mBannerWidth = 50;
-    private int mTextSize;
+        final View view = uview;
+        final ViewOverlay overlay = view.getOverlay();
 
-    public Liane() {
-        initPaintFill();
-        initPaintText();
-        mTextBounds = new Rect();
-    }
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Drawable> topLianes = new ArrayList<>();
+                ArrayList<Drawable> rightLianes = new ArrayList<>();
+                ArrayList<Drawable> leftLianes = new ArrayList<>();
 
-    private void initPaintFill() {
-        mPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintFill.setStyle(Paint.Style.FILL);
-        mPaintFill.setColor(Color.BLUE);
-    }
+                int topTimes = view.getWidth() / 750;
+                int topWidth = view.getWidth() / topTimes;
 
-    private void initPaintText() {
-        mPaintText = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintText.setStyle(Paint.Style.FILL);
-        mPaintText.setColor(Color.WHITE);
-        mPaintText.setTextSize(20);
-        mPaintText.setShadowLayer(4.0f, 2.0f, 2.0f, Color.BLACK);
-    }
+                int rlTimes = view.getHeight() / 700;
+                int rlHeight = view.getHeight() / rlTimes;
 
-    @Override
-    public void draw(Canvas canvas) {
-        Rect bounds = getBounds();
-        if (bounds.isEmpty()) {
-            bounds = canvas.getClipBounds();
-        }
-        float width = bounds.width();
 
-        adaptTextSize((int) (width * 0.9), (int) (mBannerWidth * 0.9));
+                for(int i = 0; i < rlHeight; i++){
+                    leftLianes.add(view.getResources().getDrawable(R.drawable.left_liane));
+                    leftLianes.get(i).setBounds(0, rlHeight * i, 70, rlHeight * (i + 1));
 
-        float bannerHyp = (float) (mBannerWidth * SQRT_2);
+                    rightLianes.add(view.getResources().getDrawable(R.drawable.right_liane));
+                    rightLianes.get(i).setBounds(view.getWidth() - 70, rlHeight * i, view.getWidth(), rlHeight * (i + 1));
 
-        canvas.translate(0, bounds.centerY() - mBannerWidth);
-        canvas.rotate(45, bounds.centerX(), bounds.centerY() - mBannerWidth);
-        canvas.drawRect(bounds.left - bannerHyp, bounds.top, bounds.right + bannerHyp, bounds.top + mBannerWidth, mPaintFill);
+                    overlay.add(leftLianes.get(i));
+                    overlay.add(rightLianes.get(i));
+                }
 
-        canvas.drawText(mMessage, bounds.centerX() - mTextBounds.centerX(), mBannerWidth / 2 + mTextBounds.height() / 2, mPaintText);
-    }
+                for(int i = 0; i < topTimes; i++){
+                    topLianes.add(view.getResources().getDrawable(R.drawable.top_liane));
+                    topLianes.get(i).setBounds(topWidth * i, 0, topWidth * (i + 1), 110);
+                    overlay.add(topLianes.get(i));
+                }
 
-    private void adaptTextSize(float width, int height) {
-        if (mTextSize > 0) {
-            mPaintText.setTextSize(mTextSize);
-            return;
-        }
-        int textSize = 10;
-        int textHeight;
-        int textWidth;
-        boolean stop = false;
-        while (!stop) {
-            mTextSize = textSize++;
-            mPaintText.setTextSize(mTextSize);
-            mPaintText.getTextBounds(mMessage, 0, mMessage.length(), mTextBounds);
+            }
+        });
 
-            textHeight = mTextBounds.height();
-            textWidth = mTextBounds.width();
-
-            stop = textHeight >= height || textWidth >= width;
-        }
-    }
-
-    @Override
-    public void setAlpha(int alpha) {
-    }
-
-    @Override
-    public void setColorFilter(ColorFilter cf) {
-    }
-
-    @Override
-    public int getOpacity() {
-        return PixelFormat.OPAQUE;
     }
 }
 
