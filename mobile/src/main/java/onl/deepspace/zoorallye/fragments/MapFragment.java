@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +30,14 @@ public class MapFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //Init Lianas
-        Liane.addLiane(view);
+        // Liane.addLiane(view);
 
         //Map
         final ImageView map = (ImageView) view.findViewById(R.id.fragment_map_map);
         //map.setZoom(1.2f); //not working... Why? //TODO Make map-default-zoom work
 
         //GPS
-        gps = new GPSTracker(getContext());
+        gps = new GPSTracker(getActivity());
 
         if(gps.canGetLocation()){
             //Toast.makeText(getContext(), gps.getLongitude() + " " + gps.getLatitude(), Toast.LENGTH_LONG).show();
@@ -65,7 +65,7 @@ public class MapFragment extends Fragment {
                     if(xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
 
                         Drawable marker = map.getResources().getDrawable(R.drawable.ic_map_marker);
-                        marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movments
+                        marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movements
                         overlay.add(marker);
                     }
                     else{
