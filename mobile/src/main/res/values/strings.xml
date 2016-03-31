@@ -26,5 +26,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_map">Map</string>
+    <string name="gps_prompt_enable">GPS is not enabled. Do you want to go to settings menu?</string>
+    <string name="settings">Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="outside_zoo">You\'re currently not in the zoo.</string>
 
 </resources>

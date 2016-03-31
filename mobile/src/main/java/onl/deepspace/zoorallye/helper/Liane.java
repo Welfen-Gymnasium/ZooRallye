@@ -25,13 +25,16 @@ public final class Liane {
                 ArrayList<Drawable> topLianes = new ArrayList<>();
                 ArrayList<Drawable> rightLianes = new ArrayList<>();
                 ArrayList<Drawable> leftLianes = new ArrayList<>();
+                Drawable transverseLiane = view.getResources().getDrawable(R.drawable.transverse_liane);
+
+                transverseLiane.setBounds(0, 0, 400, 400);
+                overlay.add(transverseLiane);
 
                 int topTimes = view.getWidth() / 750;
                 int topWidth = view.getWidth() / topTimes;
 
                 int rlTimes = view.getHeight() / 700;
                 int rlHeight = view.getHeight() / rlTimes;
-
 
                 for(int i = 0; i < rlHeight; i++){
                     leftLianes.add(view.getResources().getDrawable(R.drawable.left_liane));

@@ -28,7 +28,7 @@ public class UpgradeQuestionsDb {
             JSONArray sort = data.getJSONArray(Const.QuestionsAPI_SORT);
             JSONArray text = data.getJSONArray(Const.QuestionsAPI_TEXT);
 
-            // TODO: 31.03.2016 Insert values into SQLite database 
+            // TODO: 31.03.2016 Insert values into SQLite database
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }

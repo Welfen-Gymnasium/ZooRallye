@@ -17,4 +17,8 @@
     <string name="question_recline">Zurückstellen</string>
     <string name="statement_true_or_false">Ist diese Aussage wahr oder falsch?</string>
     <string name="nav_map">Karte</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="gps_prompt_enable">GPS ist ausgeschaltet. Möchtest du es in den Einstellungen aktivieren?</string>
+    <string name="outside_zoo">Du befindest dich aktuell nicht im Zoo.</string>
 </resources>
