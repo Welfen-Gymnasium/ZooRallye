@@ -1,4 +1,4 @@
-package onl.deepspace.zoorallye.QuestionFragments;
+package onl.deepspace.zoorallye.questions;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package onl.deepspace.zoorallye.QuestionFragments;
+package onl.deepspace.zoorallye.questions;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import onl.deepspace.zoorallye.R;
@@ -18,26 +17,19 @@ import onl.deepspace.zoorallye.helper.Const;
  * Activities that contain this fragment must implement the
  * {@link QuestionCommunication} interface
  * to handle interaction events.
- * Use the {@link SeekbarFragment#newInstance} factory method to
+ * Use the {@link TrueFalseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeekbarFragment extends Fragment {
+public class TrueFalseFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
-    private static final String ARG_MIN = "min";
-    private static final String ARG_MAX = "max";
-    private static final String ARG_STEP = "step";
     private static final String ARG_ANSWER = "answer";
 
-    private View mView;
     private QuestionCommunication mCommunicator;
 
     private String mQuestion;
-    private float mMin;
-    private float mMax;
-    private float mStep;
-    private float mAnswer;
+    private boolean mAnswer;
 
-    public SeekbarFragment() {
+    public TrueFalseFragment() {
         // Required empty public constructor
     }
 
@@ -46,20 +38,14 @@ public class SeekbarFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param question The question.
-     * @param min The minimum the seekbar can be.
-     * @param max The maximum the seekbar can be.
-     * @param step The step size in which the seekbar should increase.
      * @param answer The correct answer.
-     * @return A new instance of fragment SeekbarFragment.
+     * @return A new instance of fragment TrueFalseFragment.
      */
-    public static SeekbarFragment newInstance(String question, float min, float max, float step, float answer) {
-        SeekbarFragment fragment = new SeekbarFragment();
+    public static TrueFalseFragment newInstance(String question, boolean answer) {
+        TrueFalseFragment fragment = new TrueFalseFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
-        args.putFloat(ARG_MIN, min);
-        args.putFloat(ARG_MAX, max);
-        args.putFloat(ARG_STEP, step);
-        args.putFloat(ARG_ANSWER, answer);
+        args.putBoolean(ARG_ANSWER, answer);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,17 +56,14 @@ public class SeekbarFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             mQuestion = args.getString(ARG_QUESTION);
-            mMin = args.getFloat(ARG_MIN);
-            mMax = args.getFloat(ARG_MAX);
-            mStep = args.getFloat(ARG_STEP);
-            mAnswer = args.getFloat(ARG_ANSWER);
+            mAnswer = args.getBoolean(ARG_ANSWER);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragement_seekbar, container, false);
+        View mView = inflater.inflate(R.layout.fragement_true_false, container, false);
 
         // Init communication with activity
         try {
@@ -89,16 +72,11 @@ public class SeekbarFragment extends Fragment {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
         }
 
-        // Init seekbar fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_seekbar);
+        // Init radio fragment
+        TextView question = (TextView) mView.findViewById(R.id.question_true_false);
         question.setText(mQuestion);
 
-        // TODO: 30.03.2016 Update to set a minimum
-        // TODO: 30.03.2016 Animation for sliding in to position
-        SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekBar);
-        seekBar.setMax((int) mMax);
-
-        final Button recline = (Button) mView.findViewById(R.id.recline_seekbar);
+        final Button recline = (Button) mView.findViewById(R.id.recline_true_false);
         recline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,11 +84,19 @@ public class SeekbarFragment extends Fragment {
             }
         });
 
-        final Button submit = (Button) mView.findViewById(R.id.submit_seekbar);
-        submit.setOnClickListener(new View.OnClickListener() {
+        final Button answerTrue = (Button) mView.findViewById(R.id.answer_true);
+        answerTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitAnswer();
+                submitAnswer(true);
+            }
+        });
+
+        final Button answerFalse = (Button) mView.findViewById(R.id.answer_false);
+        answerFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitAnswer(false);
             }
         });
 
@@ -123,13 +109,10 @@ public class SeekbarFragment extends Fragment {
         mCommunicator = null;
     }
 
-    private void submitAnswer() {
+    private void submitAnswer(boolean userAnswer) {
         if (mCommunicator != null) {
-            // TODO: 30.03.2016 Check if answer was correct and how far the answer was away form the correct answer
-            SeekBar seekbar = (SeekBar) mView.findViewById(R.id.seekBar);
-            int userAnswer = seekbar.getProgress();
-            int offset = 0;
-            mCommunicator.submitSeekbar(userAnswer, offset);
+            boolean isCorrect = userAnswer == mAnswer;
+            mCommunicator.submitTrueFalse(userAnswer, isCorrect);
         } else {
             Log.e(Const.LOGTAG,"mCommunicator is null: Did you implement QuestionCommunication to your activity?");
         }

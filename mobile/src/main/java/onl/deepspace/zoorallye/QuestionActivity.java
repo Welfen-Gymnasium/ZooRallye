@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import onl.deepspace.zoorallye.QuestionFragments.QuestionCommunication;
-import onl.deepspace.zoorallye.QuestionFragments.SortFragment;
+import onl.deepspace.zoorallye.questions.QuestionCommunication;
+import onl.deepspace.zoorallye.questions.SortFragment;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionCommunication {
     // TODO: 31.03.2016 Implement way to change image in question fragments

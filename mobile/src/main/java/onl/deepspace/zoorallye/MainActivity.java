@@ -13,9 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
-import onl.deepspace.zoorallye.QuestionFragments.SortFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity

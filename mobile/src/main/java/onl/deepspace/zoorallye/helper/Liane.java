@@ -12,7 +12,7 @@ import onl.deepspace.zoorallye.R;
  * Created by Sese on 17.03.2016.
  **/
 
-public class Liane {
+public final class Liane {
 
     public static void addLiane(View uview){
 

@@ -1,63 +1,60 @@
 package onl.deepspace.zoorallye.helper;
 
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Sese on 30.03.2016.
  */
-public class Database {
+public final class Database {
 
-    public static String getData() {
-        String url = Const.QuestionsAPI;
+    public static String getQuestions() {
+        String urlString = Const.QuestionsAPI;
         String result = "";
-        BufferedReader inStream = null;
         try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpRequest = new HttpPost(url);
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
-            nameValuePairList.add(new BasicNameValuePair(Const.QuestionsAPI_token, Const.API_TOKEN));
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setReadTimeout(10000/*ms*/);
+            connection.setConnectTimeout(15000/*ms*/);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
 
-            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
-            HttpResponse response = httpClient.execute(httpRequest);
-            inStream = new BufferedReader(
-                    new InputStreamReader(
-                            response.getEntity().getContent()));
+            JSONObject body = new JSONObject();
+            body.put(Const.QuestionsAPI_token, Const.API_TOKEN);
 
-            StringBuilder buffer = new StringBuilder("");
-            String line;
-            String NL = System.getProperty("line.separator");
-            while ((line = inStream.readLine()) != null) {
-                buffer.append(line).append(NL);
-            }
-            inStream.close();
+            byte[] outputInBytes = body.toString().getBytes(Const.CHAR_ENCODING);
+            OutputStream os = connection.getOutputStream();
+            os.write(outputInBytes);
+            os.close();
 
-            result = buffer.toString();
-        } catch (Exception e) {
-            Log.e(Const.LOGTAG, e.toString());
-            e.printStackTrace();
-        } finally {
-            if (inStream != null) {
-                try {
-                    inStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            connection.connect();
+
+            int responseCode = connection.getResponseCode();
+            Log.d(Const.LOGTAG, "Reponse code: " + responseCode);
+            InputStream in = connection.getInputStream();
+            InputStreamReader reader = new InputStreamReader(in, Const.CHAR_ENCODING);
+            char[] buffer = new char[Const.MAX_RESPONSE_LENGTH];
+            int charsRead;
+            do {
+                charsRead = reader.read(buffer);
+                String resultPart = String.valueOf(buffer);
+                result += resultPart;
+                buffer = new char[Const.MAX_RESPONSE_LENGTH];
+            } while (charsRead > -1);
+
+        } catch (IOException | JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
         }
         return result;
     }
