@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOverlay;
@@ -17,15 +19,18 @@ import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.GPSTracker;
 import onl.deepspace.zoorallye.helper.Liane;
+import onl.deepspace.zoorallye.helper.RotationGestureDetector;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
 /**
  * Created by Sese on 30.03.2016.
  */
-public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback{
+public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback, RotationGestureDetector.OnRotationGestureListener{
 
     boolean inZooInformation = false;
+
+    RotationGestureDetector rotationGestureDetector;
 
     GPSTracker gps;
     View view;
@@ -44,8 +49,20 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
         //Marker
         marker = map.getResources().getDrawable(R.drawable.ic_map_marker);
-        //gps
+        //GPS
         gps = new GPSTracker(getActivity(), this);
+        //Two finger roatation
+        rotationGestureDetector = new RotationGestureDetector(this);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    float angle = rotationGestureDetector.getAngle();
+                    Log.d("RotationGestureDetector", "Rotation: " + Float.toString(angle));
+                }
+                return true;
+            }
+        });
 
         //Start AsyncTask with location callback
         new GetPosition().execute(this);
@@ -101,6 +118,12 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     public void asyncTaskCallback(Object object) {
         Location l = (Location) object;
         setMarkerPostition(l);
+    }
+
+    @Override
+    public void OnRotation(RotationGestureDetector rotationDetector) {
+        float angle = rotationDetector.getAngle();
+        Log.d("RotationGestureDetector", "Rotation: " + Float.toString(angle));
     }
 
     private class GetPosition extends AsyncTask<AsyncTaskCallback, Void, Location>{
