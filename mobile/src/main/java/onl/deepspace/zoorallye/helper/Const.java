@@ -30,4 +30,9 @@ public final class Const {
 
     public static final String CHAR_ENCODING = "UTF-8";
     public static final int MAX_RESPONSE_LENGTH = 500;
+
+    public static final double minLatitude = 48.343800;
+    public static final double minLongitude = 10.912091;
+    public static final double maxLatitude = 48.349773;
+    public static final double maxLongitude = 10.918707;
 }
