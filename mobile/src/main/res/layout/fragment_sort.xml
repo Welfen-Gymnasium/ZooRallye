@@ -6,10 +6,9 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-    >
+              android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <!-- TODO support elevation pre Lollipop -->
+    <!-- TODO support elevation for devices under Lollipop -->
     <ImageView
         android:id="@+id/question_image"
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
         android:src="@drawable/wolf" />
 
     <TextView
-        android:id="@+id/question_radio"
+        android:id="@+id/question_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -27,11 +26,21 @@
         android:gravity="center_horizontal"
         android:textSize="@dimen/question_text_size" />
 
-    <RadioGroup
-        android:id="@+id/container_radio"
+    <com.mobeta.android.dslv.DragSortListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:dslv="http://schemas.android.com/apk/res-auto"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </RadioGroup>
+        android:layout_height="wrap_content"
+        android:dividerHeight="2dp"
+        dslv:drag_enabled="true"
+        dslv:collapsed_height="2dp"
+        dslv:drag_scroll_start="0.33"
+        dslv:max_drag_scroll_speed="0.5"
+        dslv:float_alpha="0.6"
+        dslv:slide_shuffle_speed="0.3"
+        dslv:track_drag_sort="false"
+        dslv:use_default_controller="false" />
 
     <RelativeLayout
         android:orientation="horizontal"
@@ -40,20 +49,17 @@
         android:layout_gravity="center_horizontal">
 
         <Button
-            android:id="@+id/recline_radio"
+            android:id="@+id/recline_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/question_recline"/>
+            android:text="@string/question_recline" />
 
         <Button
-            android:id="@+id/submit_radio"
+            android:id="@+id/submit_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/question_submit"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@id/recline_radio"
-            android:layout_toEndOf="@id/recline_radio" />
+            android:layout_toEndOf="@id/recline_sort"
+            android:text="@string/question_submit" />
     </RelativeLayout>
-
 </LinearLayout>

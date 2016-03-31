@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOverlay;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
@@ -42,7 +40,7 @@ public class MapFragment extends Fragment {
         gps = new GPSTracker(getContext());
 
         if(gps.canGetLocation()){
-            Toast.makeText(getContext(), gps.getLongitude() + " " + gps.getLatitude(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), gps.getLongitude() + " " + gps.getLatitude(), Toast.LENGTH_LONG).show();
             final double latitude = gps.getLongitude();
             final double longitude = gps.getLatitude();
 
@@ -51,7 +49,7 @@ public class MapFragment extends Fragment {
             map.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
+                    //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
 
                     double xRange = (Const.maxLongitude -  Const.minLongitude);
                     double yRange = (Const.maxLatitude - Const.minLatitude);
@@ -89,3 +87,4 @@ public class MapFragment extends Fragment {
         gps.stopUsingGPS();
     }
 }
+
