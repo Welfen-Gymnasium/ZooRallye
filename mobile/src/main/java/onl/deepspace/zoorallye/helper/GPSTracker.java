@@ -13,10 +13,13 @@ import android.provider.Settings;
 import android.util.Log;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
+
+    private GPSCallback gpsCallback;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -32,16 +35,23 @@ public class GPSTracker extends Service implements LocationListener {
     double longitude; // longitude
 
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 5 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 15; // 15 sec
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
     public GPSTracker(Context context) {
         this.mContext = context;
+        this.gpsCallback = null;
+        getLocation();
+    }
+
+    public GPSTracker(Context context, GPSCallback callback) {
+        this.mContext = context;
+        this.gpsCallback = callback;
         getLocation();
     }
 
@@ -184,6 +194,9 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        if(gpsCallback != null){
+            gpsCallback.GPSLocationChanged(location);
+        }
     }
 
     @Override

@@ -21,4 +21,5 @@
     <string name="settings">Einstellungen</string>
     <string name="gps_prompt_enable">GPS ist ausgeschaltet. Möchtest du es in den Einstellungen aktivieren?</string>
     <string name="outside_zoo">Du befindest dich aktuell nicht im Zoo.</string>
+    <string name="question_text_answer">Antwort</string>
 </resources>
