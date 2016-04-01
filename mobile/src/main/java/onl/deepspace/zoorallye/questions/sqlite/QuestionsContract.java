@@ -24,6 +24,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_sort";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_ANSWERS = "answers";
     }
 
@@ -40,6 +41,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_slider";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_MIN = "min";
         public static final String COL_NAME_MAX = "max";
         public static final String COL_NAME_STEP = "step";
@@ -57,6 +59,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_radio";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_ANSWER = "answer";
         public static final String COL_NAME_FALSE_ANSWERS = "falseAnswers";
     }
@@ -72,6 +75,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_checkbox";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_ANSWERS = "answers";
         public static final String COL_NAME_FALSE_ANSWERS = "falseAnswers";
     }
@@ -86,6 +90,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_sort";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_ANSWER = "answer";
     }
 
@@ -99,6 +104,7 @@ public final class QuestionsContract {
         public static final String TABLE_NAME = "questions_true_false";
         public static final String COL_NAME_ID = "id";
         public static final String COL_NAME_QUESTION = "question";
+        public static final String COL_NAME_ENCLOSURE = "enclosure";
         public static final String COL_NAME_ANSWER = "answer";
     }
 }

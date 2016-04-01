@@ -19,6 +19,7 @@ public final class Const {
 
     public static final String QuestionsAPI_ID = "id";
     public static final String QuestionsAPI_QUESTION = "question";
+    public static final String QuestionsAPI_ENCLOSURE = "enclosure";
     public static final String QuestionsAPI_ANSWER = "answer";
     public static final String QuestionsAPI_ANSWERS = "answers";
     public static final String QuestionsAPI_FALSE_ANSWERS = "falseAnswers";

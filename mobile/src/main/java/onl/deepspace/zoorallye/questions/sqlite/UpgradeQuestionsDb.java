@@ -47,6 +47,7 @@ public class UpgradeQuestionsDb {
             JSONObject element = slider.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             float min = Float.valueOf(element.getString(Const.QuestionsAPI_MIN));
             float max = Float.valueOf(element.getString(Const.QuestionsAPI_MAX));
             float step = Float.valueOf(element.getString(Const.QuestionsAPI_STEP));
@@ -55,6 +56,7 @@ public class UpgradeQuestionsDb {
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Slider.COL_NAME_ID, id);
             values.put(QuestionsContract.Slider.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.Slider.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.Slider.COL_NAME_MIN, min);
             values.put(QuestionsContract.Slider.COL_NAME_MAX, max);
             values.put(QuestionsContract.Slider.COL_NAME_STEP, step);
@@ -68,12 +70,14 @@ public class UpgradeQuestionsDb {
             JSONObject element = radio.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             String answer = element.getString(Const.QuestionsAPI_ANSWER);
             String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Radio.COL_NAME_ID, id);
             values.put(QuestionsContract.Radio.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.Radio.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.Radio.COL_NAME_ANSWER, answer);
             values.put(QuestionsContract.Radio.COL_NAME_FALSE_ANSWERS, falseAnswers);
             db.insert(QuestionsContract.Radio.TABLE_NAME, null, values);
@@ -85,12 +89,14 @@ public class UpgradeQuestionsDb {
             JSONObject element = checkbox.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             String answers = element.getString(Const.QuestionsAPI_ANSWERS);
             String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Checkbox.COL_NAME_ID, id);
             values.put(QuestionsContract.Checkbox.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.Checkbox.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.Checkbox.COL_NAME_ANSWERS, answers);
             values.put(QuestionsContract.Checkbox.COL_NAME_FALSE_ANSWERS, falseAnswers);
             db.insert(QuestionsContract.Checkbox.TABLE_NAME, null, values);
@@ -102,11 +108,13 @@ public class UpgradeQuestionsDb {
             JSONObject element = trueFalse.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             String answer = element.getString(Const.QuestionsAPI_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.TrueFalse.COL_NAME_ID, id);
             values.put(QuestionsContract.TrueFalse.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.TrueFalse.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.TrueFalse.COL_NAME_ANSWER, answer);
             db.insert(QuestionsContract.TrueFalse.TABLE_NAME, null, values);
         }
@@ -117,11 +125,13 @@ public class UpgradeQuestionsDb {
             JSONObject element = sort.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             String answers = element.getString(Const.QuestionsAPI_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Sort.COL_NAME_ID, id);
             values.put(QuestionsContract.Sort.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.Sort.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.Sort.COL_NAME_ANSWERS, answers);
             db.insert(QuestionsContract.Sort.TABLE_NAME, null, values);
         }
@@ -132,11 +142,13 @@ public class UpgradeQuestionsDb {
             JSONObject element = text.getJSONObject(i);
             int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
             String question = element.getString(Const.QuestionsAPI_QUESTION);
+            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
             String answer = element.getString(Const.QuestionsAPI_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Text.COL_NAME_ID, id);
             values.put(QuestionsContract.Text.COL_NAME_QUESTION, question);
+            values.put(QuestionsContract.Text.COL_NAME_ENCLOSURE, enclosure);
             values.put(QuestionsContract.Text.COL_NAME_ANSWER, answer);
             db.insert(QuestionsContract.Text.TABLE_NAME, null, values);
         }
