@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye.helper;
 
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.view.ViewOverlay;
 
@@ -22,12 +23,12 @@ public final class Liane {
         view.post(new Runnable() {
             @Override
             public void run() {
-                ArrayList<Drawable> topLianes = new ArrayList<>();
-                ArrayList<Drawable> rightLianes = new ArrayList<>();
-                ArrayList<Drawable> leftLianes = new ArrayList<>();
-                Drawable transverseLiane = view.getResources().getDrawable(R.drawable.transverse_liane);
-
-                transverseLiane.setBounds(0, 0, 400, 400);
+                ArrayList<Drawable> topLianas = new ArrayList<>();
+                ArrayList<Drawable> rightLianas = new ArrayList<>();
+                ArrayList<Drawable> leftLianas = new ArrayList<>();
+                Drawable transverseLiane = ResourcesCompat
+                        .getDrawable(view.getResources(), R.drawable.transverse_liane, null);
+                if(transverseLiane != null) transverseLiane.setBounds(0, 0, 400, 400);
                 overlay.add(transverseLiane);
 
                 int topTimes = view.getWidth() / 750;
@@ -37,20 +38,20 @@ public final class Liane {
                 int rlHeight = view.getHeight() / rlTimes;
 
                 for(int i = 0; i < rlHeight; i++){
-                    leftLianes.add(view.getResources().getDrawable(R.drawable.left_liane));
-                    leftLianes.get(i).setBounds(0, rlHeight * i, 70, rlHeight * (i + 1));
+                    leftLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.left_liane, null));
+                    leftLianas.get(i).setBounds(0, rlHeight * i, 70, rlHeight * (i + 1));
 
-                    rightLianes.add(view.getResources().getDrawable(R.drawable.right_liane));
-                    rightLianes.get(i).setBounds(view.getWidth() - 70, rlHeight * i, view.getWidth(), rlHeight * (i + 1));
+                    rightLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.right_liane, null));
+                    rightLianas.get(i).setBounds(view.getWidth() - 70, rlHeight * i, view.getWidth(), rlHeight * (i + 1));
 
-                    overlay.add(leftLianes.get(i));
-                    overlay.add(rightLianes.get(i));
+                    overlay.add(leftLianas.get(i));
+                    overlay.add(rightLianas.get(i));
                 }
 
                 for(int i = 0; i < topTimes; i++){
-                    topLianes.add(view.getResources().getDrawable(R.drawable.top_liane));
-                    topLianes.get(i).setBounds(topWidth * i, 0, topWidth * (i + 1), 110);
-                    overlay.add(topLianes.get(i));
+                    topLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.top_liane, null));
+                    topLianas.get(i).setBounds(topWidth * i, 0, topWidth * (i + 1), 110);
+                    overlay.add(topLianas.get(i));
                 }
 
             }
