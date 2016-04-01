@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye.questions;
 
 import android.app.ListFragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobeta.android.dslv.DragSortController;
@@ -29,12 +31,14 @@ public class SortFragment extends ListFragment {
     // the fragment initialization parameters
     private static final String ARGS_QUESTION = "question";
     private static final String ARGS_ANSWERS = "answers";
+    private static final String ARG_IMAGE = "image";
 
     private QuestionCommunication mCommunicator;
 
     private ArrayAdapter<String> adapter;
     private String mQuestion;
     private ArrayList<String> mAnswers;
+    private String mImage;
 
     private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
         @Override
@@ -69,11 +73,12 @@ public class SortFragment extends ListFragment {
      * @param answers All answers which have to be sorted.
      * @return A new instance of fragment SortFragment.
      */
-    public static SortFragment newInstance(String question, ArrayList<String> answers) {
+    public static SortFragment newInstance(String question, ArrayList<String> answers, String image) {
         SortFragment fragment = new SortFragment();
         Bundle args = new Bundle();
         args.putString(ARGS_QUESTION, question);
         args.putStringArrayList(ARGS_ANSWERS, answers);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,6 +111,7 @@ public class SortFragment extends ListFragment {
         if (args != null) {
             mQuestion = args.getString(ARGS_QUESTION);
             mAnswers = args.getStringArrayList(ARGS_ANSWERS);
+            mImage = args.getString(ARG_IMAGE);
         }
         setListAdapter();
     }
@@ -120,6 +126,15 @@ public class SortFragment extends ListFragment {
             mCommunicator = (QuestionCommunication) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
+        }
+
+        // Setup image
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        if (mImage == null) image.setVisibility(View.GONE);
+        else {
+            Resources res = getResources();
+            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
+            image.setImageResource(resId);
         }
 
         // Init sort fragment

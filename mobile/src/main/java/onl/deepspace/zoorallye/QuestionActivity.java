@@ -4,11 +4,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.questions.QuestionCommunication;
+import onl.deepspace.zoorallye.questions.SeekbarFragment;
 import onl.deepspace.zoorallye.questions.SortFragment;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionCommunication {
@@ -25,7 +27,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         answers.add("Test 2");
         answers.add("Test 3");
 
-        SortFragment fragment = SortFragment.newInstance("Question?", answers);
+        SeekbarFragment fragment = SeekbarFragment.newInstance("Wie groß werden männliche Seebären? (in Metern)", 1, 5, 0.2f, 2, "wolf");
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.question_root, fragment, SORT_TAG);
@@ -39,7 +41,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     }
 
     @Override
-    public void submitSeekbar(int userAnswer, int offset) {
+    public void submitSeekbar(float userAnswer, float offset) {
         // TODO: 30.03.2016 Save and show user answer
     }
 

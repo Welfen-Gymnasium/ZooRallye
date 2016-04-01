@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface QuestionCommunication {
     void reclineQuestion();
     void submitSort(ArrayList<String> userAnswer, boolean isCorrect);
-    void submitSeekbar(int userAnswer, int offset);
+    void submitSeekbar(float userAnswer, float offset);
     void submitRadio(String userAnswer, boolean isCorrect);
     void submitCheckbox(ArrayList<String> userAnswer, float percentCorrect);
     void submitText(String userAnswer, boolean isCorrect);

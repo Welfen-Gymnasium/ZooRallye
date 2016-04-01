@@ -1,12 +1,17 @@
 package onl.deepspace.zoorallye.questions;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,6 +32,7 @@ public class SeekbarFragment extends Fragment {
     private static final String ARG_MAX = "max";
     private static final String ARG_STEP = "step";
     private static final String ARG_ANSWER = "answer";
+    private static final String ARG_IMAGE = "image";
 
     private View mView;
     private QuestionCommunication mCommunicator;
@@ -36,6 +42,7 @@ public class SeekbarFragment extends Fragment {
     private float mMax;
     private float mStep;
     private float mAnswer;
+    private String mImage;
 
     public SeekbarFragment() {
         // Required empty public constructor
@@ -52,7 +59,8 @@ public class SeekbarFragment extends Fragment {
      * @param answer The correct answer.
      * @return A new instance of fragment SeekbarFragment.
      */
-    public static SeekbarFragment newInstance(String question, float min, float max, float step, float answer) {
+    public static SeekbarFragment newInstance(String question, float min, float max,
+                                              float step, float answer, String image) {
         SeekbarFragment fragment = new SeekbarFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
@@ -60,6 +68,7 @@ public class SeekbarFragment extends Fragment {
         args.putFloat(ARG_MAX, max);
         args.putFloat(ARG_STEP, step);
         args.putFloat(ARG_ANSWER, answer);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +83,7 @@ public class SeekbarFragment extends Fragment {
             mMax = args.getFloat(ARG_MAX);
             mStep = args.getFloat(ARG_STEP);
             mAnswer = args.getFloat(ARG_ANSWER);
+            mImage = args.getString(ARG_IMAGE);
         }
     }
 
@@ -89,14 +99,48 @@ public class SeekbarFragment extends Fragment {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
         }
 
+        // Setup image
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        if (mImage == null) image.setVisibility(View.GONE);
+        else {
+            Resources res = getResources();
+            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
+            image.setImageResource(resId);
+        }
+
         // Init seekbar fragment
         TextView question = (TextView) mView.findViewById(R.id.question_seekbar);
         question.setText(mQuestion);
 
-        // TODO: 30.03.2016 Update to set a minimum
         // TODO: 30.03.2016 Animation for sliding in to position
-        SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekBar);
-        seekBar.setMax((int) mMax);
+        final CustomSeekBar customSeekBar = (CustomSeekBar) mView.findViewById(R.id.seekBar);
+        customSeekBar.setFloatRange(mMin, mMax, mStep);
+
+        final TextView label = (TextView) mView.findViewById(R.id.label_seekbar);
+        label.setText(Float.toString(customSeekBar.getFloatProgress()));
+
+        customSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                label.setText(Float.toString(customSeekBar.getFloatProgress()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        TextView min = (TextView) mView.findViewById(R.id.seekbar_min);
+        min.setText(Float.toString(mMin));
+
+        TextView max = (TextView) mView.findViewById(R.id.seekbar_max);
+        max.setText(Float.toString(mMax));
 
         final Button recline = (Button) mView.findViewById(R.id.recline_seekbar);
         recline.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +170,9 @@ public class SeekbarFragment extends Fragment {
     private void submitAnswer() {
         if (mCommunicator != null) {
             // TODO: 30.03.2016 Check if answer was correct and how far the answer was away form the correct answer
-            SeekBar seekbar = (SeekBar) mView.findViewById(R.id.seekBar);
-            int userAnswer = seekbar.getProgress();
-            int offset = 0;
+            CustomSeekBar seekbar = (CustomSeekBar) mView.findViewById(R.id.seekBar);
+            float userAnswer = seekbar.getFloatProgress();
+            float offset = Math.abs(userAnswer - mAnswer);
             mCommunicator.submitSeekbar(userAnswer, offset);
         } else {
             Log.e(Const.LOGTAG,"mCommunicator is null: Did you implement QuestionCommunication to your activity?");

@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.questions;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class CheckboxFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_ANSWERS = "answers";
     private static final String ARG_FALSE_ANSWERS = "falseAnswers";
+    private static final String ARG_IMAGE = "image";
 
     private View mView;
     private QuestionCommunication mCommunicator;
@@ -36,6 +39,7 @@ public class CheckboxFragment extends Fragment {
     private String mQuestion;
     private ArrayList<String> mAnswers;
     private ArrayList<String> mAllAnswers;
+    private String mImage;
 
     public CheckboxFragment() {
         // Required empty public constructor
@@ -50,12 +54,14 @@ public class CheckboxFragment extends Fragment {
      * @param falseAnswers All false answers
      * @return A new instance of fragment CheckboxFragment.
      */
-    public static CheckboxFragment newInstance(String question, ArrayList<String> answers, ArrayList<String> falseAnswers) {
+    public static CheckboxFragment newInstance(String question, ArrayList<String> answers,
+                                               ArrayList<String> falseAnswers, String image) {
         CheckboxFragment fragment = new CheckboxFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
         args.putStringArrayList(ARG_ANSWERS, answers);
         args.putStringArrayList(ARG_FALSE_ANSWERS, falseAnswers);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +75,7 @@ public class CheckboxFragment extends Fragment {
             mAnswers = args.getStringArrayList(ARG_ANSWERS);
             ArrayList<String> falseAnswers = args.getStringArrayList(ARG_FALSE_ANSWERS);
             mAllAnswers = shuffleAnswers(mAnswers, falseAnswers);
+            mImage = args.getString(ARG_IMAGE);
         }
     }
 
@@ -89,6 +96,15 @@ public class CheckboxFragment extends Fragment {
             mCommunicator = (QuestionCommunication) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
+        }
+
+        // Setup image
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        if (mImage == null) image.setVisibility(View.GONE);
+        else {
+            Resources res = getResources();
+            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
+            image.setImageResource(resId);
         }
 
         // Init checkbox fragment

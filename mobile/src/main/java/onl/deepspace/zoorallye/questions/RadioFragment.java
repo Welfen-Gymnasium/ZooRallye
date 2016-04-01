@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.questions;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class RadioFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_ANSWER = "answer";
     private static final String ARG_FALSE_ANSWERS = "falseAnswers";
+    private static final String ARG_IMAGE = "image";
 
     private View mView;
     private QuestionCommunication mCommunicator;
@@ -36,6 +39,7 @@ public class RadioFragment extends Fragment {
     private String mQuestion;
     private String mAnswer;
     private ArrayList<String> mAllAnswers;
+    private String mImage;
 
     public RadioFragment() {
         // Required empty public constructor
@@ -50,12 +54,14 @@ public class RadioFragment extends Fragment {
      * @param falseAnswers All false answers.
      * @return A new instance of fragment RadioFragment.
      */
-    public static RadioFragment newInstance(String question, String answer, ArrayList<String> falseAnswers) {
+    public static RadioFragment newInstance(String question, String answer,
+                                            ArrayList<String> falseAnswers, String image) {
         RadioFragment fragment = new RadioFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
         args.putString(ARG_ANSWER, answer);
         args.putStringArrayList(ARG_FALSE_ANSWERS, falseAnswers);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +75,7 @@ public class RadioFragment extends Fragment {
             mAnswer = args.getString(ARG_ANSWER);
             ArrayList<String> falseAnswers = args.getStringArrayList(ARG_FALSE_ANSWERS);
             mAllAnswers = shuffleAnswers(mAnswer, falseAnswers);
+            mImage = args.getString(ARG_IMAGE);
         }
     }
 
@@ -89,6 +96,15 @@ public class RadioFragment extends Fragment {
             mCommunicator = (QuestionCommunication) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
+        }
+
+        // Setup image
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        if (mImage == null) image.setVisibility(View.GONE);
+        else {
+            Resources res = getResources();
+            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
+            image.setImageResource(resId);
         }
 
         // Init radio fragment

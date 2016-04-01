@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.questions;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import onl.deepspace.zoorallye.R;
@@ -24,12 +26,14 @@ import onl.deepspace.zoorallye.helper.Const;
 public class TextFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_ANSWER = "answer";
+    private static final String ARG_IMAGE = "image";
 
     private View mView;
     private QuestionCommunication mCommunicator;
 
     private String mQuestion;
     private String mAnswer;
+    private String mImage;
 
     public TextFragment() {
         // Required empty public constructor
@@ -43,11 +47,12 @@ public class TextFragment extends Fragment {
      * @param answer The correct answer.
      * @return A new instance of fragment TextFragment.
      */
-    public static TextFragment newInstance(String question, String answer) {
+    public static TextFragment newInstance(String question, String answer, String image) {
         TextFragment fragment = new TextFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
         args.putString(ARG_ANSWER, answer);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +64,7 @@ public class TextFragment extends Fragment {
         if (args != null) {
             mQuestion = args.getString(ARG_QUESTION);
             mAnswer = args.getString(ARG_ANSWER);
+            mImage = args.getString(ARG_IMAGE);
         }
     }
 
@@ -72,6 +78,15 @@ public class TextFragment extends Fragment {
             mCommunicator = (QuestionCommunication) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
+        }
+
+        // Setup image
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        if (mImage == null) image.setVisibility(View.GONE);
+        else {
+            Resources res = getResources();
+            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
+            image.setImageResource(resId);
         }
 
         // Init text fragment
