@@ -27,6 +27,7 @@ import onl.deepspace.zoorallye.helper.Const;
  * Use the {@link RadioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressWarnings("unused")
 public class RadioFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_ANSWER = "answer";

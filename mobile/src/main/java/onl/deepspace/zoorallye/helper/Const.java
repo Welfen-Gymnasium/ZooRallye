@@ -6,7 +6,9 @@ package onl.deepspace.zoorallye.helper;
  * A class for all Constants
  */
 public final class Const {
-    final public static String LOGTAG = "ZooRallye";
+    final public static String LOGTAG = "ZooRally";
+
+    public static final String NAV_FRAGMENT = "selectedFragment";
 
     final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions.php";
     final public static String QuestionsAPI_token = "token";
@@ -27,6 +29,7 @@ public final class Const {
     public static final String QuestionsAPI_MAX = "max";
     public static final String QuestionsAPI_STEP = "step";
 
+    @SuppressWarnings("SpellCheckingInspection")
     final public static String API_TOKEN = "x9j7qtRUOrGGg5fxHakK1sp6T4h9JbJjL44iulAKA8HPbbmBWd2QUEQpFD35i";
 
     public static final String CHAR_ENCODING = "UTF-8";

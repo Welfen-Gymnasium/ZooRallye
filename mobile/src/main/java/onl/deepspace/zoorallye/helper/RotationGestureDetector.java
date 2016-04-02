@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 
 /**
  * Created by Sese on 31.03.2016.
+ *
  */
 public class RotationGestureDetector {
     private static final int INVALID_POINTER_ID = -1;
@@ -23,6 +24,7 @@ public class RotationGestureDetector {
         ptrID2 = INVALID_POINTER_ID;
     }
 
+    @SuppressWarnings("unused")
     public boolean onTouchEvent(MotionEvent event){
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -75,7 +77,7 @@ public class RotationGestureDetector {
         return angle;
     }
 
-    public static interface OnRotationGestureListener {
-        public void OnRotation(RotationGestureDetector rotationDetector);
+    public interface OnRotationGestureListener {
+        void OnRotation(RotationGestureDetector rotationDetector);
     }
 }

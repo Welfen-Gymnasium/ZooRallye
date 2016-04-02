@@ -1,24 +1,18 @@
 package onl.deepspace.zoorallye.questions;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
-import android.support.v4.content.ContextCompat;
-
-import onl.deepspace.zoorallye.R;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Dennis on 01.04.2016.
+ *
  */
+@SuppressWarnings("unused")
 public class PinDrawable extends Drawable {
 
     float mProgress;
@@ -51,7 +45,7 @@ public class PinDrawable extends Drawable {
     }
 
     @Override
-    public void setColorFilter(int color, PorterDuff.Mode mode) {
+    public void setColorFilter(int color, @NonNull PorterDuff.Mode mode) {
         super.setColorFilter(color, mode);
     }
 

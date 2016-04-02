@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Dennis on 30.03.2016.
+ *
+ * Interface for Communication with calling activity and the questions fragments
  */
 public interface QuestionCommunication {
     void reclineQuestion();

@@ -18,6 +18,7 @@ import java.util.Map;
  * TODO: Call {@link #initialize(Context)} from an entry point in your app
  * before using this!
  */
+@SuppressWarnings("unused")
 public final class AnalyticsTrackers {
 
   public enum Target {
@@ -43,7 +44,7 @@ public final class AnalyticsTrackers {
     return sInstance;
   }
 
-  private final Map<Target, Tracker> mTrackers = new HashMap<Target, Tracker>();
+  private final Map<Target, Tracker> mTrackers = new HashMap<>();
   private final Context mContext;
 
   /**

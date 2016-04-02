@@ -11,13 +11,18 @@ import onl.deepspace.zoorallye.R;
 
 /**
  * Created by Sese on 17.03.2016.
+ *
+ * Helper class for adding Lianas to any {@link View}
  **/
-
+@SuppressWarnings("unused")
 public final class Liane {
 
-    public static void addLiane(View uview){
-
-        final View view = uview;
+    /**
+     * Method to add a Liana to the specified view
+     * @param view The view to add the Liana to
+     */
+    public static void addLiane(final View view){
+        // TODO-sese: 02.04.2016 Resolve problems with divide by zero, then re-enable Lianas on all screens
         final ViewOverlay overlay = view.getOverlay();
 
         view.post(new Runnable() {

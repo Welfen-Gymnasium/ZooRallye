@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Dennis on 31.03.2016.
+ *
+ * Helper class for creating and upgrading question.db database
  */
 public class QuestionsDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;

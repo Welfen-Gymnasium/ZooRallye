@@ -27,6 +27,7 @@ import onl.deepspace.zoorallye.helper.Const;
  * Use the {@link SortFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressWarnings("unused")
 public class SortFragment extends ListFragment {
     // the fragment initialization parameters
     private static final String ARGS_QUESTION = "question";
@@ -157,13 +158,13 @@ public class SortFragment extends ListFragment {
             }
         });
 
-        DragSortListView mDslv = (DragSortListView) mView.findViewById(android.R.id.list);
+        DragSortListView mDragSort = (DragSortListView) mView.findViewById(android.R.id.list);
 
-        DragSortController mController = buildController(mDslv);
-        mDslv.setFloatViewManager(mController);
-        mDslv.setOnTouchListener(mController);
-        mDslv.setDropListener(onDrop);
-        mDslv.setDragEnabled(true);
+        DragSortController mController = buildController(mDragSort);
+        mDragSort.setFloatViewManager(mController);
+        mDragSort.setOnTouchListener(mController);
+        mDragSort.setDropListener(onDrop);
+        mDragSort.setDragEnabled(true);
 
         return mView;
     }

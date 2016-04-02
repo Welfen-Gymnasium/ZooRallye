@@ -3,26 +3,21 @@ package onl.deepspace.zoorallye.questions;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-
 /**
  * Created by Dennis on 31.03.2016.
+ *
+ * Custom seekbar implementing functionality like floating point numbers, step size and minimum value
  */
-// TODO: 01.04.2016 Add a label pin to CustomSeekBar
+// TODO-dennis: 01.04.2016 Add a label pin to CustomSeekBar
 public class CustomSeekBar extends SeekBar {
-
-    private OnSeekBarChangeListener mOnSeekBarChangeListener;
 
     private float mMin = Float.POSITIVE_INFINITY;
     private float mMax = Float.POSITIVE_INFINITY;
     private float mStepSize = Float.POSITIVE_INFINITY;
-    private int mSteps;
 
     public CustomSeekBar(Context context) {
         super(context);
@@ -37,6 +32,7 @@ public class CustomSeekBar extends SeekBar {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @SuppressWarnings("unused")
     public CustomSeekBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -44,11 +40,6 @@ public class CustomSeekBar extends SeekBar {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawPin(canvas);
-    }
-
-    private void drawPin(Canvas canvas) {
-
     }
 
     public void setFloatRange(float min, float max, float stepSize) {
@@ -58,18 +49,22 @@ public class CustomSeekBar extends SeekBar {
         calculateDimensions();
     }
 
+    @SuppressWarnings("unused")
     public float getFloatMin() {
         return mMin;
     }
 
+    @SuppressWarnings("unused")
     public float getFloatMax() {
         return mMax;
     }
 
+    @SuppressWarnings("unused")
     public float getFloatStepSize() {
         return mStepSize;
     }
 
+    @SuppressWarnings("unused")
     public void setFloatProgress(float progress) {
         // Check if progress is between min and max;
         if(progress < mMin || progress > mMax)
@@ -101,7 +96,7 @@ public class CustomSeekBar extends SeekBar {
                 "together make sure (max - min) % step == 0");
 
         // Normalise step size to 1
-        mSteps = (int) (delta / mStepSize);
+        int mSteps = (int) (delta / mStepSize);
 
         setMax(mSteps);
     }

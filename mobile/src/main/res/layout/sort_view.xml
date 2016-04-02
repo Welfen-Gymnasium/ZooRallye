@@ -10,7 +10,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:layout_weight="0" />
+    android:layout_weight="0"
+    android:contentDescription="@string/drag_handle_description"/>
 <TextView
     android:id="@+id/sort_item_text"
     android:layout_width="wrap_content"
@@ -18,5 +19,6 @@
     android:layout_weight="1"
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:gravity="center_vertical"
-    android:paddingLeft="8dp" />
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"/>
 </LinearLayout>

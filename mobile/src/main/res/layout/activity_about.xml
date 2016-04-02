@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/about_activity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="onl.deepspace.zoorallye.AboutActivity">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/about_linear_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="onl.deepspace.zoorallye.AboutActivity">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-        <LinearLayout
-            android:id="@+id/about_linear_view"
+        <ImageView
+            android:id="@+id/deepspace_logo"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/deepspace_logo_description"
+            android:src="@drawable/deepspace_logo" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="@string/about_header"
+            android:textColor="#555"
+            android:textSize="23sp" />
 
-            <ImageView
-                android:id="@+id/deepspace_logo"
-                android:layout_width="match_parent"
-                android:layout_height="175dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/deepspace_logo" />
+        <TextView
+            android:id="@+id/about_authors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="13dp"
+            android:gravity="center"
+            android:text="@string/about_authors"
+            android:textColor="#555"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
-                android:text="@string/about_header"
-                android:textColor="#555"
-                android:textSize="23sp" />
+        <ImageView
+            android:id="@+id/wgs_logo"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/wgs_logo_description"
+            android:src="@drawable/wgs_logo" />
 
-            <TextView
-                android:id="@+id/about_authors"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:gravity="center"
-                android:text="@string/about_authors"
-                android:textColor="#555"
-                android:textSize="16sp" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/wgs_logo"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/wgs_logo" />
-
-        </LinearLayout>
-
-    </ScrollView>
-</LinearLayout>
+</ScrollView>

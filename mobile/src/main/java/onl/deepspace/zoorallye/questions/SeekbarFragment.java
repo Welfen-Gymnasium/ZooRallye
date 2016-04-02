@@ -1,11 +1,8 @@
 package onl.deepspace.zoorallye.questions;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +23,7 @@ import onl.deepspace.zoorallye.helper.Const;
  * Use the {@link SeekbarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressWarnings("unused")
 public class SeekbarFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_MIN = "min";
@@ -169,7 +167,6 @@ public class SeekbarFragment extends Fragment {
 
     private void submitAnswer() {
         if (mCommunicator != null) {
-            // TODO: 30.03.2016 Check if answer was correct and how far the answer was away form the correct answer
             CustomSeekBar seekbar = (CustomSeekBar) mView.findViewById(R.id.seekBar);
             float userAnswer = seekbar.getFloatProgress();
             float offset = Math.abs(userAnswer - mAnswer);

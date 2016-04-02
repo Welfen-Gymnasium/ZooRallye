@@ -18,6 +18,7 @@ import onl.deepspace.zoorallye.helper.Const;
  */
 public class UpgradeQuestionsDb {
 
+    @SuppressWarnings("unused")
     public static void putData(Context context, JSONObject data) {
         QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();

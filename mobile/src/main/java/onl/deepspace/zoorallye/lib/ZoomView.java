@@ -28,6 +28,7 @@ public class ZoomView extends FrameLayout {
 
         void onZooming(float zoom, float zoomx, float zoomy);
 
+        @SuppressWarnings("unused")
         void onZoomEnded(float zoom, float zoomx, float zoomy);
     }
 
@@ -74,14 +75,17 @@ public class ZoomView extends FrameLayout {
         super(context, attr);
     }
 
+    @SuppressWarnings("unused")
     public float getZoom() {
         return zoom;
     }
 
+    @SuppressWarnings("unused")
     public float getMaxZoom() {
         return maxZoom;
     }
 
+    @SuppressWarnings("unused")
     public void setMaxZoom(final float maxZoom) {
         if (maxZoom < 1.0f) {
             return;
@@ -90,14 +94,17 @@ public class ZoomView extends FrameLayout {
         this.maxZoom = maxZoom;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapEnabled(final boolean showMiniMap) {
         this.showMinimap = showMiniMap;
     }
 
+    @SuppressWarnings("unused")
     public boolean isMiniMapEnabled() {
         return showMinimap;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapHeight(final int miniMapHeight) {
         if (miniMapHeight < 0) {
             return;
@@ -105,42 +112,52 @@ public class ZoomView extends FrameLayout {
         this.miniMapHeight = miniMapHeight;
     }
 
+    @SuppressWarnings("unused")
     public int getMiniMapHeight() {
         return miniMapHeight;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapColor(final int color) {
         miniMapColor = color;
     }
 
+    @SuppressWarnings("unused")
     public int getMiniMapColor() {
         return miniMapColor;
     }
 
+    @SuppressWarnings("unused")
     public String getMiniMapCaption() {
         return miniMapCaption;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapCaption(final String miniMapCaption) {
         this.miniMapCaption = miniMapCaption;
     }
 
+    @SuppressWarnings("unused")
     public float getMiniMapCaptionSize() {
         return miniMapCaptionSize;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapCaptionSize(final float size) {
         miniMapCaptionSize = size;
     }
 
+    @SuppressWarnings("unused")
     public int getMiniMapCaptionColor() {
         return miniMapCaptionColor;
     }
 
+    @SuppressWarnings("unused")
     public void setMiniMapCaptionColor(final int color) {
         miniMapCaptionColor = color;
     }
 
+    @SuppressWarnings("unused")
     public void zoomTo(final float zoom, final float x, final float y) {
         this.zoom = Math.min(zoom, maxZoom);
         zoomX = x;
@@ -157,18 +174,22 @@ public class ZoomView extends FrameLayout {
         }
     }
 
+    @SuppressWarnings("unused")
     public ZoomViewListener getListener() {
         return listener;
     }
 
-    public void setListner(final ZoomViewListener listener) {
+    @SuppressWarnings("unused")
+    public void setListener(final ZoomViewListener listener) {
         this.listener = listener;
     }
 
+    @SuppressWarnings("unused")
     public float getZoomFocusX() {
         return zoomX * zoom;
     }
 
+    @SuppressWarnings("unused")
     public float getZoomFocusY() {
         return zoomY * zoom;
     }
@@ -236,10 +257,6 @@ public class ZoomView extends FrameLayout {
                 touchStartY = y;
                 touchLastX = x;
                 touchLastY = y;
-                dx = 0;
-                dy = 0;
-                lx = 0;
-                ly = 0;
                 scrolling = false;
                 break;
 
@@ -312,7 +329,8 @@ public class ZoomView extends FrameLayout {
         lastd = d;
         final float ld = Math.abs(d - startd);
 
-        Math.atan2(y2 - y1, x2 - x1);
+        @SuppressWarnings("unused")
+        double aTan = Math.atan2(y2 - y1, x2 - x1);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startd = d;
@@ -383,12 +401,14 @@ public class ZoomView extends FrameLayout {
         m.preTranslate(v.getLeft(), v.getTop());
 
         // get drawing cache if available
+        //noinspection deprecation
         if (animating && ch == null && isAnimationCacheEnabled()) {
             v.setDrawingCacheEnabled(true);
             ch = v.getDrawingCache();
         }
 
         // draw using cache while animating
+        //noinspection deprecation
         if (animating && isAnimationCacheEnabled() && ch != null) {
             p.setColor(0xffffffff);
             canvas.drawBitmap(ch, m, p);

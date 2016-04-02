@@ -22,6 +22,7 @@ import onl.deepspace.zoorallye.helper.Const;
  * Use the {@link TrueFalseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressWarnings("unused")
 public class TrueFalseFragment extends Fragment {
     private static final String ARG_QUESTION = "question";
     private static final String ARG_ANSWER = "answer";

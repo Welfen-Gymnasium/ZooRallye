@@ -14,7 +14,10 @@ import java.net.URL;
 
 /**
  * Created by Sese on 30.03.2016.
+ *
+ * This class is for connection to online databases
  */
+@SuppressWarnings("unused")
 public final class Database {
 
     public static String getQuestions() {
@@ -41,7 +44,7 @@ public final class Database {
             connection.connect();
 
             int responseCode = connection.getResponseCode();
-            Log.d(Const.LOGTAG, "Reponse code: " + responseCode);
+            Log.d(Const.LOGTAG, "Response code: " + responseCode);
             InputStream in = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(in, Const.CHAR_ENCODING);
             char[] buffer = new char[Const.MAX_RESPONSE_LENGTH];
