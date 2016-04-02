@@ -1,10 +1,10 @@
 package onl.deepspace.zoorallye;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,16 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
+import onl.deepspace.zoorallye.helper.Const;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Opens a specific fragment if defined
+        int fragment = getIntent().getIntExtra(Const.NAV_FRAGMENT, 0);
+        if (fragment != 0) {
+            openFragment(getFragmentByID(fragment));
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         assert drawer != null;
+        //noinspection deprecation
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -38,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Init Lianes
+        //Init Lianas
     }
 
     @Override
@@ -77,33 +84,35 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-
-        Fragment fragment = null;
-
-        switch(item.getItemId()){
-            case R.id.nav_map: fragment = new MapFragment(); break;
-            default: fragment = null;
-        }
-
-        /*if (id == R.id.nav_rally) {
-        } else if (id == R.id.nav_statistics) {
-        } else if (id == R.id.nav_map) {
-        } else if (id == R.id.nav_animals) {
-        } else if (id == R.id.nav_zoos) {
-        } else if (id == R.id.nav_challenge) {
-        } else if (id == R.id.nav_offline) {
-        } else if (id == R.id.nav_settings) {*/
-
-        if(fragment != null){
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.commit();
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         assert drawer != null;
         drawer.closeDrawer(GravityCompat.START);
+
+        int id = item.getItemId();
+        if (id == R.id.nav_rally) {
+            Intent intent = new Intent(this, RallyActivity.class);
+            startActivity(intent);
+        } else {
+            Fragment fragment = getFragmentByID(item.getItemId());
+
+            openFragment(fragment);
+        }
+
         return true;
+    }
+
+    private void openFragment(Fragment fragment) {
+        if(fragment != null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+    }
+
+    private Fragment getFragmentByID(int id) {
+        switch (id) {
+            case R.id.nav_map: return new MapFragment();
+            default: return null;
+        }
     }
 }

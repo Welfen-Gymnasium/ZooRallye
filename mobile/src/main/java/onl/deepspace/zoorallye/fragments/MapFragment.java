@@ -6,7 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,13 +19,14 @@ import android.widget.ImageView;
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.GPSTracker;
-import onl.deepspace.zoorallye.helper.Liane;
 import onl.deepspace.zoorallye.helper.RotationGestureDetector;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
 /**
  * Created by Sese on 30.03.2016.
+ *
+ * Fragment for the zoo maps
  */
 public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback, RotationGestureDetector.OnRotationGestureListener{
 
@@ -43,15 +45,15 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //Init Lianas
-        Liane.addLiane(view);
+        // Liane.addLiane(view);
 
         //Map
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
         //Marker
-        marker = map.getResources().getDrawable(R.drawable.ic_map_marker);
+        marker = ResourcesCompat.getDrawable(map.getResources(), R.drawable.ic_map_marker, null);
         //GPS
         gps = new GPSTracker(getActivity(), this);
-        //Two finger roatation
+        //Two finger rotation
         rotationGestureDetector = new RotationGestureDetector(this);
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -78,10 +80,10 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     @Override
     public void GPSLocationChanged(Location location) {
-       setMarkerPostition(location);
+       setMarkerPosition(location);
     }
 
-    private void setMarkerPostition(final Location location){
+    private void setMarkerPosition(final Location location){
         //WhereAmI overlay AFTER Inflation
         final ViewOverlay overlay = map.getOverlay();
         map.post(new Runnable() {
@@ -117,7 +119,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public void asyncTaskCallback(Object object) {
         Location l = (Location) object;
-        setMarkerPostition(l);
+        setMarkerPosition(l);
     }
 
     @Override
@@ -141,7 +143,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                 l.setLongitude( gps.getLongitude() );
                 l.setLatitude( gps.getLatitude() );
 
-                setMarkerPostition(l);
+                setMarkerPosition(l);
             }
             else{
                 gps.showSettingsAlert();
