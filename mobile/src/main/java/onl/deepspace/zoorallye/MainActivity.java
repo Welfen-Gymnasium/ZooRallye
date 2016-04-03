@@ -5,16 +5,19 @@ import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import onl.deepspace.zoorallye.fragments.Achievements;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity
 
     private Runnable runnable;
     Tools.ActionBarToggler actionBarToggler;
+    Achievements achievements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,20 @@ public class MainActivity extends AppCompatActivity
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Init Lianas
+        //Init Achievements
+        achievements = new Achievements(this);
+        //achievements.googleApiClient.connect();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        achievements.googleApiClient.disconnect();
     }
 
     @Override
@@ -80,11 +97,15 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_about){
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-            return true;
+        switch (id){
+            case R.id.action_about:
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_google_play:
+               break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

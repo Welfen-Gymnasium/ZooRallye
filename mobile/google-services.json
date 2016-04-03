@@ -1,0 +1,61 @@
+{
+  "project_info": {
+    "project_id": "zoo-rally-20104561",
+    "project_number": "542116190807",
+    "name": "Zoo Rally"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542116190807:android:be3d4bf15fa5acaa",
+        "client_id": "android:onl.deepspace.zoorallye",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "onl.deepspace.zoorallye",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542116190807-cje1itij5jc7frtsn18ckp00fvp0uhde.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "onl.deepspace.zoorallye",
+            "certificate_hash": "73ACC76CA2DFA24230A634DA7F4142D520A724CC"
+          }
+        },
+        {
+          "client_id": "542116190807-t842d76t3qr26qq9h2fhavc0iqsehapt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-47065303-7"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
