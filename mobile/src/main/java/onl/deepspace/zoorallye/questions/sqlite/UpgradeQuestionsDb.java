@@ -46,13 +46,13 @@ public class UpgradeQuestionsDb {
     private static void insertSliderQuestions(SQLiteDatabase db, JSONArray slider) throws JSONException {
         for (int i = 0; i < slider.length(); i++) {
             JSONObject element = slider.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            float min = Float.valueOf(element.getString(Const.QuestionsAPI_MIN));
-            float max = Float.valueOf(element.getString(Const.QuestionsAPI_MAX));
-            float step = Float.valueOf(element.getString(Const.QuestionsAPI_STEP));
-            float answer = Float.valueOf(element.getString(Const.QuestionsAPI_ANSWER));
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            float min = Float.valueOf(element.getString(Const.QUESTIONS_MIN));
+            float max = Float.valueOf(element.getString(Const.QUESTIONS_MAX));
+            float step = Float.valueOf(element.getString(Const.QUESTIONS_STEP));
+            float answer = Float.valueOf(element.getString(Const.QUESTIONS_ANSWER));
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Slider.COL_NAME_ID, id);
@@ -69,11 +69,11 @@ public class UpgradeQuestionsDb {
     private static void insertRadioQuestions(SQLiteDatabase db, JSONArray radio) throws JSONException {
         for (int i = 0; i < radio.length(); i++) {
             JSONObject element = radio.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
-            String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
+            String falseAnswers = element.getString(Const.QUESTIONS_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Radio.COL_NAME_ID, id);
@@ -88,11 +88,11 @@ public class UpgradeQuestionsDb {
     private static void insertCheckboxQuestions(SQLiteDatabase db, JSONArray checkbox) throws JSONException {
         for (int i = 0; i < checkbox.length(); i++) {
             JSONObject element = checkbox.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answers = element.getString(Const.QuestionsAPI_ANSWERS);
-            String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answers = element.getString(Const.QUESTIONS_ANSWERS);
+            String falseAnswers = element.getString(Const.QUESTIONS_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Checkbox.COL_NAME_ID, id);
@@ -107,10 +107,10 @@ public class UpgradeQuestionsDb {
     private static void insertTrueFalseQuestions(SQLiteDatabase db, JSONArray trueFalse) throws JSONException {
         for (int i = 0; i < trueFalse.length(); i++) {
             JSONObject element = trueFalse.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.TrueFalse.COL_NAME_ID, id);
@@ -124,10 +124,10 @@ public class UpgradeQuestionsDb {
     private static void insertSortQuestions(SQLiteDatabase db, JSONArray sort) throws JSONException {
         for (int i = 0; i < sort.length(); i++) {
             JSONObject element = sort.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answers = element.getString(Const.QuestionsAPI_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answers = element.getString(Const.QUESTIONS_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Sort.COL_NAME_ID, id);
@@ -141,10 +141,10 @@ public class UpgradeQuestionsDb {
     private static void insertTextQuestions(SQLiteDatabase db, JSONArray text) throws JSONException {
         for (int i = 0; i < text.length(); i++) {
             JSONObject element = text.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Text.COL_NAME_ID, id);

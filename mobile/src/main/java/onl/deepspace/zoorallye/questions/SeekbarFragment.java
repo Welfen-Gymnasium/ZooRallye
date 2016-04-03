@@ -88,7 +88,7 @@ public class SeekbarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragement_seekbar, container, false);
+        mView = inflater.inflate(R.layout.fragment_seekbar, container, false);
 
         // Init communication with activity
         try {

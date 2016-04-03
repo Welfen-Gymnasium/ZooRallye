@@ -35,4 +35,11 @@
     <string name="drag_handle_description">Drag Handle</string>
     <string name="zoo_image_description">Image of a zoo</string>
     <string name="zoo_map_description">Map of a zoo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="back_to_quiz_description">Back to quiz</string>
+    <string name="answer_scores">Scores:</string>
+    <string name="answer_correct">Correct answer:</string>
+    <string name="answer_user">Your Answer:</string>
 </resources>

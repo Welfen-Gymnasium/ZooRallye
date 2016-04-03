@@ -19,15 +19,15 @@ public final class Const {
     public static final String QuestionsAPI_SORT = "sort";
     public static final String QuestionsAPI_TEXT = "text";
 
-    public static final String QuestionsAPI_ID = "id";
-    public static final String QuestionsAPI_QUESTION = "question";
-    public static final String QuestionsAPI_ENCLOSURE = "enclosure";
-    public static final String QuestionsAPI_ANSWER = "answer";
-    public static final String QuestionsAPI_ANSWERS = "answers";
-    public static final String QuestionsAPI_FALSE_ANSWERS = "falseAnswers";
-    public static final String QuestionsAPI_MIN = "min";
-    public static final String QuestionsAPI_MAX = "max";
-    public static final String QuestionsAPI_STEP = "step";
+    public static final String QUESTIONS_ID = "id";
+    public static final String QUESTIONS_QUESTION = "question";
+    public static final String QUESTIONS_ENCLOSURE = "enclosure";
+    public static final String QUESTIONS_ANSWER = "answer";
+    public static final String QUESTIONS_ANSWERS = "answers";
+    public static final String QUESTIONS_FALSE_ANSWERS = "falseAnswers";
+    public static final String QUESTIONS_MIN = "min";
+    public static final String QUESTIONS_MAX = "max";
+    public static final String QUESTIONS_STEP = "step";
 
     @SuppressWarnings("SpellCheckingInspection")
     final public static String API_TOKEN = "x9j7qtRUOrGGg5fxHakK1sp6T4h9JbJjL44iulAKA8HPbbmBWd2QUEQpFD35i";
@@ -39,4 +39,16 @@ public final class Const {
     public static final double minLongitude = 10.912091;
     public static final double maxLatitude = 48.349773;
     public static final double maxLongitude = 10.918707;
+
+    public static final String INTENT_QUESTION = "intentQuestion";
+    public static final String INTENT_QUESTION_TYPE = "intentQuestionType";
+    public static final String INTENT_QUESTION_BUNDLE = "intentQuestionBundle";
+    public static final String INTENT_QUESTION_IMAGE = "intentQuestionImage";
+
+    public static final String QUESTION_TYPE_SORT = "questionTypeSort";
+    public static final String QUESTION_TYPE_SEEKBAR = "questionTypeSeekbar";
+    public static final String QUESTION_TYPE_RADIO = "questionTypeRadio";
+    public static final String QUESTION_TYPE_CHECKBOX = "questionTypeCheckbox";
+    public static final String QUESTION_TYPE_TEXT = "questionTypeText";
+    public static final String QUESTION_TYPE_TRUE_FALSE = "questionTypeTrueFalse";
 }

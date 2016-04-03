@@ -15,4 +15,5 @@ public interface QuestionCommunication {
     void submitCheckbox(ArrayList<String> userAnswer, float percentCorrect);
     void submitText(String userAnswer, boolean isCorrect);
     void submitTrueFalse(boolean userAnswer, boolean isCorrect);
+    void finishQuestion();
 }

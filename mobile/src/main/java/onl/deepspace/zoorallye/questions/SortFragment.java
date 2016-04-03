@@ -1,9 +1,8 @@
 package onl.deepspace.zoorallye.questions;
 
-import android.app.ListFragment;
+import android.support.v4.app.ListFragment;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,10 @@ import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link ListFragment} subclass.
  * Use the {@link SortFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@SuppressWarnings("unused")
 public class SortFragment extends ListFragment {
     // the fragment initialization parameters
     private static final String ARGS_QUESTION = "question";

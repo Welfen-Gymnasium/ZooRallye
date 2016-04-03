@@ -70,7 +70,7 @@ public class TrueFalseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragement_true_false, container, false);
+        View mView = inflater.inflate(R.layout.fragment_true_false, container, false);
 
         // Init communication with activity
         try {

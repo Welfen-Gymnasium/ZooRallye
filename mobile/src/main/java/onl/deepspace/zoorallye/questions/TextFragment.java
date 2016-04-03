@@ -72,7 +72,7 @@ public class TextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragement_text, container, false);
+        mView = inflater.inflate(R.layout.fragment_text, container, false);
 
         // Init communication with activity
         try {
