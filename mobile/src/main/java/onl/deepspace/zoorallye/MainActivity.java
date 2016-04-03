@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Runnable runnable;
+    Tools.ActionBarToggler actionBarToggler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +40,13 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        actionBarToggler = new Tools.ActionBarToggler(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         assert drawer != null;
         //noinspection deprecation
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        drawer.setDrawerListener(actionBarToggler);
+        actionBarToggler.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
@@ -84,19 +91,29 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        assert drawer != null;
-        drawer.closeDrawer(GravityCompat.START);
 
         int id = item.getItemId();
         if (id == R.id.nav_rally) {
-            Intent intent = new Intent(this, RallyActivity.class);
-            startActivity(intent);
+            final Intent intent = new Intent(this, RallyActivity.class);
+            actionBarToggler.runWhenIdle(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                }
+            });
         } else {
-            Fragment fragment = getFragmentByID(item.getItemId());
-
-            openFragment(fragment);
+            final Fragment fragment = getFragmentByID(item.getItemId());
+            actionBarToggler.runWhenIdle(new Runnable() {
+                @Override
+                public void run() {
+                    openFragment(fragment);
+                }
+            });
         }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null;
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

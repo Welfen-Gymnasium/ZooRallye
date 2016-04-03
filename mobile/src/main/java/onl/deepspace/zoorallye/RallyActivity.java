@@ -17,9 +17,12 @@ import android.view.MenuItem;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 
 public class RallyActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+
+    Tools.ActionBarToggler toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class RallyActivity extends AppCompatActivity implements
 
         // Setup NavigationView/NavigationDrawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_rally);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+        toggle = new Tools.ActionBarToggler(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         assert drawer != null;
         drawer.addDrawerListener(toggle);
@@ -66,16 +69,22 @@ public class RallyActivity extends AppCompatActivity implements
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_rally);
-        assert drawer != null;
-        drawer.closeDrawer(GravityCompat.START);
 
         int id = item.getItemId();
         if (id != R.id.nav_rally) {
-            Intent intent = new Intent(this, MainActivity.class);
+            final Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(Const.NAV_FRAGMENT, id);
-            startActivity(intent);
+            toggle.runWhenIdle(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                }
+            });
         }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_rally);
+        assert drawer != null;
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

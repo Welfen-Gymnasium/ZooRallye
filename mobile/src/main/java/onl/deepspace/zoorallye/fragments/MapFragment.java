@@ -20,6 +20,7 @@ import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.GPSTracker;
 import onl.deepspace.zoorallye.helper.RotationGestureDetector;
+import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
