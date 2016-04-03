@@ -18,6 +18,12 @@ android {
         }
     }
 
+    sourceSets{
+        main.res.srcDirs += [
+                'src/main/res-images'
+        ]
+    }
+
     useLibrary 'org.apache.http.legacy'
 }
 

@@ -15,6 +15,6 @@ public class AboutActivity extends AppCompatActivity {
         assert authors != null;
         authors.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
-        // Liane.addLiane(findViewById(R.id.about_activity));
+        // Liana.addLiana(findViewById(R.id.about_activity));
     }
 }

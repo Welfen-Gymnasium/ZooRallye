@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
-import onl.deepspace.zoorallye.helper.Liane;
+import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
 
 public class RallyActivity extends AppCompatActivity implements
@@ -56,7 +56,7 @@ public class RallyActivity extends AppCompatActivity implements
         viewPager.setAdapter(adapter);
 
         //Lianas
-        Liane.addLiane((findViewById(R.id.rally_lianas)));
+        Liana.addLiana((findViewById(R.id.rally_lianas)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;

@@ -15,13 +15,13 @@ import onl.deepspace.zoorallye.R;
  * Helper class for adding Lianas to any {@link View}
  **/
 @SuppressWarnings("unused")
-public final class Liane {
+public final class Liana {
 
     /**
      * Method to add a Liana to the specified view
      * @param view The view to add the Liana to
      */
-    public static void addLiane(final View view){
+    public static void addLiana(final View view){
         // TODO-sese: 02.04.2016 Resolve problems with divide by zero, then re-enable Lianas on all screens
         final ViewOverlay overlay = view.getOverlay();
 
@@ -32,7 +32,7 @@ public final class Liane {
                 ArrayList<Drawable> rightLianas = new ArrayList<>();
                 ArrayList<Drawable> leftLianas = new ArrayList<>();
                 Drawable transverseLiane = ResourcesCompat
-                        .getDrawable(view.getResources(), R.drawable.transverse_liane, null);
+                        .getDrawable(view.getResources(), R.drawable.liana_transverse, null);
                 if(transverseLiane != null) transverseLiane.setBounds(0, 0, 400, 400);
                 overlay.add(transverseLiane);
 
@@ -43,10 +43,10 @@ public final class Liane {
                 int rlHeight = view.getHeight() / rlTimes;
 
                 for(int i = 0; i < rlHeight; i++){
-                    leftLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.left_liane, null));
+                    leftLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.liana_left, null));
                     leftLianas.get(i).setBounds(0, rlHeight * i, 70, rlHeight * (i + 1));
 
-                    rightLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.right_liane, null));
+                    rightLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.liana_right, null));
                     rightLianas.get(i).setBounds(view.getWidth() - 70, rlHeight * i, view.getWidth(), rlHeight * (i + 1));
 
                     overlay.add(leftLianas.get(i));
@@ -54,7 +54,7 @@ public final class Liane {
                 }
 
                 for(int i = 0; i < topTimes; i++){
-                    topLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.top_liane, null));
+                    topLianas.add(ResourcesCompat.getDrawable(view.getResources(), R.drawable.liana_top, null));
                     topLianas.get(i).setBounds(topWidth * i, 0, topWidth * (i + 1), 110);
                     overlay.add(topLianas.get(i));
                 }

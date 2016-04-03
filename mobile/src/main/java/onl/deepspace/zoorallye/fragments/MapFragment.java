@@ -46,7 +46,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //Init Lianas
-        // Liane.addLiane(view);
+        // Liana.addLiana(view);
 
         //Map
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
