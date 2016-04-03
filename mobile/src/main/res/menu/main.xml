@@ -6,4 +6,10 @@
         android:orderInCategory="101"
         android:title="@string/action_about"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_google_play"
+        android:orderInCategory="102"
+        android:title="GPlay"
+        app:showAsAction="never" />
 </menu>

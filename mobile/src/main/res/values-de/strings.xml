@@ -22,4 +22,7 @@
     <string name="gps_prompt_enable">GPS ist ausgeschaltet. Möchtest du es in den Einstellungen aktivieren?</string>
     <string name="outside_zoo">Du befindest dich aktuell nicht im Zoo.</string>
     <string name="question_text_answer">Antwort</string>
+    <string name="question_image_description">Bild eines Tieres</string>
+    <string name="zoo_image_description">Bild eines Zoos</string>
+    <string name="zoo_map_description">Karte eines Zoos</string>
 </resources>
