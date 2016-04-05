@@ -3,11 +3,15 @@ package onl.deepspace.zoorallye.questions.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import onl.deepspace.zoorallye.helper.Const;
 
@@ -18,11 +22,44 @@ import onl.deepspace.zoorallye.helper.Const;
  */
 public class UpgradeQuestionsDb {
 
+    public static void insertAnswer(Context context, JSONObject answer) {
+        QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        try {
+            // TODO: 05.04.2016 For safety reasons add zoo to visit id
+            Calendar calendar = Calendar.getInstance();
+            String zoo = "";
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = zoo + "-" + date + '.' + month + '.' + year + '.';
+
+            String type = answer.getString(Const.QUESTION_TYPE);
+            String questionId = answer.getString(Const.QUESTION_ID);
+            String questionAnswer = answer.getString(Const.QUESTION_ANSWER);
+            int score = answer.getInt(Const.QUESTION_SCORE);
+
+            ContentValues values = new ContentValues();
+            values.put(QuestionsContract.Answers.COL_NAME_VISIT_ID, visitId);
+            values.put(QuestionsContract.Answers.COL_NAME_TYPE, type);
+            values.put(QuestionsContract.Answers.COL_NAME_QUESTION_ID, questionId);
+            values.put(QuestionsContract.Answers.COL_NAME_ANSWER, questionAnswer);
+            values.put(QuestionsContract.Answers.COL_NAME_CREDITS, score);
+            db.insert(QuestionsContract.Answers.TABLE_NAME, null, values);
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unused")
+    /**
+     * Delets
+     */
     public static void putData(Context context, JSONObject data) {
         QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        deleteDatabases(db);
+        deleteDatabases(db, false);
         setupDatabases(db);
         try {
             JSONArray slider = data.getJSONArray(Const.QuestionsAPI_SLIDER);
@@ -155,7 +192,9 @@ public class UpgradeQuestionsDb {
         }
     }
 
-    public static void deleteDatabases(SQLiteDatabase db) {
+    public static void deleteDatabases(SQLiteDatabase db, boolean deleteAnswers) {
+        if(deleteAnswers)
+            db.execSQL(QuestionsContract.Answers.DELETE_TABLE);
         db.execSQL(QuestionsContract.Sort.DELETE_TABLE);
         db.execSQL(QuestionsContract.Slider.DELETE_TABLE);
         db.execSQL(QuestionsContract.Radio.DELETE_TABLE);
@@ -165,6 +204,7 @@ public class UpgradeQuestionsDb {
     }
 
     public static void setupDatabases(SQLiteDatabase db) {
+        db.execSQL(QuestionsContract.Answers.CREATE_TABLE);
         db.execSQL(QuestionsContract.Sort.CREATE_TABLE);
         db.execSQL(QuestionsContract.Slider.CREATE_TABLE);
         db.execSQL(QuestionsContract.Radio.CREATE_TABLE);

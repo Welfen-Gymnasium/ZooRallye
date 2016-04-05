@@ -175,9 +175,17 @@ public class SortFragment extends ListFragment {
 
     private void submitAnswer() {
         if(mCommunicator != null) {
+            int correctItems = mAnswers.size();
+            int correctUserItems = 0;
+
             ArrayList<String> userAnswer = getUserAnswer();
-            boolean isCorrect = checkAnswer(userAnswer);
-            mCommunicator.submitSort(userAnswer, isCorrect);
+            for (int i = 0; i < userAnswer.size(); i++) {
+                if(mAnswers.get(i).equals(userAnswer.get(i))) correctUserItems++;
+            }
+
+            float percentCorrect = 100 / correctItems * correctUserItems;
+
+            mCommunicator.submitSort(userAnswer, percentCorrect);
         } else {
             Log.e(Const.LOGTAG, "mCommunicator is null: Did you implement QuestionCommunication to your activity?");
         }
@@ -189,14 +197,6 @@ public class SortFragment extends ListFragment {
             userAnswer.add(adapter.getItem(i));
         }
         return userAnswer;
-    }
-
-    private boolean checkAnswer(ArrayList<String> userAnswer) {
-        boolean answer = true;
-        for (int i = 0; i < mAnswers.size(); i++) {
-            if(!mAnswers.get(i).equals(userAnswer.get(i))) answer = false;
-        }
-        return answer;
     }
 
     private void reclineQuestion() {

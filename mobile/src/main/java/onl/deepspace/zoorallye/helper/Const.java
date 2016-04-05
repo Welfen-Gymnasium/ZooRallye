@@ -40,10 +40,13 @@ public final class Const {
     public static final double maxLatitude = 48.349773;
     public static final double maxLongitude = 10.918707;
 
-    public static final String INTENT_QUESTION = "intentQuestion";
-    public static final String INTENT_QUESTION_TYPE = "intentQuestionType";
-    public static final String INTENT_QUESTION_BUNDLE = "intentQuestionBundle";
-    public static final String INTENT_QUESTION_IMAGE = "intentQuestionImage";
+    public static final String QUESTION = "question";
+    public static final String QUESTION_ID = "questionId";
+    public static final String QUESTION_TYPE = "questionType";
+    public static final String QUESTION_BUNDLE = "questionBundle";
+    public static final String QUESTION_IMAGE = "questionImage";
+    public static final String QUESTION_ANSWER = "questionAnswer";
+    public static final String QUESTION_SCORE = "questionScore";
 
     public static final String QUESTION_TYPE_SORT = "questionTypeSort";
     public static final String QUESTION_TYPE_SEEKBAR = "questionTypeSeekbar";
@@ -51,4 +54,11 @@ public final class Const {
     public static final String QUESTION_TYPE_CHECKBOX = "questionTypeCheckbox";
     public static final String QUESTION_TYPE_TEXT = "questionTypeText";
     public static final String QUESTION_TYPE_TRUE_FALSE = "questionTypeTrueFalse";
+
+    public static final int SCORE_TRUE_FALSE = 100;
+    public static final int SCORE_RADIO = 150;
+    public static final int SCORE_TEXT = 200;
+    public static final int SCORE_CHECKBOX = 250;
+    public static final int SCORE_SORT = 300;
+    public static final int SCORE_SLIDER = 300;
 }
