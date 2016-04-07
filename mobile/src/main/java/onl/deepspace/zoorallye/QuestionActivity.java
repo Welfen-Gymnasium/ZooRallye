@@ -1,12 +1,17 @@
 package onl.deepspace.zoorallye;
 
+import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.Scene;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +36,8 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     private String mType;
     private Bundle mBundle;
     private String mImage;
+    private Fragment mActiveFragment;
+    private Scene mQuestionScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         int score = (int) (Const.SCORE_SORT * percentCorrect);
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer.toString(),
                 correctAnswer, Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -70,20 +77,20 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
     @Override
     public void submitSeekbar(float userAnswer, float offset) {
-        // TODO: 05.04.2016 Check if algorithm is fair
-        // float min = mBundle.getFloat(Const.QUESTIONS_MIN);
-        // float max = mBundle.getFloat(Const.QUESTIONS_MAX);
+        float min = mBundle.getFloat(Const.QUESTIONS_MIN);
+        float max = mBundle.getFloat(Const.QUESTIONS_MAX);
         float correctAnswer = mBundle.getFloat(Const.QUESTIONS_ANSWER);
 
-        // float upperMax = max - correctAnswer;
-        // float lowerMax = correctAnswer - min;
-        // float maxDist = upperMax > lowerMax ? upperMax : lowerMax;
+        float upperMax = max - correctAnswer;
+        float lowerMax = correctAnswer - min;
+        float maxDist = upperMax > lowerMax ? upperMax : lowerMax;
 
-        int score = (int) (Const.SCORE_SLIDER / (offset + 1));
+        int step = (int) (Const.SCORE_SLIDER / maxDist);
+        int score = (int) (Const.SCORE_SLIDER - (step * offset));
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, Float.toString(userAnswer),
                 Float.toString(correctAnswer), Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -103,7 +110,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         int score = isCorrect ? 150 : 0;
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer, correctAnswer,
                 Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -124,7 +131,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         int score = (int) (Const.SCORE_CHECKBOX * percentCorrect);
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer.toString(),
                 correctAnswer, Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -147,7 +154,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer, correctAnswer,
                 Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -171,7 +178,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         int score = isCorrect ? Const.SCORE_TRUE_FALSE : 0;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, user, correct, Integer.toString(score));
-        openFragment(fragment);
+        showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
         try {
@@ -182,7 +189,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
+        // UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -192,7 +199,16 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
     @Override
     public void finishQuestion() {
+    }
 
+    private void showAnswer(AnswerFragment fragment) {
+        ViewGroup root = (ViewGroup) findViewById(R.id.question_root);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            Scene answer = Scene.getSceneForLayout(root, R.layout.fragment_answer, this);
+            Transition mAutoTransition = new AutoTransition();
+            // TransitionManager.go(answer, mAutoTransition);
+        }
+        openFragment(fragment);
     }
 
     private void setupQuestionFragment() {
@@ -200,10 +216,14 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         String answer;
         ArrayList<String> answers;
         ArrayList<String> falseAnswers;
+        ViewGroup root = (ViewGroup) findViewById(R.id.question_root);
         switch (mType) {
             case Const.QUESTION_TYPE_SORT:
                 answers = mBundle.getStringArrayList(Const.QUESTIONS_ANSWERS);
                 fragment = SortFragment.newInstance(mQuestion, answers, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_sort, this);
+                }
                 break;
             case Const.QUESTION_TYPE_SEEKBAR:
                 float min = mBundle.getFloat(Const.QUESTIONS_MIN);
@@ -211,24 +231,39 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
                 float step = mBundle.getFloat(Const.QUESTIONS_STEP);
                 float fAnswer = mBundle.getFloat(Const.QUESTIONS_ANSWER);
                 fragment = SeekbarFragment.newInstance(mQuestion, min, max, step, fAnswer, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_seekbar, this);
+                }
                 break;
             case Const.QUESTION_TYPE_RADIO:
                 answer = mBundle.getString(Const.QUESTIONS_ANSWER);
                 falseAnswers = mBundle.getStringArrayList(Const.QUESTIONS_FALSE_ANSWERS);
                 fragment = RadioFragment.newInstance(mQuestion, answer, falseAnswers, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_radio, this);
+                }
                 break;
             case Const.QUESTION_TYPE_CHECKBOX:
                 answers = mBundle.getStringArrayList(Const.QUESTIONS_ANSWERS);
                 falseAnswers = mBundle.getStringArrayList(Const.QUESTIONS_FALSE_ANSWERS);
                 fragment = CheckboxFragment.newInstance(mQuestion, answers, falseAnswers, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_checkbox, this);
+                }
                 break;
             case Const.QUESTION_TYPE_TEXT:
                 answer = mBundle.getString(Const.QUESTIONS_ANSWER);
                 fragment = TextFragment.newInstance(mQuestion, answer, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_text, this);
+                }
                 break;
             case Const.QUESTION_TYPE_TRUE_FALSE:
                 boolean bAnswer = mBundle.getBoolean(Const.QUESTIONS_ANSWER);
                 fragment = TrueFalseFragment.newInstance(mQuestion, bAnswer, mImage);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    mQuestionScene = Scene.getSceneForLayout(root, R.layout.fragment_true_false, this);
+                }
                 break;
             default:
                 throw new IllegalStateException("Type: " + mType + " not found.");
@@ -239,7 +274,10 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     private void openFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.attach(fragment);
+        if(mActiveFragment != null)
+            transaction.remove(mActiveFragment);
+        transaction.add(R.id.question_root, fragment);
         transaction.commit();
+        mActiveFragment = fragment;
     }
 }

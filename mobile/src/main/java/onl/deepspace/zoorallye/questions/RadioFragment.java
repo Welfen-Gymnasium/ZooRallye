@@ -109,7 +109,7 @@ public class RadioFragment extends Fragment {
         }
 
         // Init radio fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_radio);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.container_radio);

@@ -91,7 +91,7 @@ public class TextFragment extends Fragment {
         }
 
         // Init text fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_text);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         final Button recline = (Button) mView.findViewById(R.id.recline_text);

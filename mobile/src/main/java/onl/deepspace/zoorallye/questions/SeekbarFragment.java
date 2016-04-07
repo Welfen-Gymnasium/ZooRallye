@@ -107,7 +107,7 @@ public class SeekbarFragment extends Fragment {
         }
 
         // Init seekbar fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_seekbar);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         // TODO: 30.03.2016 Animation for sliding in to position

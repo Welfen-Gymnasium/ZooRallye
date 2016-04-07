@@ -11,6 +11,7 @@
     tools:context="onl.deepspace.zoorallye.questions.AnswerFragment">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/question_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardElevation="@dimen/question_image_elevation">
@@ -21,7 +22,7 @@
             android:padding="8dp"
             android:orientation="vertical">
             <ImageView
-                android:id="@+id/answer_image"
+                android:id="@+id/question_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/answer_image_height"
                 android:background="@color/question_image_background"
@@ -29,7 +30,7 @@
                 android:src="@drawable/animal_wolf" />
 
             <TextView
-                android:id="@+id/answer_question"
+                android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"

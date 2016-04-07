@@ -137,7 +137,7 @@ public class SortFragment extends ListFragment {
         }
 
         // Init sort fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_sort);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         final Button submit = (Button) mView.findViewById(R.id.submit_sort);

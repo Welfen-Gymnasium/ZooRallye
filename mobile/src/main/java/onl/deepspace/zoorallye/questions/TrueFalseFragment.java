@@ -89,7 +89,7 @@ public class TrueFalseFragment extends Fragment {
         }
 
         // Init radio fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_true_false);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         final Button recline = (Button) mView.findViewById(R.id.recline_true_false);

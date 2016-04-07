@@ -109,7 +109,7 @@ public class CheckboxFragment extends Fragment {
         }
 
         // Init checkbox fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_checkbox);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         LinearLayout checkboxGroup = (LinearLayout) mView.findViewById(R.id.container_checkbox);

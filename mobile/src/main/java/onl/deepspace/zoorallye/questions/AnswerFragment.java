@@ -85,7 +85,7 @@ public class AnswerFragment extends Fragment {
         }
 
         // Set TextViews with infos about the previous answered question
-        TextView question = (TextView) mView.findViewById(R.id.answer_question);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         TextView user = (TextView) mView.findViewById(R.id.answer_user);
