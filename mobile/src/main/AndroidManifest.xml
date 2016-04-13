@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".RallyActivity"
             android:label="@string/nav_rally"
@@ -22,15 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Drawer" />
+
         <activity android:name=".AboutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="onl.deepspace.zoorallye.MainActivity" />
         </activity>
+
         <activity android:name=".QuestionActivity" />
 
         <meta-data

@@ -36,11 +36,21 @@ import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 public class Tools {
 
     public static void unlockAchievement(Activity activity, String achievementId) throws Exceptions.GooglePlayUnconnectedException, Exceptions.ClassNotInstanceOfAchievementActivityException{
-        if(activity.getClass().isAssignableFrom(AppCompatAchievementActivity.class)){
+        try{
             ((AppCompatAchievementActivity) activity).unlockAchievement(achievementId);
         }
-        else{
-            throw new Exceptions.ClassNotInstanceOfAchievementActivityException();
+        catch (Exception e){
+            Log.d(Const.LOGTAG, String.valueOf(activity.getClass()) + String.valueOf(activity));
+            throw new Exceptions.ClassNotInstanceOfAchievementActivityException(e);
+        }
+    }
+
+    public static void displayAchievements(Activity activity) throws Exceptions.GooglePlayUnconnectedException, Exceptions.ClassNotInstanceOfAchievementActivityException{
+        try{
+            ((AppCompatAchievementActivity) activity).displayAchievements();
+        } catch (Exception e){
+            Log.d(Const.LOGTAG, String.valueOf(activity.getClass()) + String.valueOf(activity));
+            throw new Exceptions.ClassNotInstanceOfAchievementActivityException(e);
         }
     }
 

@@ -41,6 +41,16 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         }
     }
 
+    public void displayAchievements() throws  Exceptions.GooglePlayUnconnectedException{
+        if(googleApiClient.isConnected()){
+            startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), 0);
+        }
+        else{
+            Log.e(LOGTAG, "Google Play Services unconnected!");
+            throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
