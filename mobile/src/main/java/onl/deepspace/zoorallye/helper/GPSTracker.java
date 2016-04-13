@@ -10,12 +10,18 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
 public class GPSTracker extends Service implements LocationListener {
+
+    /*
+    WARNING
+    You may request Location permission for API 23+
+     */
 
     private final Context mContext;
 
@@ -35,10 +41,10 @@ public class GPSTracker extends Service implements LocationListener {
     double longitude; // longitude
 
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 5 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 5 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 15; // 15 sec
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 5; // 5 sec
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -58,6 +64,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public Location getLocation() {
         try {
+
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
 
@@ -107,7 +114,7 @@ public class GPSTracker extends Service implements LocationListener {
             }
 
         } catch(SecurityException e){
-            Log.i(Const.LOGTAG, "GPS permission denied");
+            Log.e(Const.LOGTAG, "GPS permission denied: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,7 +132,7 @@ public class GPSTracker extends Service implements LocationListener {
                 locationManager.removeUpdates(GPSTracker.this);
             }
         } catch (SecurityException e){
-            Log.i(Const.LOGTAG, "GPS permission denied");
+            Log.e(Const.LOGTAG, "GPS permission denied " + e.getMessage());
         }
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 
 public class RallyActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +58,7 @@ public class RallyActivity extends AppCompatActivity implements
         viewPager.setAdapter(adapter);
 
         //Lianas
-        // Liana.addLiana((findViewById(R.id.rally_lianas)));
+        Liana.addLiana((findViewById(R.id.rally_lianas)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;

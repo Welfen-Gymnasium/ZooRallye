@@ -41,6 +41,4 @@
     <string name="answer_correct">Correct answer:</string>
     <string name="answer_user">Your Answer:</string>
 
-    <string name="google_app_id" translatable="false">onl.deepspace.zoorallye</string>
-
 </resources>

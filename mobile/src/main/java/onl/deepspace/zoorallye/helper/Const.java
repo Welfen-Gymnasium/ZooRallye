@@ -40,6 +40,8 @@ public final class Const {
     public static final double maxLatitude = 48.349773;
     public static final double maxLongitude = 10.918707;
 
+    public static final int GoogleAuthIntent= 1000;
+
     public static final String QUESTION = "question";
     public static final String QUESTION_ID = "questionId";
     public static final String QUESTION_TYPE = "questionType";
