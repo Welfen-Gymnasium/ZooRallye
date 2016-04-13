@@ -3,11 +3,15 @@ package onl.deepspace.zoorallye.questions.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import onl.deepspace.zoorallye.helper.Const;
 
@@ -18,11 +22,44 @@ import onl.deepspace.zoorallye.helper.Const;
  */
 public class UpgradeQuestionsDb {
 
+    public static void insertAnswer(Context context, JSONObject answer) {
+        QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        try {
+            // TODO: 05.04.2016 For safety reasons add zoo to visit id
+            Calendar calendar = Calendar.getInstance();
+            String zoo = "";
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = zoo + "-" + date + '.' + month + '.' + year + '.';
+
+            String type = answer.getString(Const.QUESTION_TYPE);
+            String questionId = answer.getString(Const.QUESTION_ID);
+            String questionAnswer = answer.getString(Const.QUESTION_ANSWER);
+            int score = answer.getInt(Const.QUESTION_SCORE);
+
+            ContentValues values = new ContentValues();
+            values.put(QuestionsContract.Answers.COL_NAME_VISIT_ID, visitId);
+            values.put(QuestionsContract.Answers.COL_NAME_TYPE, type);
+            values.put(QuestionsContract.Answers.COL_NAME_QUESTION_ID, questionId);
+            values.put(QuestionsContract.Answers.COL_NAME_ANSWER, questionAnswer);
+            values.put(QuestionsContract.Answers.COL_NAME_CREDITS, score);
+            db.insert(QuestionsContract.Answers.TABLE_NAME, null, values);
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unused")
+    /**
+     * Delets
+     */
     public static void putData(Context context, JSONObject data) {
         QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        deleteDatabases(db);
+        deleteDatabases(db, false);
         setupDatabases(db);
         try {
             JSONArray slider = data.getJSONArray(Const.QuestionsAPI_SLIDER);
@@ -46,13 +83,13 @@ public class UpgradeQuestionsDb {
     private static void insertSliderQuestions(SQLiteDatabase db, JSONArray slider) throws JSONException {
         for (int i = 0; i < slider.length(); i++) {
             JSONObject element = slider.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            float min = Float.valueOf(element.getString(Const.QuestionsAPI_MIN));
-            float max = Float.valueOf(element.getString(Const.QuestionsAPI_MAX));
-            float step = Float.valueOf(element.getString(Const.QuestionsAPI_STEP));
-            float answer = Float.valueOf(element.getString(Const.QuestionsAPI_ANSWER));
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            float min = Float.valueOf(element.getString(Const.QUESTIONS_MIN));
+            float max = Float.valueOf(element.getString(Const.QUESTIONS_MAX));
+            float step = Float.valueOf(element.getString(Const.QUESTIONS_STEP));
+            float answer = Float.valueOf(element.getString(Const.QUESTIONS_ANSWER));
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Slider.COL_NAME_ID, id);
@@ -69,11 +106,11 @@ public class UpgradeQuestionsDb {
     private static void insertRadioQuestions(SQLiteDatabase db, JSONArray radio) throws JSONException {
         for (int i = 0; i < radio.length(); i++) {
             JSONObject element = radio.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
-            String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
+            String falseAnswers = element.getString(Const.QUESTIONS_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Radio.COL_NAME_ID, id);
@@ -88,11 +125,11 @@ public class UpgradeQuestionsDb {
     private static void insertCheckboxQuestions(SQLiteDatabase db, JSONArray checkbox) throws JSONException {
         for (int i = 0; i < checkbox.length(); i++) {
             JSONObject element = checkbox.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answers = element.getString(Const.QuestionsAPI_ANSWERS);
-            String falseAnswers = element.getString(Const.QuestionsAPI_FALSE_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answers = element.getString(Const.QUESTIONS_ANSWERS);
+            String falseAnswers = element.getString(Const.QUESTIONS_FALSE_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Checkbox.COL_NAME_ID, id);
@@ -107,10 +144,10 @@ public class UpgradeQuestionsDb {
     private static void insertTrueFalseQuestions(SQLiteDatabase db, JSONArray trueFalse) throws JSONException {
         for (int i = 0; i < trueFalse.length(); i++) {
             JSONObject element = trueFalse.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.TrueFalse.COL_NAME_ID, id);
@@ -124,10 +161,10 @@ public class UpgradeQuestionsDb {
     private static void insertSortQuestions(SQLiteDatabase db, JSONArray sort) throws JSONException {
         for (int i = 0; i < sort.length(); i++) {
             JSONObject element = sort.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answers = element.getString(Const.QuestionsAPI_ANSWERS);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answers = element.getString(Const.QUESTIONS_ANSWERS);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Sort.COL_NAME_ID, id);
@@ -141,10 +178,10 @@ public class UpgradeQuestionsDb {
     private static void insertTextQuestions(SQLiteDatabase db, JSONArray text) throws JSONException {
         for (int i = 0; i < text.length(); i++) {
             JSONObject element = text.getJSONObject(i);
-            int id = Integer.valueOf(element.getString(Const.QuestionsAPI_ID));
-            String question = element.getString(Const.QuestionsAPI_QUESTION);
-            String enclosure = element.getString(Const.QuestionsAPI_ENCLOSURE);
-            String answer = element.getString(Const.QuestionsAPI_ANSWER);
+            int id = Integer.valueOf(element.getString(Const.QUESTIONS_ID));
+            String question = element.getString(Const.QUESTIONS_QUESTION);
+            String enclosure = element.getString(Const.QUESTIONS_ENCLOSURE);
+            String answer = element.getString(Const.QUESTIONS_ANSWER);
 
             ContentValues values = new ContentValues();
             values.put(QuestionsContract.Text.COL_NAME_ID, id);
@@ -155,7 +192,9 @@ public class UpgradeQuestionsDb {
         }
     }
 
-    public static void deleteDatabases(SQLiteDatabase db) {
+    public static void deleteDatabases(SQLiteDatabase db, boolean deleteAnswers) {
+        if(deleteAnswers)
+            db.execSQL(QuestionsContract.Answers.DELETE_TABLE);
         db.execSQL(QuestionsContract.Sort.DELETE_TABLE);
         db.execSQL(QuestionsContract.Slider.DELETE_TABLE);
         db.execSQL(QuestionsContract.Radio.DELETE_TABLE);
@@ -165,6 +204,7 @@ public class UpgradeQuestionsDb {
     }
 
     public static void setupDatabases(SQLiteDatabase db) {
+        db.execSQL(QuestionsContract.Answers.CREATE_TABLE);
         db.execSQL(QuestionsContract.Sort.CREATE_TABLE);
         db.execSQL(QuestionsContract.Slider.CREATE_TABLE);
         db.execSQL(QuestionsContract.Radio.CREATE_TABLE);

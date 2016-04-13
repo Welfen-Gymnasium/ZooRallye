@@ -10,6 +10,7 @@
               android:paddingBottom="@dimen/activity_vertical_margin">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/question_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/question_image_elevation">
@@ -23,7 +24,7 @@
     </android.support.v7.widget.CardView>
 
     <TextView
-        android:id="@+id/question_sort"
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"

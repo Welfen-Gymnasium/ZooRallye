@@ -70,7 +70,7 @@ public class TrueFalseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragement_true_false, container, false);
+        View mView = inflater.inflate(R.layout.fragment_true_false, container, false);
 
         // Init communication with activity
         try {
@@ -89,7 +89,7 @@ public class TrueFalseFragment extends Fragment {
         }
 
         // Init radio fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_true_false);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         final Button recline = (Button) mView.findViewById(R.id.recline_true_false);

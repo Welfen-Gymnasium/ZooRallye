@@ -72,7 +72,7 @@ public class TextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragement_text, container, false);
+        mView = inflater.inflate(R.layout.fragment_text, container, false);
 
         // Init communication with activity
         try {
@@ -91,7 +91,7 @@ public class TextFragment extends Fragment {
         }
 
         // Init text fragment
-        TextView question = (TextView) mView.findViewById(R.id.question_text);
+        TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);
 
         final Button recline = (Button) mView.findViewById(R.id.recline_text);

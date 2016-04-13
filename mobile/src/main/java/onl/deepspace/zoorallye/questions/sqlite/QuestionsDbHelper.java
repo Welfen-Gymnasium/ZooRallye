@@ -24,7 +24,8 @@ public class QuestionsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        UpgradeQuestionsDb.deleteDatabases(db);
+        // TODO: 05.04.2016 Resolve conflicts with deleted games onUpgrade
+        UpgradeQuestionsDb.deleteDatabases(db, true);
         onCreate(db);
     }
 

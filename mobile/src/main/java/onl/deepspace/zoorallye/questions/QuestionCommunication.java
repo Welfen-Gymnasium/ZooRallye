@@ -9,10 +9,11 @@ import java.util.ArrayList;
  */
 public interface QuestionCommunication {
     void reclineQuestion();
-    void submitSort(ArrayList<String> userAnswer, boolean isCorrect);
+    void submitSort(ArrayList<String> userAnswer, float percentCorrect);
     void submitSeekbar(float userAnswer, float offset);
     void submitRadio(String userAnswer, boolean isCorrect);
     void submitCheckbox(ArrayList<String> userAnswer, float percentCorrect);
     void submitText(String userAnswer, boolean isCorrect);
     void submitTrueFalse(boolean userAnswer, boolean isCorrect);
+    void finishQuestion();
 }

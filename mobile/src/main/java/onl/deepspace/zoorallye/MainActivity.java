@@ -100,6 +100,16 @@ public class MainActivity extends AppCompatAchievementActivity
                     startActivity(intent);
                 }
             });
+        } else if(id == R.id.nav_statistics) {
+            final Intent intent = new Intent(this, QuestionActivity.class);
+            intent.putExtra(Const.QUESTION_ID, "1");
+            intent.putExtra(Const.QUESTION, "Ich bin eine Frage, stimmt das?");
+            intent.putExtra(Const.QUESTION_TYPE, Const.QUESTION_TYPE_TRUE_FALSE);
+            intent.putExtra(Const.QUESTION_IMAGE, "animal_alpensteinbock");
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(Const.QUESTIONS_ANSWER, true);
+            intent.putExtra(Const.QUESTION_BUNDLE, bundle);
+            startActivity(intent);
         } else {
             final Fragment fragment = getFragmentByID(item.getItemId());
             actionBarToggler.runWhenIdle(new Runnable() {

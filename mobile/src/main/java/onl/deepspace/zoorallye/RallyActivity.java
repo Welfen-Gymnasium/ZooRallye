@@ -57,7 +57,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         viewPager.setAdapter(adapter);
 
         //Lianas
-        Liana.addLiana((findViewById(R.id.rally_lianas)));
+        // Liana.addLiana((findViewById(R.id.rally_lianas)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
@@ -70,7 +70,6 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         if(tab3 != null) tab3.setIcon(R.drawable.ic_info);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
