@@ -25,9 +25,11 @@ import java.security.Permission;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.GPSTracker;
 import onl.deepspace.zoorallye.helper.RotationGestureDetector;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
@@ -130,6 +132,13 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                 int yMarker = (int) (userYRange * yStep);
 
                 if(xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
+
+                    try{
+                        Tools.unlockAchievement(getActivity(), getResources().getString(R.string.achievement_welcome_to_zoo));
+                    } catch (Exception e){
+                        Log.e(Const.LOGTAG, e.getMessage());
+                    }
+
                     marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movements
                     overlay.add(marker);
                 }

@@ -18,8 +18,9 @@ import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 
-public class RallyActivity extends AppCompatActivity implements
+public class RallyActivity extends AppCompatAchievementActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     Tools.ActionBarToggler toggle;

@@ -35,5 +35,5 @@
     <string name="drag_handle_description" translatable="false">Drag Handle</string>
     <string name="zoo_image_description">Image of a zoo</string>
     <string name="zoo_map_description">Map of a zoo</string>
-    <string name="google_app_id" translatable="false">onl.deepspace.zoorallye</string>
+
 </resources>
