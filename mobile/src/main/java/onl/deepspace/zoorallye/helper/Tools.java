@@ -64,6 +64,18 @@ public class Tools {
         }
     }
 
+    public static boolean requestPermission(Activity activity, String permission, int callback){
+
+        if(ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
+             if(ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)){
+                 // TODO: 11.04.2016 Add dialog to explain the user why this permission is needed
+             }
+
+            ActivityCompat.requestPermissions(activity, new String[]{permission}, callback);
+        }
+        return false;
+    }
+
     public static class ActionBarToggler extends ActionBarDrawerToggle{
 
         private Runnable runnable;

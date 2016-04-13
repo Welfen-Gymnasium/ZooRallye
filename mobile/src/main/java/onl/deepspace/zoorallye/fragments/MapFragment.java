@@ -1,12 +1,16 @@
 package onl.deepspace.zoorallye.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOverlay;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.security.Permission;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
@@ -31,7 +38,8 @@ import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
  */
 public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback, RotationGestureDetector.OnRotationGestureListener{
 
-    boolean inZooInformation = false;
+    private boolean inZooInformation = false;
+    private final int locationCallback = 1;
 
     RotationGestureDetector rotationGestureDetector;
 
@@ -53,13 +61,14 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         //Marker
         marker = ResourcesCompat.getDrawable(map.getResources(), R.drawable.ic_map_marker, null);
         //GPS
+        Tools.requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, locationCallback);
         gps = new GPSTracker(getActivity(), this);
         //Two finger rotation
         rotationGestureDetector = new RotationGestureDetector(this);
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     float angle = rotationGestureDetector.getAngle();
                     Log.d("RotationGestureDetector", "Rotation: " + Float.toString(angle));
                 }
@@ -82,6 +91,21 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public void GPSLocationChanged(Location location) {
        setMarkerPosition(location);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case locationCallback:
+                if(PackageManager.PERMISSION_DENIED == ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Toast.makeText(getActivity(), "GPS Permission denied!", Toast.LENGTH_SHORT).show(); // TODO: 11.04.2016 String ressource
+                }
+                else{ Log.d(Const.LOGTAG, "GPS Permission granted");
+                }
+                break;
+        }
     }
 
     private void setMarkerPosition(final Location location){
@@ -110,6 +134,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                     overlay.add(marker);
                 }
                 else if(!inZooInformation){
+                    Log.d(Const.LOGTAG, longitude + " " + latitude);
                     Snackbar.make(view, view.getResources().getString(R.string.outside_zoo), Snackbar.LENGTH_LONG).show();
                     inZooInformation = true;
                 }
