@@ -17,13 +17,17 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
+import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Exceptions;
+import onl.deepspace.zoorallye.helper.Variables;
 
 public class AppCompatAchievementActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private static final int API_REQUEST = 1001;
     private static final int RESOLUTION_CALLBACK = 1002;
+    private static final int LEADER_BOARD_CALLBACK = 1003;
+    private static final int ACHIEVEMENTS_CALLBACK = 1004;
 
     private static GoogleApiClient googleApiClient;
     private static GoogleApiClient signInClient = null;
@@ -41,9 +45,30 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         }
     }
 
-    public void displayAchievements() throws  Exceptions.GooglePlayUnconnectedException{
+    public void displayAchievements() throws Exceptions.GooglePlayUnconnectedException{
         if(googleApiClient.isConnected()){
-            startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), 0);
+            startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), ACHIEVEMENTS_CALLBACK);
+        }
+        else{
+            Log.e(LOGTAG, "Google Play Services unconnected!");
+            throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
+        }
+    }
+
+    public void submitLeaderBoardScore(String leaderBoardId, int score) throws Exceptions.GooglePlayUnconnectedException{
+        if(googleApiClient.isConnected()){
+            Log.i(LOGTAG, "Submitting leaderboardscore: " + leaderBoardId + " -> " + String.valueOf(score));
+            Games.Leaderboards.submitScore(googleApiClient, leaderBoardId, score);
+        }
+        else{
+            Log.e(LOGTAG, "Google Play Services unconnected!");
+            throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
+        }
+    }
+
+    public void displayLeaderBoard(String leaderBoardId) throws Exceptions.GooglePlayUnconnectedException{
+        if(googleApiClient.isConnected()){
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient, leaderBoardId), LEADER_BOARD_CALLBACK);
         }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
@@ -78,7 +103,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
             }
         }
         else{
-            Log.e(LOGTAG, "Error onActivityResult:" + String.valueOf(resultCode));
+            Log.e(LOGTAG, "Error onActivityResult?: " + String.valueOf(resultCode));
         }
     }
 
@@ -103,19 +128,23 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(LOGTAG, "Connection Failed: " + String.valueOf(connectionResult));
 
-        if(connectionResult.hasResolution()){
-            try{
-                Log.d(LOGTAG, "Resolution available");
-                connectionResult.startResolutionForResult(this, RESOLUTION_CALLBACK);
-            } catch (IntentSender.SendIntentException e){
-                Log.e(LOGTAG, e.getMessage());
+        if(!(Variables.signInTried && connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED)){
+            if(connectionResult.hasResolution()){
+                try{
+                    Log.d(LOGTAG, "Resolution available");
+                    connectionResult.startResolutionForResult(this, RESOLUTION_CALLBACK);
+                } catch (IntentSender.SendIntentException e){
+                    Log.e(LOGTAG, e.getMessage());
+                }
+
+                Variables.signInTried = true;
             }
-        }
-        else{
-            Log.d(LOGTAG, "Resolution unavailable!");
-            switch (connectionResult.getErrorCode()){
-                case ConnectionResult.SIGN_IN_REQUIRED: attemptGoogleSignIn(); break;
-                default: GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), RESOLUTION_CALLBACK).show();
+            else{
+                Log.d(LOGTAG, "Resolution unavailable!");
+                switch (connectionResult.getErrorCode()){
+                    case ConnectionResult.SIGN_IN_REQUIRED: attemptGoogleSignIn(); break;
+                    default: GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), RESOLUTION_CALLBACK).show();
+                }
             }
         }
     }

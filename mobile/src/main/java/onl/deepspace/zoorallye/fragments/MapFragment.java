@@ -1,10 +1,12 @@
 package onl.deepspace.zoorallye.fragments;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,13 +23,9 @@ import android.view.ViewOverlay;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.security.Permission;
-
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
-import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.GPSTracker;
-import onl.deepspace.zoorallye.helper.RotationGestureDetector;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
@@ -38,12 +36,10 @@ import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
  *
  * Fragment for the zoo maps
  */
-public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback, RotationGestureDetector.OnRotationGestureListener{
+public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback{
 
     private boolean inZooInformation = false;
     private final int locationCallback = 1;
-
-    RotationGestureDetector rotationGestureDetector;
 
     GPSTracker gps;
     View view;
@@ -65,18 +61,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         //GPS
         Tools.requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, locationCallback);
         gps = new GPSTracker(getActivity(), this);
-        //Two finger rotation
-        rotationGestureDetector = new RotationGestureDetector(this);
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    float angle = rotationGestureDetector.getAngle();
-                    Log.d("RotationGestureDetector", "Rotation: " + Float.toString(angle));
-                }
-                return true;
-            }
-        });
+
 
         //Start AsyncTask with location callback
         new GetPosition().execute(this);
@@ -118,6 +103,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
             overlay = map.getOverlay();
 
             map.post(new Runnable() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void run() {
                     //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
@@ -138,7 +124,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                     if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
 
                         try {
-                            Tools.unlockAchievement(getActivity(), getResources().getString(R.string.achievement_welcome_to_zoo));
+                            ((AppCompatAchievementActivity) getActivity()).unlockAchievement(getResources().getString(R.string.achievement_welcome_to_zoo));
                         } catch (Exception e) {
                             Log.e(Const.LOGTAG, e.getMessage());
                         }
@@ -159,12 +145,6 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     public void asyncTaskCallback(Object object) {
         Location l = (Location) object;
         setMarkerPosition(l);
-    }
-
-    @Override
-    public void OnRotation(RotationGestureDetector rotationDetector) {
-        float angle = rotationDetector.getAngle();
-        Log.d("RotationGestureDetector", "Rotation: " + Float.toString(angle));
     }
 
     private class GetPosition extends AsyncTask<AsyncTaskCallback, Void, Location>{

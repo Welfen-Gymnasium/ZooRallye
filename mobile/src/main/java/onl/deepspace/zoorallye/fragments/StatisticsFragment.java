@@ -13,6 +13,7 @@ import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 
 public class StatisticsFragment extends Fragment {
 
@@ -25,12 +26,48 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
-        Button button = (Button) view.findViewById(R.id.statistics_achievements_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button allAchievements = (Button) view.findViewById(R.id.statistics_achievements_button);
+        allAchievements.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    Tools.displayAchievements(getActivity());
+                    ((AppCompatAchievementActivity) getActivity()).displayAchievements();
+                } catch (Exception e){
+                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
+                }
+            }
+        });
+
+        Button setLeaderBoard100 = (Button) view.findViewById(R.id.statistics_leaderboard_submit_100);
+        setLeaderBoard100.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    ((AppCompatAchievementActivity) getActivity()).submitLeaderBoardScore(getResources().getString(R.string.leaderboard_total_question_points_earned), 100);
+                } catch (Exception e){
+                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
+                }
+            }
+        });
+
+        Button setLeaderBoard200 = (Button) view.findViewById(R.id.statistics_leaderboard_submit_200);
+        setLeaderBoard200.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    ((AppCompatAchievementActivity) getActivity()).submitLeaderBoardScore(getResources().getString(R.string.leaderboard_total_question_points_earned), 200);
+                } catch (Exception e){
+                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
+                }
+            }
+        });
+
+        Button displayLeaderBoard = (Button) view.findViewById(R.id.statistics_leaderboard_show);
+        displayLeaderBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    ((AppCompatAchievementActivity) getActivity()).displayLeaderBoard(getResources().getString(R.string.leaderboard_total_question_points_earned));
                 } catch (Exception e){
                     Log.e(Const.LOGTAG, e.getLocalizedMessage());
                 }
