@@ -9,7 +9,7 @@
     <string name="nav_statistics">Statistiken</string>
     <string name="nav_zoos">Zoos</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="about_authors">Entwickelt von:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a></string>
+    <string name="about_authors">Entwickelt von:\n <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a>\nGrafiken von:\nKlemens Schedel</string>
     <string name="action_about">Über uns</string>
     <string name="question_submit">Abschicken</string>
     <string name="answer_false">Falsch</string>
@@ -25,4 +25,8 @@
     <string name="question_image_description">Bild eines Tieres</string>
     <string name="zoo_image_description">Bild eines Zoos</string>
     <string name="zoo_map_description">Karte eines Zoos</string>
+    <string name="back_to_quiz_description">Zurück zum Quiz</string>
+    <string name="answer_user">Deine Antwort</string>
+    <string name="answer_scores">Punktestand</string>
+    <string name="answer_correct">Richtige Antwort:</string>
 </resources>
