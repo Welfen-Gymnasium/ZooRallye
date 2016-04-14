@@ -32,7 +32,7 @@ public class StatisticsFragment extends Fragment {
                 try{
                     Tools.displayAchievements(getActivity());
                 } catch (Exception e){
-                    Log.e(Const.LOGTAG, e.getMessage());
+                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
                 }
             }
         });

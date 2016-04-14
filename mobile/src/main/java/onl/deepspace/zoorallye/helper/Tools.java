@@ -40,7 +40,6 @@ public class Tools {
             ((AppCompatAchievementActivity) activity).unlockAchievement(achievementId);
         }
         catch (Exception e){
-            Log.d(Const.LOGTAG, String.valueOf(activity.getClass()) + String.valueOf(activity));
             throw new Exceptions.ClassNotInstanceOfAchievementActivityException(e);
         }
     }
@@ -49,7 +48,6 @@ public class Tools {
         try{
             ((AppCompatAchievementActivity) activity).displayAchievements();
         } catch (Exception e){
-            Log.d(Const.LOGTAG, String.valueOf(activity.getClass()) + String.valueOf(activity));
             throw new Exceptions.ClassNotInstanceOfAchievementActivityException(e);
         }
     }

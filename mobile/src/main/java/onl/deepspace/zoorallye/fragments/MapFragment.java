@@ -112,43 +112,47 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     private void setMarkerPosition(final Location location){
         //WhereAmI overlay AFTER Inflation
-        final ViewOverlay overlay = map.getOverlay();
-        map.post(new Runnable() {
-            @Override
-            public void run() {
-                //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
 
-                double xRange = (Const.maxLongitude -  Const.minLongitude);
-                double yRange = (Const.maxLatitude - Const.minLatitude);
-                double xStep = map.getWidth() / xRange;
-                double yStep =  map.getHeight() / yRange;
+        final ViewOverlay overlay;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            overlay = map.getOverlay();
 
-                double userXRange = (longitude - Const.minLongitude);
-                double userYRange = (Const.maxLatitude - latitude);
+            map.post(new Runnable() {
+                @Override
+                public void run() {
+                    //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
 
-                int xMarker = (int) (userXRange * xStep);
-                int yMarker = (int) (userYRange * yStep);
+                    double xRange = (Const.maxLongitude - Const.minLongitude);
+                    double yRange = (Const.maxLatitude - Const.minLatitude);
+                    double xStep = map.getWidth() / xRange;
+                    double yStep = map.getHeight() / yRange;
 
-                if(xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
+                    double userXRange = (longitude - Const.minLongitude);
+                    double userYRange = (Const.maxLatitude - latitude);
 
-                    try{
-                        Tools.unlockAchievement(getActivity(), getResources().getString(R.string.achievement_welcome_to_zoo));
-                    } catch (Exception e){
-                        Log.e(Const.LOGTAG, e.getMessage());
+                    int xMarker = (int) (userXRange * xStep);
+                    int yMarker = (int) (userYRange * yStep);
+
+                    if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
+
+                        try {
+                            Tools.unlockAchievement(getActivity(), getResources().getString(R.string.achievement_welcome_to_zoo));
+                        } catch (Exception e) {
+                            Log.e(Const.LOGTAG, e.getMessage());
+                        }
+
+                        marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movements
+                        overlay.add(marker);
+                    } else if (!inZooInformation) {
+                        Log.d(Const.LOGTAG, longitude + " " + latitude);
+                        Snackbar.make(view, view.getResources().getString(R.string.outside_zoo), Snackbar.LENGTH_LONG).show();
+                        inZooInformation = true;
                     }
-
-                    marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movements
-                    overlay.add(marker);
                 }
-                else if(!inZooInformation){
-                    Log.d(Const.LOGTAG, longitude + " " + latitude);
-                    Snackbar.make(view, view.getResources().getString(R.string.outside_zoo), Snackbar.LENGTH_LONG).show();
-                    inZooInformation = true;
-                }
-            }
-        });
+            });
+        }
     }
 
     @Override
