@@ -30,13 +30,14 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
     private static final int ACHIEVEMENTS_CALLBACK = 1004;
 
     private static boolean signedIn = false; //once tried by script itself
+    private static Runnable afterLogin = null;
 
     private static GoogleApiClient googleApiClient;
     private static GoogleApiClient signInClient = null;
 
     private static final String LOGTAG = "GooglePlayConnection";
 
-    public void unlockAchievement(String achievementId) throws Exceptions.GooglePlayUnconnectedException{
+    public void unlockAchievement(final String achievementId) throws Exceptions.GooglePlayUnconnectedException{
         if(googleApiClient.isConnected()){
             Log.i(LOGTAG, "Unlocking Achievement: " + achievementId);
             Games.Achievements.unlock(googleApiClient, achievementId);
@@ -44,7 +45,16 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         else if(!signedIn){
             signIn();
             signedIn = true;
-            unlockAchievement(achievementId);
+            afterLogin = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        unlockAchievement(achievementId);
+                    } catch (Exceptions.GooglePlayUnconnectedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
         }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
@@ -59,8 +69,17 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         }
         else if(!signedIn){
             signIn();
-            signedIn = false;
-            displayAchievements();
+            signedIn = true;
+            afterLogin = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        displayAchievements();
+                    } catch (Exceptions.GooglePlayUnconnectedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
         }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
@@ -69,15 +88,24 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         }
     }
 
-    public void submitLeaderBoardScore(String leaderBoardId, int score) throws Exceptions.GooglePlayUnconnectedException{
+    public void submitLeaderBoardScore(final String leaderBoardId, final int score) throws Exceptions.GooglePlayUnconnectedException{
         if(googleApiClient.isConnected()){
             Log.i(LOGTAG, "Submitting leaderboardscore: " + leaderBoardId + " -> " + String.valueOf(score));
             Games.Leaderboards.submitScore(googleApiClient, leaderBoardId, score);
         }
-        else if(!signedIn){
+        else if(!signedIn) {
             signIn();
             signedIn = true;
-            submitLeaderBoardScore(leaderBoardId, score);
+            afterLogin = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        submitLeaderBoardScore(leaderBoardId, score);
+                    } catch (Exceptions.GooglePlayUnconnectedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
         }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
@@ -86,14 +114,23 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
         }
     }
 
-    public void displayLeaderBoard(String leaderBoardId) throws Exceptions.GooglePlayUnconnectedException{
+    public void displayLeaderBoard(final String leaderBoardId) throws Exceptions.GooglePlayUnconnectedException{
         if(googleApiClient.isConnected()){
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient, leaderBoardId), LEADER_BOARD_CALLBACK);
         }
         else if(!signedIn){
             signIn();
             signedIn = true;
-            displayLeaderBoard(leaderBoardId);
+            afterLogin = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        displayLeaderBoard(leaderBoardId);
+                    } catch (Exceptions.GooglePlayUnconnectedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
         }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
@@ -174,6 +211,10 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements G
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(LOGTAG, "Connected to G-Play!");
+        if(afterLogin != null){
+            afterLogin.run();
+            afterLogin = null;
+        }
     }
 
     @Override
