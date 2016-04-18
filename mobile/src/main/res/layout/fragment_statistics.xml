@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
     tools:context="onl.deepspace.zoorallye.fragments.StatisticsFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/question_card"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardElevation="@dimen/question_image_elevation">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/question_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/question_image_elevation">
 
-            <Button
-                android:id="@+id/statistics_achievements_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="All Achievements" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
 
-            <Button
-                android:id="@+id/statistics_leaderboard_submit_100"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Submit Leaderboardscore 100" />
-            <Button
-                android:id="@+id/statistics_leaderboard_submit_200"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Submit Leaderboardscore 200" />
+                <ImageButton
+                    android:id="@+id/statistics_play_games_button"
+                    android:layout_width="@dimen/icon_size_large"
+                    android:layout_height="@dimen/icon_size_large"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/games_controller"
+                    android:contentDescription="@string/show_achievements_description"/>
 
-            <Button
-                android:id="@+id/statistics_leaderboard_show"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Display Leaderboard" />
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/statistics_achievements_button"
+                    android:layout_width="@dimen/icon_size_large"
+                    android:layout_height="@dimen/icon_size_large"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/games_achievements_green"
+                    android:contentDescription="@string/show_achievements_description"/>
 
-    </android.support.v7.widget.CardView>
+                <ImageButton
+                    android:id="@+id/statistics_leaderboard_show"
+                    android:layout_width="@dimen/icon_size_large"
+                    android:layout_height="@dimen/icon_size_large"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/games_leaderboards_green"
+                    android:contentDescription="@string/show_leaderboards_description"/>
+            </LinearLayout>
 
-</LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/statistics_leaderboard_submit_100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Submit Leaderboardscore 100" />
+        <Button
+            android:id="@+id/statistics_leaderboard_submit_200"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Submit Leaderboardscore 200" />
+    </LinearLayout>
+</ScrollView>

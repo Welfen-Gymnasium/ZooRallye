@@ -17,12 +17,12 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
-import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.Variables;
 
-public class AppCompatAchievementActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class AppCompatAchievementActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private static final int API_REQUEST = 1001;
     private static final int RESOLUTION_CALLBACK = 1002;

@@ -40,5 +40,10 @@
     <string name="answer_scores">Scores:</string>
     <string name="answer_correct">Correct answer:</string>
     <string name="answer_user">Your Answer:</string>
+    <string name="show_achievements_description">Show achievements</string>
+    <string name="show_leaderboards_description">Show Leaderboards</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
