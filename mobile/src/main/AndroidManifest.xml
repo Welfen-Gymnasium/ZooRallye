@@ -44,6 +44,10 @@
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
 
+        <service
+            android:name=".helper.services.DataFetcher"
+            android:exported="false" />
+
     </application>
 
 </manifest>
