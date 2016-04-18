@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOverlay;
@@ -97,6 +96,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     private void setMarkerPosition(final Location location){
         //WhereAmI overlay AFTER Inflation
+        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(location, 20)));
 
         final ViewOverlay overlay;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {

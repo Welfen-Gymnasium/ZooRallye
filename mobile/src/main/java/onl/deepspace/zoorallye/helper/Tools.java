@@ -3,6 +3,7 @@ package onl.deepspace.zoorallye.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +15,12 @@ import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Sese on 03.04.2016.
@@ -25,6 +28,9 @@ import java.io.IOException;
 public class Tools {
 
     private static final String ZOO_DB = "zooDb";
+    private static final String NAME = "name";
+    private static final String BEACONS = "beacons";
+
 
     public static JSONArray getZoos(Context context) {
         try {
@@ -55,6 +61,43 @@ public class Tools {
         } catch (IOException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
+    }
+
+    public static ArrayList<JSONObject> getEnclosures(Context context, Location location, int range){
+        ArrayList<JSONObject> returnList = new ArrayList<>();
+
+        try{
+            JSONArray zooArray = getZoos(context);
+            if (zooArray != null) {
+                for (int i = 0; i < zooArray.length(); i++) {
+                    if(zooArray.getJSONObject(i).get(NAME).equals("Zoo Augsburg")){
+                        JSONArray beacons = zooArray.getJSONObject(i).getJSONArray(BEACONS);
+
+                        for (int j = 0; j < beacons.length(); j++) {
+                            double latitude = (double) beacons.getJSONObject(j).get("latitude");
+                            double longitude = (double) beacons.getJSONObject(j).get("longitude");
+
+                            Location area = new Location("provider");
+                            area.setLongitude(longitude);
+                            area.setLatitude(latitude);
+
+                            try{
+                                if(inArea(location, area, (double) range)){
+                                    returnList.add(beacons.getJSONObject(j));
+                                }
+                            } catch (Exception e){
+                                Log.e(Const.LOGTAG, e.getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (JSONException e){
+            Log.e(Const.LOGTAG, "Invalid zoo JSON!\n" + e.getMessage());
+        }
+
+        return returnList;
     }
 
     public static void requestPermission(Activity activity, String permission, int callback){
@@ -98,5 +141,31 @@ public class Tools {
         public void runWhenIdle(Runnable runnable){
             this.runnable = runnable;
         }
+    }
+
+    private static boolean inArea(Location currentPosition, Location area, double range){
+
+        double beaconRange = range; //m to each side from middle of beacon
+        double r_earth = 6378000; //m
+
+        double currentLongitude = currentPosition.getLongitude();
+        double currentLatitdude = currentPosition.getLatitude();
+
+        double areaCenterLongitude = area.getLongitude();
+        double areaCenterLatitude = area.getLatitude();
+
+        double northSouthRange = (beaconRange / r_earth) * (180 / Math.PI);
+        double areaTop = areaCenterLatitude - northSouthRange;
+        double areaBottom = areaCenterLatitude + northSouthRange;
+
+        double areaEastWestRange = (beaconRange / r_earth) * (180 / Math.PI)
+                / Math.cos(currentLatitdude * Math.PI/180);
+        double areaLeft = areaCenterLongitude - areaEastWestRange;
+        double areaRight = areaCenterLongitude + areaEastWestRange;
+
+        boolean inEastWest = areaLeft <= currentLongitude && areaRight >= currentLongitude;
+        boolean inNorthSouth = areaTop <= currentLatitdude && areaBottom >= currentLatitdude;
+
+        return (inEastWest && inNorthSouth);
     }
 }
