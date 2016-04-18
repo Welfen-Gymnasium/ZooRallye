@@ -96,7 +96,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     private void setMarkerPosition(final Location location){
         //WhereAmI overlay AFTER Inflation
-        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(location, 20)));
+        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(getContext(), location, 20)));
 
         final ViewOverlay overlay;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
