@@ -29,6 +29,8 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
     private static final int LEADER_BOARD_CALLBACK = 1003;
     private static final int ACHIEVEMENTS_CALLBACK = 1004;
 
+    private static boolean signedIn = false; //once tried by script itself
+
     private static GoogleApiClient googleApiClient;
     private static GoogleApiClient signInClient = null;
 
@@ -39,8 +41,14 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
             Log.i(LOGTAG, "Unlocking Achievement: " + achievementId);
             Games.Achievements.unlock(googleApiClient, achievementId);
         }
+        else if(!signedIn){
+            signIn();
+            signedIn = true;
+            unlockAchievement(achievementId);
+        }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
+            signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
@@ -49,8 +57,14 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         if(googleApiClient.isConnected()){
             startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), ACHIEVEMENTS_CALLBACK);
         }
+        else if(!signedIn){
+            signIn();
+            signedIn = false;
+            displayAchievements();
+        }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
+            signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
@@ -60,8 +74,14 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
             Log.i(LOGTAG, "Submitting leaderboardscore: " + leaderBoardId + " -> " + String.valueOf(score));
             Games.Leaderboards.submitScore(googleApiClient, leaderBoardId, score);
         }
+        else if(!signedIn){
+            signIn();
+            signedIn = true;
+            submitLeaderBoardScore(leaderBoardId, score);
+        }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
+            signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
@@ -70,11 +90,19 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         if(googleApiClient.isConnected()){
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient, leaderBoardId), LEADER_BOARD_CALLBACK);
         }
+        else if(!signedIn){
+            signIn();
+            signedIn = true;
+            displayLeaderBoard(leaderBoardId);
+        }
         else{
             Log.e(LOGTAG, "Google Play Services unconnected!");
+            signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
+
+    public void signIn(){   googleApiClient.connect();  }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +144,6 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
             Log.w(LOGTAG, "Google Play Services Error!");
             GoogleApiAvailability.getInstance().getErrorDialog(this, playServiceStatus, API_REQUEST).show();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        googleApiClient.connect();
     }
 
     @Override
