@@ -8,9 +8,10 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 
 /**
  * Created by Sese on 18.04.2016.
@@ -86,9 +90,37 @@ public class DataFetcher extends IntentService {
             receiver.send(STATUS_RUNNING, Bundle.EMPTY);
 
             try {
-                String result= downloadData(url);
+                String result = downloadData(url);
 
                 /* Sending result back to activity */
+                if (url.equals(Const.ZOOS_API)) {
+                    JSONArray zoos = Tools.getZoos(this);
+                    JSONArray fetchedZoos = new JSONArray(result);
+                    if (zoos != null) {
+                        for (int i = 0; i < fetchedZoos.length(); i++) {
+                            boolean wasCached = false;
+                            JSONObject fetchedZoo = fetchedZoos.getJSONObject(i);
+                            String fetchedId = fetchedZoo.getString(Const.ZOO_ID);
+
+                            for (int j = 0; j < zoos.length(); j++) {
+                                JSONObject zoo = zoos.getJSONObject(j);
+                                String id = zoo.getString(Const.ZOO_ID);
+
+                                if (id.equals(fetchedId)) {
+                                    zoos.put(j, fetchedZoo);
+                                    wasCached = true;
+                                    break;
+                                }
+                            }
+                            if (!wasCached) {
+                                zoos.put(fetchedZoo);
+                            }
+                        }
+                    }
+                    Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
+                } else if (url.equals(Const.QuestionsAPI)) {
+                    // TODO: 18.04.2016 Put questions in SQLite DB
+                }
 
                 bundle.putString(RESULT, result);
                 receiver.send(STATUS_FINISHED, bundle);

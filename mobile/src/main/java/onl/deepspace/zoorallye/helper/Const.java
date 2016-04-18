@@ -10,7 +10,10 @@ public final class Const {
 
     public static final String NAV_FRAGMENT = "selectedFragment";
 
-    final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions.php";
+    public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos";
+    public static final String ZOO_ID = "id";
+
+    final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions";
     final public static String QuestionsAPI_token = "token";
     public static final String QuestionsAPI_SLIDER = "slider";
     public static final String QuestionsAPI_RADIO = "radio";
