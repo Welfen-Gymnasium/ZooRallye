@@ -80,13 +80,16 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
             case locationCallback:
-                if(PackageManager.PERMISSION_DENIED == ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    Toast.makeText(getActivity(), "GPS Permission denied!", Toast.LENGTH_SHORT).show(); // TODO: 11.04.2016 String ressource
+                if(PackageManager.PERMISSION_DENIED == ContextCompat.checkSelfPermission(
+                        getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Toast.makeText(getActivity(), "GPS Permission denied!",
+                            Toast.LENGTH_SHORT).show(); // TODO: 11.04.2016 String resource
                 }
                 else{ Log.d(Const.LOGTAG, "GPS Permission granted");
                 }
@@ -96,7 +99,8 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     private void setMarkerPosition(final Location location){
         //WhereAmI overlay AFTER Inflation
-        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(getContext(), location, 20)));
+        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(
+                getContext(), "4P1shyVmM4", location, 20)));
 
         final ViewOverlay overlay;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -121,19 +125,23 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                     int xMarker = (int) (userXRange * xStep);
                     int yMarker = (int) (userYRange * yStep);
 
-                    if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 && yMarker <= view.getHeight()) {
+                    if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 &&
+                            yMarker <= view.getHeight()) {
 
                         try {
-                            ((AppCompatAchievementActivity) getActivity()).unlockAchievement(getResources().getString(R.string.achievement_welcome_to_zoo));
+                            ((AppCompatAchievementActivity) getActivity())
+                                    .unlockAchievement(getResources().getString(R.string.achievement_welcome_to_zoo));
                         } catch (Exception e) {
                             Log.e(Const.LOGTAG, e.getMessage());
                         }
 
-                        marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker + 110 - 110); //Better understanding, 100*110 icon with movements
+                        marker.setBounds(xMarker - 50, yMarker - 110, xMarker + 100 - 50, yMarker +
+                                110 - 110); //Better understanding, 100*110 icon with movements
                         overlay.add(marker);
                     } else if (!inZooInformation) {
                         Log.d(Const.LOGTAG, longitude + " " + latitude);
-                        Snackbar.make(view, view.getResources().getString(R.string.outside_zoo), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(view, view.getResources().getString(R.string.outside_zoo),
+                                Snackbar.LENGTH_LONG).show();
                         inZooInformation = true;
                     }
                 }
@@ -157,7 +165,8 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
             Location l = null;
 
             if(gps.canGetLocation()){
-                //Toast.makeText(getContext(), gps.getLongitude() + " " + gps.getLatitude(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), gps.getLongitude() + " " + gps.getLatitude(),
+                // Toast.LENGTH_LONG).show();
                 l = new Location("prov");
                 l.setLongitude( gps.getLongitude() );
                 l.setLatitude( gps.getLatitude() );

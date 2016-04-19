@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
+import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatAchievementActivity
         switch (id) {
             case R.id.nav_map: return new MapFragment();
             case R.id.nav_statistics: return new StatisticsFragment();
+            case R.id.nav_offline: return OfflineContentFragment.newInstance();
             default: return null;
         }
     }

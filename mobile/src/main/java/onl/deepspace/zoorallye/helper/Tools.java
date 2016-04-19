@@ -63,19 +63,20 @@ public class Tools {
         }
     }
 
-    public static ArrayList<JSONObject> getEnclosures(Context context, Location location, int range){
+    public static ArrayList<JSONObject> getEnclosures(Context context, String zooId,
+                                                      Location location, int range){
         ArrayList<JSONObject> returnList = new ArrayList<>();
 
         try{
             JSONArray zooArray = getZoos(context);
             if (zooArray != null) {
                 for (int i = 0; i < zooArray.length(); i++) {
-                    if(zooArray.getJSONObject(i).get(NAME).equals("Zoo Augsburg")){
+                    if(zooArray.getJSONObject(i).get(Const.ZOO_ID).equals(zooId)){
                         JSONArray beacons = zooArray.getJSONObject(i).getJSONArray(BEACONS);
 
                         for (int j = 0; j < beacons.length(); j++) {
-                            double latitude = (double) beacons.getJSONObject(j).get("latitude");
-                            double longitude = (double) beacons.getJSONObject(j).get("longitude");
+                            double latitude = (double) beacons.getJSONObject(j).get(Const.ZOO_LAT);
+                            double longitude = (double) beacons.getJSONObject(j).get(Const.ZOO_LNG);
 
                             Location area = new Location("provider");
                             area.setLongitude(longitude);

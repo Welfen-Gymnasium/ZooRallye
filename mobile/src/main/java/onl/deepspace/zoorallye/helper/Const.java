@@ -12,6 +12,8 @@ public final class Const {
 
     public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos";
     public static final String ZOO_ID = "id";
+    public static final String ZOO_LAT = "latitude";
+    public static final String ZOO_LNG = "longitude";
 
     final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions";
     final public static String QuestionsAPI_token = "token";

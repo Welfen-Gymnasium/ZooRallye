@@ -22,6 +22,7 @@ import java.net.URL;
 
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.questions.sqlite.UpgradeQuestionsDb;
 
 /**
  * Created by Sese on 18.04.2016.
@@ -93,7 +94,7 @@ public class DataFetcher extends IntentService {
                 String result = downloadData(url);
 
                 /* Sending result back to activity */
-                if (url.equals(Const.ZOOS_API)) {
+                if (url.contains(Const.ZOOS_API)) {
                     JSONArray zoos = Tools.getZoos(this);
                     JSONArray fetchedZoos = new JSONArray(result);
                     if (zoos != null) {
@@ -118,8 +119,8 @@ public class DataFetcher extends IntentService {
                         }
                     }
                     Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
-                } else if (url.equals(Const.QuestionsAPI)) {
-                    // TODO: 18.04.2016 Put questions in SQLite DB
+                } else if (url.contains(Const.QuestionsAPI)) {
+                    UpgradeQuestionsDb.putData(this, new JSONObject(result));
                 }
 
                 bundle.putString(RESULT, result);
