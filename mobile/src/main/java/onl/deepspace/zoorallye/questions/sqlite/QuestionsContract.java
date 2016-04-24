@@ -16,7 +16,7 @@ public final class QuestionsContract {
     public QuestionsContract() {}
 
     public static abstract class Answers implements BaseColumns {
-        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXITS " + Answers.TABLE_NAME + " (" +
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + Answers.TABLE_NAME + " (" +
                 Answers.COL_NAME_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT," +
                 Answers.COL_NAME_VISIT_ID + TYPE_TEXT + SEPARATOR +
                 Answers.COL_NAME_TYPE + TYPE_TEXT + SEPARATOR +
@@ -28,7 +28,7 @@ public final class QuestionsContract {
 
         public static final String TABLE_NAME = "question_answers";
         public static final String COL_NAME_ID = "id";
-        public static final String COL_NAME_VISIT_ID = "visit id";
+        public static final String COL_NAME_VISIT_ID = "visit_id";
         public static final String COL_NAME_TYPE = "question_type";
         public static final String COL_NAME_QUESTION_ID = "question_id";
         public static final String COL_NAME_ANSWER = "question_answer";

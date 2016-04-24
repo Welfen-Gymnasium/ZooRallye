@@ -88,7 +88,7 @@ public class DataFetcher extends IntentService {
 
         if (!TextUtils.isEmpty(url)) {
             /* Update UI: Download Service is Running */
-            receiver.send(STATUS_RUNNING, Bundle.EMPTY);
+            // receiver.send(STATUS_RUNNING, Bundle.EMPTY);
 
             try {
                 String result = downloadData(url);
@@ -124,13 +124,13 @@ public class DataFetcher extends IntentService {
                 }
 
                 bundle.putString(RESULT, result);
-                receiver.send(STATUS_FINISHED, bundle);
+                // receiver.send(STATUS_FINISHED, bundle);
 
             } catch (Exception e) {
 
                 /* Sending error message back to activity */
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
-                receiver.send(STATUS_ERROR, bundle);
+                // receiver.send(STATUS_ERROR, bundle);
             }
         }
         Log.d(LOGTAG, "Service Stopping!");
@@ -150,6 +150,9 @@ public class DataFetcher extends IntentService {
 
         /* optional request header */
         urlConnection.setRequestProperty("Accept", "application/json");
+
+        urlConnection.setRequestProperty("token",
+                "x9j7qtRUOrGGg5fxHakK1sp6T4h9JbJjL44iulAKA8HPbbmBWd2QUEQpFD35i");
 
         /* for Get request */
         urlConnection.setRequestMethod("GET");

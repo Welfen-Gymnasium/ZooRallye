@@ -1,12 +1,12 @@
 package onl.deepspace.zoorallye.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.services.DataFetcher;
 
 /**
  * A fragment representing a list of Items.
@@ -66,8 +67,14 @@ public class OfflineContentFragment extends Fragment implements
 
     @Override
     public void onItemClick(OfflineItem item) {
-        Log.d(Const.LOGTAG, item.toString());
-        // TODO: 19.04.2016 Fetch data from Server
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, getContext(), DataFetcher.class);
+
+        // Send optional extras to Download IntentService
+        String url = item.id.equals("questions") ? Const.QuestionsAPI : Const.ZOOS_API + item.id;
+        intent.putExtra("url", url);
+        intent.putExtra("requestId", item.id.hashCode());
+
+        getContext().startService(intent);
     }
 
     @Override
