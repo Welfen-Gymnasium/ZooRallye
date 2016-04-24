@@ -3,7 +3,6 @@ package onl.deepspace.zoorallye.questions.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.CalendarContract;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import onl.deepspace.zoorallye.helper.Const;
 
@@ -54,7 +52,7 @@ public class UpgradeQuestionsDb {
 
     @SuppressWarnings("unused")
     /**
-     * Delets
+     * Delete
      */
     public static void putData(Context context, JSONObject data) {
         QuestionsDbHelper dbHelper = new QuestionsDbHelper(context);
