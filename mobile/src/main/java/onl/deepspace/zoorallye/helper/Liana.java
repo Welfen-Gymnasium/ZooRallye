@@ -39,7 +39,9 @@ public final class Liana {
                         ArrayList<Drawable> leftLianas = new ArrayList<>();
                         Drawable transverseLiane = ResourcesCompat
                                 .getDrawable(view.getResources(), R.drawable.liana_transverse, null);
-                        if (transverseLiane != null) transverseLiane.setBounds(0, 0, 400, 400);
+
+                        int transverseSize = view.getWidth() < view.getHeight() ? (int) (view.getWidth() / 2.8) : (int) (view.getHeight() / 2.3);
+                        if (transverseLiane != null) transverseLiane.setBounds(0, 0, transverseSize, transverseSize);
                         overlay.add(transverseLiane);
 
                         int topTimes = view.getWidth() / 750;

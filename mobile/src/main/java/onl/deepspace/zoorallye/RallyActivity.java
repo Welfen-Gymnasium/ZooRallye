@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,18 +12,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
-import onl.deepspace.zoorallye.fragments.GroupFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.fragments.StartRallyFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
+import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatAchievementActivity implements
-        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener {
+        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
+        BeaconListener {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     Tools.ActionBarToggler toggle;
@@ -67,7 +70,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         viewPager.setAdapter(adapter);
 
         //Lianas
-        Liana.addLiana((findViewById(R.id.rally_lianas)));
+        Liana.addLiana((findViewById(R.id.rally_content)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
@@ -92,12 +95,6 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     }
 
     @Override
-    public void onMessageReceived(String messageString) {
-        super.onMessageReceived(messageString);
-
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -119,6 +116,11 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         return true;
     }
 
+    @Override
+    public void onBeaconClick(Location location) {
+        Log.d(Const.LOGTAG, "Beacon click " + location.getLongitude() + " " + location.getLatitude());
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fragmentManager) {
@@ -130,9 +132,9 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             switch (position) {
                 case 0:
                     return mRallyActive ? new MapFragment() :
-                            StartRallyFragment.newInstance();
+                            new StartRallyFragment();
                 case 1:
-                    return mRallyActive ? new GroupFragment() : new MapFragment();
+                    return mRallyActive ? new MapFragment() : new MapFragment();
                 case 2:
                     return new MapFragment();
             }
