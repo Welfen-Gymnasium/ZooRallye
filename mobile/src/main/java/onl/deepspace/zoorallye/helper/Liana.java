@@ -66,12 +66,17 @@ public final class Liana {
                             topLianas.get(i).setBounds(topWidth * i, 0, topWidth * (i + 1), 110);
                             overlay.add(topLianas.get(i));
                         }
+
                     } catch (ArithmeticException e){
                         //could not get screen size, divide by zero!
                         Log.e(Const.LOGTAG, e.getMessage());
+                        overlay.clear();
                     }
                 }
             });
+
+            //redraw view
+            view.invalidate();
         }
     }
 }
