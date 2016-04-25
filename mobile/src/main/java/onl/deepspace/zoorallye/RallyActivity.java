@@ -35,6 +35,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rally);
+        //GoogleAnalytics
+        AnalyticsTrackers.initialize(this);
 
         //Lianas
         Liana.addLiana((findViewById(R.id.rally_content)));
