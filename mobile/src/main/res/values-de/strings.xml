@@ -29,4 +29,8 @@
     <string name="answer_user">Deine Antwort</string>
     <string name="answer_scores">Punktestand</string>
     <string name="answer_correct">Richtige Antwort:</string>
+    <string name="gps_permission_denied">GPS Erlaubniss verweigert!</string>
+    <string name="loading">Lade</string>
+    <string name="show_achievements_description">Errungenschaften anzeigen</string>
+    <string name="show_leaderboards_description">Rangliste anzeigen</string>
 </resources>

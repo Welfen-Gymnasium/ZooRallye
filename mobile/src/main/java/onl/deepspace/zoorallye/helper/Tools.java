@@ -156,10 +156,6 @@ public class Tools {
     public static void requestPermission(Activity activity, String permission, int callback){
 
         if(ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
-             if(ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)){
-                 // TODO: 11.04.2016 Add dialog to explain the user why this permission is needed
-             }
-
             ActivityCompat.requestPermissions(activity, new String[]{permission}, callback);
         }
     }

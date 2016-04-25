@@ -44,8 +44,9 @@
     <string name="show_leaderboards_description">Show Leaderboards</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hide_beacon_overlay_description">Hide Beacon Overlay</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="hide_beacon_overlay_description" translatable="false">Hide Beacon Overlay</string>
     <string name="loading">Loading</string>
+    <string name="gps_permission_denied">GPS Permission denied!</string>
 
 </resources>
