@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOverlay;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -112,41 +114,48 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(
                 getContext(), "4P1shyVmM4", location, 20)));
 
-        final ViewOverlay overlay;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            overlay = map.getOverlay();
+        //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
+        Rect pos = calculateMarkerPosition(location, 100, 110, map.getWidth(), map.getHeight());
 
-            map.post(new Runnable() {
-                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        int xMarker = pos.centerX();
+        int yMarker = pos.bottom;
+
+        if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 &&
+                yMarker <= view.getHeight()) {
+
+            try {
+                ((AppCompatAchievementActivity) getActivity())
+                        .unlockAchievement(getResources().getString(R.string.achievement_welcome_to_zoo));
+            } catch (Exception e) {
+                Log.e(Const.LOGTAG, e.getMessage());
+            }
+
+            final ImageView posMarker = new ImageView(getContext());
+            FrameLayout.LayoutParams vp = new FrameLayout.LayoutParams(
+                    map.getWidth() / 10, map.getWidth() / 10);
+            vp.setMargins(pos.left, pos.top, 0, 0);
+            posMarker.setLayoutParams(vp);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                posMarker.setElevation(2f);
+                posMarker.setTranslationZ(2f);
+            }
+            posMarker.setImageResource(R.drawable.ic_map_marker);
+
+            // Only the original thread that created a view hierarchy can touch its views.
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
-                    Rect pos = calculateMarkerPosition(location, 100, 110, map.getWidth(), map.getHeight());
-
-                    int xMarker = pos.centerX();
-                    int yMarker = pos.bottom;
-
-                    if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 &&
-                            yMarker <= view.getHeight()) {
-
-                        try {
-                            ((AppCompatAchievementActivity) getActivity())
-                                    .unlockAchievement(getResources().getString(R.string.achievement_welcome_to_zoo));
-                        } catch (Exception e) {
-                            Log.e(Const.LOGTAG, e.getMessage());
-                        }
-
-                        marker.setBounds(pos);
-                        overlay.add(marker);
-                    } else if (!inZooInformation) {
-                        Snackbar.make(view, view.getResources().getString(R.string.outside_zoo),
-                                Snackbar.LENGTH_LONG).show();
-                        inZooInformation = true;
-                    }
+                    ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(posMarker);
                 }
             });
+
+        } else if (!inZooInformation) {
+            Snackbar.make(view, view.getResources().getString(R.string.outside_zoo),
+                    Snackbar.LENGTH_LONG).show();
+            inZooInformation = true;
         }
     }
+
 
     private Rect calculateMarkerPosition(Location location, int width, int height, int refWidth, int refHeight) {
         Rect rect = new Rect();
@@ -176,8 +185,8 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         return px;
     }
 
-    private void drawEnclosures(){
-        int markerSizeX = (int) (dpToPx(35) * 0.600);
+    private void drawEnclosures() {
+        /*int markerSizeX = (int) (dpToPx(35) * 0.600);
         int markerSizeY = (int) (dpToPx(35) * 0.857);
 
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.zoo_map_rotated);
@@ -188,7 +197,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
         Canvas canvas = new Canvas(bmOverlay);
         canvas.drawARGB(0x00, 0, 0, 0);
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmap, 0, 0, null);*/
 
 
         try {
@@ -203,16 +212,29 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                         loc.setLongitude(enc.getDouble("longitude"));
 
                         int refX = map.getWidth();//getActivity().findViewById(R.id.rally_content).getWidth()
-                                //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).leftMargin
-                                //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).rightMargin;
+                        //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).leftMargin
+                        //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).rightMargin;
                         int refY = map.getHeight();
 
-                        Rect rect = calculateMarkerPosition(loc, markerSizeX, markerSizeY, refX, refY);
+                        Rect rect = calculateMarkerPosition(loc, 24, 24, refX, refY);
                         int x = rect.left;
                         int y = rect.top;
 
-                        Bitmap icon = enc.getString("type").equals("animal house") ? house : enclosure;
-                        canvas.drawBitmap(icon, x, y, null);
+                        ImageView encMarker = new ImageView(getContext());
+                        FrameLayout.LayoutParams vp = new FrameLayout.LayoutParams(
+                                refX / 20, refX / 20);
+                        vp.setMargins(x, y, 0, 0);
+                        encMarker.setLayoutParams(vp);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            encMarker.setElevation(2f);
+                            encMarker.setTranslationZ(2f);
+                        }
+                        int icon = enc.getString("type").equals("animal house") ? R.drawable.ic_animal_house : R.drawable.ic_enclosure;
+                        encMarker.setImageResource(icon);
+
+                        ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(encMarker);
+                        //Bitmap icon = enc.getString("type").equals("animal house") ? house : enclosure;
+                        //canvas.drawBitmap(icon, x, y, null);
                     }
                 }
 
@@ -221,16 +243,16 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
             Log.e(Const.LOGTAG, e.getMessage());
         }
 
-        BitmapDrawable dr = new BitmapDrawable(bmOverlay);
+        /*BitmapDrawable dr = new BitmapDrawable(bmOverlay);
         dr.setBounds(0, 0, view.getWidth(), view.getHeight());
 
-        map.setImageDrawable(dr);
+        map.setImageDrawable(dr);*/
     }
 
     @Override
     public void asyncTaskCallback(Object object) {
         Location l = (Location) object;
-        //drawEnclosures(); // TODO: 25.04.2016 fix positions 
+        drawEnclosures(); // TODO: 25.04.2016 fix positions
         setMarkerPosition(l);
     }
 
