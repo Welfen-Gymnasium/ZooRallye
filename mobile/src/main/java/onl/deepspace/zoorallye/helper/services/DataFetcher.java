@@ -22,7 +22,6 @@ import java.net.URL;
 
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
-import onl.deepspace.zoorallye.questions.sqlite.UpgradeQuestionsDb;
 
 /**
  * Created by Sese on 18.04.2016.
@@ -120,7 +119,7 @@ public class DataFetcher extends IntentService {
                     }
                     Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
                 } else if (url.contains(Const.QuestionsAPI)) {
-                    UpgradeQuestionsDb.putData(this, new JSONObject(result));
+                    Tools.setQuestions(this, new JSONObject(result));
                 }
 
                 bundle.putString(RESULT, result);

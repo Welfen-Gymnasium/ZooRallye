@@ -67,8 +67,10 @@ public final class Const {
 
     public static final int SCORE_TRUE_FALSE = 100;
     public static final int SCORE_RADIO = 150;
-    public static final int SCORE_TEXT = 200;
+    public static final int SCORE_TEXT = 200; // average credits
     public static final int SCORE_CHECKBOX = 250;
     public static final int SCORE_SORT = 300;
     public static final int SCORE_SLIDER = 300;
+    public static final int SCORE_AVERAGE = (SCORE_TRUE_FALSE + SCORE_RADIO + SCORE_TEXT +
+            SCORE_CHECKBOX + SCORE_SORT) / 5; // Score text
 }
