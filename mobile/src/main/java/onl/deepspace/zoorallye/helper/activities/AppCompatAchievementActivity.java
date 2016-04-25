@@ -22,7 +22,7 @@ import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.Variables;
 
 public class AppCompatAchievementActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private static final int API_REQUEST = 1001;
     private static final int RESOLUTION_CALLBACK = 1002;
@@ -30,6 +30,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
     private static final int ACHIEVEMENTS_CALLBACK = 1004;
 
     private static boolean signedIn = false; //once tried by script itself
+    private static boolean signInTried = false;
     private static Runnable afterLogin = null;
 
     private static GoogleApiClient googleApiClient;
@@ -37,12 +38,11 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
 
     private static final String LOGTAG = "GooglePlayConnection";
 
-    public void unlockAchievement(final String achievementId) throws Exceptions.GooglePlayUnconnectedException{
-        if(googleApiClient.isConnected()){
+    public void unlockAchievement(final String achievementId) throws Exceptions.GooglePlayUnconnectedException {
+        if (googleApiClient.isConnected()) {
             Log.i(LOGTAG, "Unlocking Achievement: " + achievementId);
             Games.Achievements.unlock(googleApiClient, achievementId);
-        }
-        else if(!signedIn){
+        } else if (!signedIn) {
             signIn();
             signedIn = true;
             afterLogin = new Runnable() {
@@ -55,19 +55,17 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
                     }
                 }
             };
-        }
-        else{
+        } else {
             Log.e(LOGTAG, "Google Play Services unconnected!");
             signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
 
-    public void displayAchievements() throws Exceptions.GooglePlayUnconnectedException{
-        if(googleApiClient.isConnected()){
+    public void displayAchievements() throws Exceptions.GooglePlayUnconnectedException {
+        if (googleApiClient.isConnected()) {
             startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), ACHIEVEMENTS_CALLBACK);
-        }
-        else if(!signedIn){
+        } else if (!signedIn) {
             signIn();
             signedIn = true;
             afterLogin = new Runnable() {
@@ -80,20 +78,18 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
                     }
                 }
             };
-        }
-        else{
+        } else {
             Log.e(LOGTAG, "Google Play Services unconnected!");
             signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
 
-    public void submitLeaderBoardScore(final String leaderBoardId, final int score) throws Exceptions.GooglePlayUnconnectedException{
-        if(googleApiClient.isConnected()){
+    public void submitLeaderBoardScore(final String leaderBoardId, final int score) throws Exceptions.GooglePlayUnconnectedException {
+        if (googleApiClient.isConnected()) {
             Log.i(LOGTAG, "Submitting leaderboardscore: " + leaderBoardId + " -> " + String.valueOf(score));
             Games.Leaderboards.submitScore(googleApiClient, leaderBoardId, score);
-        }
-        else if(!signedIn) {
+        } else if (!signedIn) {
             signIn();
             signedIn = true;
             afterLogin = new Runnable() {
@@ -106,19 +102,17 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
                     }
                 }
             };
-        }
-        else{
+        } else {
             Log.e(LOGTAG, "Google Play Services unconnected!");
             signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
 
-    public void displayLeaderBoard(final String leaderBoardId) throws Exceptions.GooglePlayUnconnectedException{
-        if(googleApiClient.isConnected()){
+    public void displayLeaderBoard(final String leaderBoardId) throws Exceptions.GooglePlayUnconnectedException {
+        if (googleApiClient.isConnected()) {
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient, leaderBoardId), LEADER_BOARD_CALLBACK);
-        }
-        else if(!signedIn){
+        } else if (!signedIn) {
             signIn();
             signedIn = true;
             afterLogin = new Runnable() {
@@ -131,15 +125,23 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
                     }
                 }
             };
-        }
-        else{
+        } else {
             Log.e(LOGTAG, "Google Play Services unconnected!");
             signedIn = false;
             throw new Exceptions.GooglePlayUnconnectedException("Google Play Services unconnected!");
         }
     }
 
-    public void signIn(){   googleApiClient.connect();  }
+    public void signIn(){
+        signIn(false);
+    }
+
+    public void signIn(boolean force) {
+        if (!signInTried || force) {
+            googleApiClient.connect();
+            signInTried = true;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,19 +157,18 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case RESOLUTION_CALLBACK:
                     Log.d(LOGTAG, "ResolutionErrorCallback");
-                    if(!googleApiClient.isConnecting() && !googleApiClient.isConnected()){
+                    if (!googleApiClient.isConnecting() && !googleApiClient.isConnected()) {
                         googleApiClient.connect();
                     }
                     break;
                 case Const.GoogleAuthIntent:
                     Log.d(LOGTAG, "AuthIntent");
             }
-        }
-        else{
+        } else {
             Log.e(LOGTAG, "Error onActivityResult?: " + String.valueOf(resultCode));
         }
     }
@@ -177,7 +178,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         super.onResume();
 
         int playServiceStatus = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-        if(playServiceStatus != ConnectionResult.SUCCESS){
+        if (playServiceStatus != ConnectionResult.SUCCESS) {
             Log.w(LOGTAG, "Google Play Services Error!");
             GoogleApiAvailability.getInstance().getErrorDialog(this, playServiceStatus, API_REQUEST).show();
         }
@@ -187,22 +188,24 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(LOGTAG, "Connection Failed: " + String.valueOf(connectionResult));
 
-        if(!(Variables.signInTried && connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED)){
-            if(connectionResult.hasResolution()){
-                try{
+        if (!(Variables.signInTried && connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED)) {
+            if (connectionResult.hasResolution()) {
+                try {
                     Log.d(LOGTAG, "Resolution available");
                     connectionResult.startResolutionForResult(this, RESOLUTION_CALLBACK);
-                } catch (IntentSender.SendIntentException e){
+                } catch (IntentSender.SendIntentException e) {
                     Log.e(LOGTAG, e.getMessage());
                 }
 
                 Variables.signInTried = true;
-            }
-            else{
+            } else {
                 Log.d(LOGTAG, "Resolution unavailable!");
-                switch (connectionResult.getErrorCode()){
-                    case ConnectionResult.SIGN_IN_REQUIRED: attemptGoogleSignIn(); break;
-                    default: GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), RESOLUTION_CALLBACK).show();
+                switch (connectionResult.getErrorCode()) {
+                    case ConnectionResult.SIGN_IN_REQUIRED:
+                        attemptGoogleSignIn();
+                        break;
+                    default:
+                        GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), RESOLUTION_CALLBACK).show();
                 }
             }
         }
@@ -211,7 +214,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(LOGTAG, "Connected to G-Play!");
-        if(afterLogin != null){
+        if (afterLogin != null) {
             afterLogin.run();
             afterLogin = null;
         }
@@ -227,11 +230,10 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         startActivityForResult(signInIntent, Const.GoogleAuthIntent);
     }
 
-    private static GoogleApiClient getSignInClient(final Activity activity){
-        if(signInClient != null){
+    private static GoogleApiClient getSignInClient(final Activity activity) {
+        if (signInClient != null) {
             return signInClient;
-        }
-        else{
+        } else {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build();
