@@ -39,6 +39,7 @@ import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
+import onl.deepspace.zoorallye.lib.ZoomView;
 
 /**
  * Created by Sese on 30.03.2016.
@@ -66,6 +67,13 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //Map
+        ZoomView mapZoomView = (ZoomView) getActivity().findViewById(R.id.fragment_map_zoom_view);
+        if(mapZoomView != null){
+            mapZoomView.setMaxZoom(3f);
+        }
+        else {
+            Log.d(Const.LOGTAG, "ZoomView is null. WHY?");
+        }
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
         //drawEnclosures();
 
