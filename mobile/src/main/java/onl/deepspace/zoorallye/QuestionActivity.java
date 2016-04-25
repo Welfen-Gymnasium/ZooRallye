@@ -107,7 +107,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     @Override
     public void submitRadio(String userAnswer, boolean isCorrect) {
         String correctAnswer = mBundle.getString(Const.QUESTIONS_ANSWER);
-        int score = isCorrect ? 150 : 0;
+        int score = isCorrect ? Const.SCORE_RADIO : 0;
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer, correctAnswer,
                 Integer.toString(score));
         showAnswer(fragment);

@@ -56,7 +56,10 @@ public class Tools {
     public static void setZoos(Context context, JSONArray zoos) {
         try {
             FileOutputStream stream = context.openFileOutput(ZOO_DB, Context.MODE_PRIVATE);
-            stream.write(Byte.valueOf(zoos.toString()));
+            String jsonString = zoos.toString();
+            for (int i = 0; i < jsonString.length(); i++) {
+                stream.write(jsonString.charAt(i));
+            }
             stream.close();
         } catch (IOException e) {
             Log.e(Const.LOGTAG, e.getMessage());
@@ -168,5 +171,13 @@ public class Tools {
         boolean inNorthSouth = areaTop <= currentLatitdude && areaBottom >= currentLatitdude;
 
         return (inEastWest && inNorthSouth);
+    }
+
+    public static ArrayList<String> jsonArrayToArrayList(JSONArray array) throws JSONException {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            list.add(array.getString(i));
+        }
+        return list;
     }
 }

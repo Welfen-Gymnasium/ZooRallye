@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
@@ -21,6 +23,12 @@ import android.view.ViewGroup;
 import android.view.ViewOverlay;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
@@ -35,8 +43,11 @@ import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
  *
  * Fragment for the zoo maps
  */
-public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback{
+public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallback {
 
+    private static final String BEACON_OVERLAY_FRAGMENT = "beaconOverlayFragment";
+
+    private Fragment mBeaconOverlayFragment;
     private boolean inZooInformation = false;
     private final int locationCallback = 1;
 
@@ -72,6 +83,37 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     public void onDestroyView() {
         super.onDestroyView();
         gps.stopUsingGPS();
+    }
+
+    /**
+     * Show an overlay on on tap for several beacons,
+     * such as enclosures, animal houses, kiosks, etc.
+     * @param beacon The beacon object with information about the beacon
+     * @param questions A Bundle of questions to display in the overlay with information to
+     *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
+     */
+    private void showBeaconOverlay(JSONObject beacon, Bundle questions) {
+
+        try {
+            JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
+            ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
+
+            mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(mBeaconOverlayFragment, BEACON_OVERLAY_FRAGMENT);
+            transaction.commit();
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+
+    }
+
+    private void hideBeaconOverlay() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.remove(mBeaconOverlayFragment);
+        transaction.commit();
     }
 
     @Override

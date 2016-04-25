@@ -1,0 +1,132 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.BeaconsOverlayFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/beacons_overlay_cards_spacing"
+            android:layout_marginBottom="@dimen/beacons_overlay_cards_spacing"
+            app:cardElevation="8dp">
+            <ImageView
+                android:id="@+id/hide_beacon_overlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:rotation="180"
+                android:contentDescription="@string/hide_beacon_overlay_description"
+                android:src="@drawable/ic_arrow_forward"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/beacon_overlay_header_size"
+                android:text="Gehege"/>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/beacons_overlay_cards_spacing"
+            android:layout_marginBottom="@dimen/beacons_overlay_cards_spacing"
+            app:cardElevation="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Tiere"
+                    android:textSize="@dimen/beacon_overlay_header_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Giraffe"
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Elefant"
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Rhinozeros"
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/beacons_overlay_cards_spacing"
+            android:layout_marginBottom="@dimen/beacons_overlay_cards_spacing"
+            app:cardElevation="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Fragen"
+                    android:textSize="@dimen/beacon_overlay_header_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Frage 1: ..."
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Frage 2: ..."
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Frage 3: ..."
+                    android:textSize="@dimen/beacon_overlay_item_size"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>
+
+

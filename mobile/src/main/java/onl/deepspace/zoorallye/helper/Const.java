@@ -10,10 +10,13 @@ public final class Const {
 
     public static final String NAV_FRAGMENT = "selectedFragment";
 
-    public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos";
+    public static final int RALLY_QUESTION_COUNT = 40;
+
+    public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos/";
     public static final String ZOO_ID = "id";
     public static final String ZOO_LAT = "latitude";
     public static final String ZOO_LNG = "longitude";
+    public static final String ZOO_ANIMALS = "animals";
 
     final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions";
     final public static String QuestionsAPI_token = "token";
