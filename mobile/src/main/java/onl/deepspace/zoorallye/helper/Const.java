@@ -56,15 +56,16 @@ public final class Const {
     public static final String QUESTION_BUNDLE = "questionBundle";
     public static final String QUESTION_IMAGE = "questionImage";
     public static final String QUESTION_ANSWER = "questionAnswer";
-    public static final String QUESTION_SCORE = "questionScore";
+    public static final String QUESTION_VISIT_ID = "questionVisitId";
 
+    public static final String QUESTION_SCORE = "questionScore";
     public static final String QUESTION_TYPE_SORT = "questionTypeSort";
     public static final String QUESTION_TYPE_SEEKBAR = "questionTypeSeekbar";
     public static final String QUESTION_TYPE_RADIO = "questionTypeRadio";
     public static final String QUESTION_TYPE_CHECKBOX = "questionTypeCheckbox";
     public static final String QUESTION_TYPE_TEXT = "questionTypeText";
-    public static final String QUESTION_TYPE_TRUE_FALSE = "questionTypeTrueFalse";
 
+    public static final String QUESTION_TYPE_TRUE_FALSE = "questionTypeTrueFalse";
     public static final int SCORE_TRUE_FALSE = 100;
     public static final int SCORE_RADIO = 150;
     public static final int SCORE_TEXT = 200; // average credits

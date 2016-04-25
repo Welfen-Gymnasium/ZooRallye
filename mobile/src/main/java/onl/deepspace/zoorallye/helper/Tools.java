@@ -27,10 +27,22 @@ import java.util.ArrayList;
  */
 public class Tools {
 
-    public static final String ZOO_DB = "zooDb";
-    public static final String QUESTIONS_DB = "questionsDb";
+    private static final String ZOO_DB = "zooDb";
+    private static final String QUESTIONS_DB = "questionsDb";
+    private static final String ANSWER_DB = "answerDb";
     private static final String NAME = "name";
     private static final String BEACONS = "beacons";
+
+    public static JSONArray getAnswers(Context context) {
+        try {
+            FileInputStream stream = context.openFileInput(ANSWER_DB);
+            String jsonString = streamToString(stream);
+            return new JSONArray(jsonString);
+        } catch (IOException | JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            return null;
+        }
+    }
 
     public static JSONObject getQuestions(Context context) {
         try {
@@ -62,6 +74,19 @@ public class Tools {
         }
         stream.close();
         return builder.toString();
+    }
+
+    public static void insertAnswer(Context context, JSONObject answer) {
+        try {
+            JSONArray answers = getAnswers(context);
+            answers = answers != null ? answers : new JSONArray();
+            answers.put(answer);
+            FileOutputStream stream = context.openFileOutput(ANSWER_DB, Context.MODE_PRIVATE);
+            String jsonString = answers.toString();
+            writeStringToStream(stream, jsonString);
+        } catch (IOException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
     }
 
     public static void setQuestions(Context context, JSONObject questions) {

@@ -1,12 +1,12 @@
 package onl.deepspace.zoorallye;
 
-import android.os.Build;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.Scene;
 import android.transition.Transition;
@@ -17,8 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.questions.AnswerFragment;
 import onl.deepspace.zoorallye.questions.CheckboxFragment;
 import onl.deepspace.zoorallye.questions.QuestionCommunication;
@@ -27,7 +29,6 @@ import onl.deepspace.zoorallye.questions.SeekbarFragment;
 import onl.deepspace.zoorallye.questions.SortFragment;
 import onl.deepspace.zoorallye.questions.TextFragment;
 import onl.deepspace.zoorallye.questions.TrueFalseFragment;
-import onl.deepspace.zoorallye.questions.sqlite.UpgradeQuestionsDb;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionCommunication {
 
@@ -65,14 +66,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_SORT);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, userAnswer.toString());
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -94,14 +103,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_SEEKBAR);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, Float.toString(userAnswer));
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -114,14 +131,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_RADIO);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, userAnswer);
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -135,14 +160,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_CHECKBOX);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, userAnswer.toString());
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -158,14 +191,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_TEXT);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, userAnswer);
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
@@ -182,14 +223,22 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         JSONObject answer = new JSONObject();
         try {
+            Calendar calendar = Calendar.getInstance();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            String visitId = "" + date + '.' + month + '.' + year + '.';
+
+            answer.put(Const.QUESTION_VISIT_ID, visitId);
             answer.put(Const.QUESTION_TYPE, Const.QUESTION_TYPE_TRUE_FALSE);
             answer.put(Const.QUESTION_ID, mQuestionId);
             answer.put(Const.QUESTION_ANSWER, Boolean.toString(userAnswer));
             answer.put(Const.QUESTION_SCORE, score);
+
+            Tools.insertAnswer(this, answer);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
-        // UpgradeQuestionsDb.insertAnswer(this, answer);
     }
 
     @Override
