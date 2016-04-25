@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -12,15 +13,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, BeaconListener {
 
     Tools.ActionBarToggler toggle;
 
@@ -89,6 +92,11 @@ public class RallyActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    public void onBeaconClick(Location location) {
+        Log.d(Const.LOGTAG, "Beacon click " + location.getLongitude() + " " + location.getLatitude());
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
