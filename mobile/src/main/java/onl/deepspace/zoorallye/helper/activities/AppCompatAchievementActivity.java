@@ -66,7 +66,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         if (googleApiClient.isConnected()) {
             startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), ACHIEVEMENTS_CALLBACK);
         } else if (!signedIn) {
-            signIn();
+            signIn(true);
             signedIn = true;
             afterLogin = new Runnable() {
                 @Override
@@ -113,7 +113,7 @@ public class AppCompatAchievementActivity extends AppCompatActivity implements
         if (googleApiClient.isConnected()) {
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient, leaderBoardId), LEADER_BOARD_CALLBACK);
         } else if (!signedIn) {
-            signIn();
+            signIn(true);
             signedIn = true;
             afterLogin = new Runnable() {
                 @Override

@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:padding="8dp">
 
                 <ImageButton
@@ -53,18 +54,5 @@
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
-
-        <Button
-            android:id="@+id/statistics_leaderboard_submit_100"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Submit Leaderboardscore 100" />
-        <Button
-            android:id="@+id/statistics_leaderboard_submit_200"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Submit Leaderboardscore 200" />
     </LinearLayout>
 </ScrollView>

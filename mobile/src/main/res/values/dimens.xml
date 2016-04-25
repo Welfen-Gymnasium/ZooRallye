@@ -10,12 +10,12 @@
     <!-- Dimension for question/answer Activity/Fragment -->
     <dimen name="question_image_height">200dp</dimen>
     <dimen name="answer_image_height">150dp</dimen>
-    <dimen name="question_image_elevation">3dp</dimen>
+    <dimen name="question_image_elevation">4dp</dimen>
     <dimen name="question_text_size">20sp</dimen>
     <dimen name="question_sort_item_height">64dp</dimen>
 
     <dimen name="icon_size">24dp</dimen>
-    <dimen name="icon_size_large">32dp</dimen>
+    <dimen name="icon_size_large">40dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
     <!-- Dimensions for beacons overlay (for map) -->

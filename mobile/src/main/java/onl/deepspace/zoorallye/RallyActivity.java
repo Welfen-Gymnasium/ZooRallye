@@ -36,6 +36,9 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rally);
 
+        //Lianas
+        Liana.addLiana((findViewById(R.id.rally_content)));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rally);
         setSupportActionBar(toolbar);
 
@@ -68,9 +71,6 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         ViewPager viewPager = (ViewPager) findViewById(R.id.rally_viewpager);
         assert viewPager != null;
         viewPager.setAdapter(adapter);
-
-        //Lianas
-        Liana.addLiana((findViewById(R.id.rally_content)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;

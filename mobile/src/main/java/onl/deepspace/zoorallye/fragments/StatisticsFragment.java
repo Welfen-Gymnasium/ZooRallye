@@ -26,54 +26,35 @@ public class StatisticsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
-        ImageButton allAchievements = (ImageButton) view.findViewById(R.id.statistics_achievements_button);
-        allAchievements.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.statistics_play_games_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    ((AppCompatAchievementActivity) getActivity()).displayAchievements();
+                    ((AppCompatAchievementActivity) getActivity()).signIn(true);
                 } catch (Exception e){
                     Log.e(Const.LOGTAG, e.getLocalizedMessage());
                 }
             }
         });
 
-        Button setLeaderBoard100 = (Button) view.findViewById(R.id.statistics_leaderboard_submit_100);
-        setLeaderBoard100.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    ((AppCompatAchievementActivity) getActivity()).submitLeaderBoardScore(
-                            getResources().getString(
-                                    R.string.leaderboard_total_question_points_earned), 100);
-                } catch (Exception e){
-                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
-                }
-            }
-        });
-
-        Button setLeaderBoard200 = (Button) view.findViewById(R.id.statistics_leaderboard_submit_200);
-        setLeaderBoard200.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    ((AppCompatAchievementActivity) getActivity()).submitLeaderBoardScore(
-                            getResources().getString(
-                                    R.string.leaderboard_total_question_points_earned), 200);
-                } catch (Exception e){
-                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
-                }
-            }
-        });
-
-        ImageButton displayLeaderBoard = (ImageButton) view.findViewById(R.id.statistics_leaderboard_show);
-        displayLeaderBoard.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.statistics_leaderboard_show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
                     ((AppCompatAchievementActivity) getActivity()).displayLeaderBoard(
                             getResources().getString(
                                     R.string.leaderboard_total_question_points_earned));
+                } catch (Exception e){
+                    Log.e(Const.LOGTAG, e.getLocalizedMessage());
+                }
+            }
+        });
+
+        view.findViewById(R.id.statistics_achievements_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    ((AppCompatAchievementActivity) getActivity()).displayAchievements();
                 } catch (Exception e){
                     Log.e(Const.LOGTAG, e.getLocalizedMessage());
                 }
