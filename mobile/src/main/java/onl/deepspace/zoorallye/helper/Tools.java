@@ -3,11 +3,6 @@ package onl.deepspace.zoorallye.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.location.Location;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
@@ -32,25 +27,26 @@ import java.util.ArrayList;
  */
 public class Tools {
 
-    private static final String ZOO_DB = "zooDb";
+    public static final String ZOO_DB = "zooDb";
+    public static final String QUESTIONS_DB = "questionsDb";
     private static final String NAME = "name";
     private static final String BEACONS = "beacons";
 
+    public static JSONObject getQuestions(Context context) {
+        try {
+            FileInputStream stream = context.openFileInput(QUESTIONS_DB);
+            String jsonString = streamToString(stream);
+            return new JSONObject(jsonString);
+        } catch (IOException | JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            return null;
+        }
+    }
 
     public static JSONArray getZoos(Context context) {
         try {
             FileInputStream stream = context.openFileInput(ZOO_DB);
-
-            StringBuilder builder = new StringBuilder();
-            int character;
-            while((character = stream.read()) != -1){
-                builder.append((char) character);
-            }
-
-            stream.close();
-
-            String jsonString = builder.toString();
-            Log.d(Const.LOGTAG, jsonString);
+            String jsonString = streamToString(stream);
             return new JSONArray(jsonString);
         } catch (IOException | JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
@@ -58,17 +54,40 @@ public class Tools {
         }
     }
 
+    private static String streamToString(FileInputStream stream) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        int character;
+        while((character = stream.read()) != -1){
+            builder.append((char) character);
+        }
+        stream.close();
+        return builder.toString();
+    }
+
+    public static void setQuestions(Context context, JSONObject questions) {
+        try {
+            FileOutputStream stream = context.openFileOutput(QUESTIONS_DB, Context.MODE_PRIVATE);
+            String jsonString = questions.toString();
+            writeStringToStream(stream, jsonString);
+        } catch (IOException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+    }
+
     public static void setZoos(Context context, JSONArray zoos) {
         try {
             FileOutputStream stream = context.openFileOutput(ZOO_DB, Context.MODE_PRIVATE);
             String jsonString = zoos.toString();
-            for (int i = 0; i < jsonString.length(); i++) {
-                stream.write(jsonString.charAt(i));
-            }
-            stream.close();
+            writeStringToStream(stream, jsonString);
         } catch (IOException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
+    }
+
+    private static void writeStringToStream(FileOutputStream stream, String string)
+            throws IOException {
+        stream.write(string.getBytes());
+        stream.close();
     }
 
     public static ArrayList<JSONObject> getEnclosures(Context context, String zooId,

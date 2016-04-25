@@ -3,12 +3,19 @@ package onl.deepspace.zoorallye.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +41,6 @@ public class StartRallyFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment StartRallyFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static StartRallyFragment newInstance(String param1, String param2) {
         StartRallyFragment fragment = new StartRallyFragment();
         return fragment;
@@ -48,9 +54,41 @@ public class StartRallyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        View view = inflater.inflate(R.layout.fragment_start_rally, container, false);
+
+        final Button startRally = (Button) view.findViewById(R.id.start_rally);
+        startRally.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startRally();
+            }
+        });
+
+        return view;
+    }
+
+    private void startRally() {
+        final int questionsCount = Const.RALLY_QUESTION_COUNT;
+        final int maxScore = questionsCount * Const.SCORE_AVERAGE;
+        int currentMaxScore = 0;
+        JSONObject questions = Tools.getQuestions(getContext());
+        if (questions == null) {
+            // TODO: 25.04.2016 Fetch questions
+            return;
+        }
+        try {
+            JSONArray checkbox = questions.getJSONArray(Const.QUESTION_TYPE_CHECKBOX);
+            JSONArray radio = questions.getJSONArray(Const.QUESTION_TYPE_RADIO);
+            JSONArray seekbar = questions.getJSONArray(Const.QUESTION_TYPE_SEEKBAR);
+            JSONArray sort = questions.getJSONArray(Const.QUESTION_TYPE_SORT);
+            JSONArray text = questions.getJSONArray(Const.QUESTION_TYPE_TEXT);
+            JSONArray trueFalse = questions.getJSONArray(Const.QUESTION_TYPE_TRUE_FALSE);
+
+            // TODO: 25.04.2016 Algorithm for selecting random questions for the rally
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+
     }
 
     @Override
