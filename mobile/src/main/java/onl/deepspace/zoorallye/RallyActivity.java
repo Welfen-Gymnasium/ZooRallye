@@ -85,7 +85,9 @@ public class RallyActivity extends AppCompatAchievementActivity implements
 
     @Override
     public void onStartRally(Bundle bundle) {
-
+        // TODO: 25.04.2016 Save questions from Bundle, (maybe change data type)
+        mRallyActive = true;
+        recreate();
     }
 
     @Override

@@ -47,6 +47,8 @@ public class OfflineContentFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offlinecontent_list, container, false);
 
+        // TODO: 25.04.2016 complete full behavior
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();

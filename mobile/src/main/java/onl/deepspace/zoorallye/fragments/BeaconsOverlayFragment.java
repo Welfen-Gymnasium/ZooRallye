@@ -35,7 +35,7 @@ public class BeaconsOverlayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beacons_overlay, container, false);
-
+        // TODO: 25.04.2016 Change values dynamically with data of real beacon 
         return view;
     }
 

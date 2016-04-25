@@ -13,8 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.QuestionRepresentation;
 import onl.deepspace.zoorallye.helper.Tools;
 
 /**
@@ -69,8 +73,8 @@ public class StartRallyFragment extends Fragment {
 
     private void startRally() {
         final int questionsCount = Const.RALLY_QUESTION_COUNT;
-        final int maxScore = questionsCount * Const.SCORE_AVERAGE;
-        int currentMaxScore = 0;
+        // final int maxScore = questionsCount * Const.SCORE_AVERAGE;
+        // int currentMaxScore = 0;
         JSONObject questions = Tools.getQuestions(getContext());
         if (questions == null) {
             // TODO: 25.04.2016 Fetch questions
@@ -84,11 +88,34 @@ public class StartRallyFragment extends Fragment {
             JSONArray text = questions.getJSONArray(Const.QUESTION_TYPE_TEXT);
             JSONArray trueFalse = questions.getJSONArray(Const.QUESTION_TYPE_TRUE_FALSE);
 
-            // TODO: 25.04.2016 Algorithm for selecting random questions for the rally
+            ArrayList<QuestionRepresentation> allQuestion = new ArrayList<>();
+            allQuestion = addToArrayList(allQuestion, checkbox, Const.QUESTION_TYPE_CHECKBOX);
+            allQuestion = addToArrayList(allQuestion, radio, Const.QUESTION_TYPE_RADIO);
+            allQuestion = addToArrayList(allQuestion, seekbar, Const.QUESTION_TYPE_SEEKBAR);
+            allQuestion = addToArrayList(allQuestion, sort, Const.QUESTION_TYPE_SORT);
+            allQuestion = addToArrayList(allQuestion, text, Const.QUESTION_TYPE_TEXT);
+            allQuestion = addToArrayList(allQuestion, trueFalse, Const.QUESTION_TYPE_TRUE_FALSE);
+
+            Collections.shuffle(allQuestion);
+
+            // TODO: 25.04.2016 take first {@var questionsCount} questions from ArrayList for rally
+            // TODO: 25.04.2016 identify question by {@link QuestionRepresentation.getType} ect.
+
+            // TODO: 25.04.2016 Call mListener.onStartRally(Bundle) with args to transfer question infos
+
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
 
+    }
+
+    private ArrayList<QuestionRepresentation> addToArrayList(
+            ArrayList<QuestionRepresentation> array, JSONArray jsonArray, String type)
+            throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            array.add(new QuestionRepresentation(type, jsonArray.getInt(i)));
+        }
+        return array;
     }
 
     @Override

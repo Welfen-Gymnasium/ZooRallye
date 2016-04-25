@@ -137,6 +137,7 @@ public class DataFetcher extends IntentService {
     }
 
     private String downloadData(String requestUrl) throws IOException, DownloadException {
+        // TODO: 25.04.2016 Show notification when fetching data with progress how much percent already downloaded
         InputStream inputStream = null;
         HttpURLConnection urlConnection = null;
 
