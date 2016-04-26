@@ -1,29 +1,30 @@
 package onl.deepspace.zoorallye.helper;
 
+import org.json.JSONObject;
+
 /**
  * Created by Dennis on 25.04.2016.
  */
 public class QuestionRepresentation {
 
     private String type;
-    private int id;
+    private JSONObject value;
 
-    public QuestionRepresentation(String type, int id) {
-        // TODO: 25.04.2016 maybe extend to save all question information in it
+    public QuestionRepresentation(String type, JSONObject value) {
         this.type = type;
-        this.id = id;
+        this.value = value;
     }
 
     public String getType() {
         return type;
     }
 
-    public int getId() {
-        return id;
+    public JSONObject getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return type + "-" + id;
+        return type + "-" + value;
     }
 }

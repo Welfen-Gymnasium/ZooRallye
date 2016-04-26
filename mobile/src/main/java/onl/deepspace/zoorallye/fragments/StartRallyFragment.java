@@ -1,7 +1,9 @@
 package onl.deepspace.zoorallye.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.QuestionRepresentation;
 import onl.deepspace.zoorallye.helper.Tools;
+import onl.deepspace.zoorallye.helper.services.DataFetcher;
+import onl.deepspace.zoorallye.helper.services.DataFetcher.DownloadResultReceiver;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +33,7 @@ import onl.deepspace.zoorallye.helper.Tools;
  * Use the {@link StartRallyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StartRallyFragment extends Fragment {
+public class StartRallyFragment extends Fragment implements DataFetcher.DownloadResultReceiver.Receiver{
 
     private OnStartRallyListener mListener;
 
@@ -77,7 +81,19 @@ public class StartRallyFragment extends Fragment {
         // int currentMaxScore = 0;
         JSONObject questions = Tools.getQuestions(getContext());
         if (questions == null) {
-            // TODO: 25.04.2016 Fetch questions
+            Log.d(Const.LOGTAG, "Get Questions");
+            DataFetcher.DownloadResultReceiver mReceiver;
+
+            mReceiver = new DownloadResultReceiver(new Handler());
+            mReceiver.setReceiver(this);
+            Intent intent = new Intent(Intent.ACTION_SYNC, null, getContext(), DataFetcher.class);
+
+            // Send optional extras to Download IntentService
+            intent.putExtra("url", "http://api.deepspace.onl/zoorallye/questions");
+            intent.putExtra("receiver", mReceiver);
+            intent.putExtra("requestId", 101);
+
+            getActivity().startService(intent);
             return;
         }
         try {
@@ -98,6 +114,8 @@ public class StartRallyFragment extends Fragment {
 
             Collections.shuffle(allQuestion);
 
+            Log.d(Const.LOGTAG, String.valueOf(allQuestion));
+
             // TODO: 25.04.2016 take first {@var questionsCount} questions from ArrayList for rally
             // TODO: 25.04.2016 identify question by {@link QuestionRepresentation.getType} ect.
 
@@ -105,6 +123,8 @@ public class StartRallyFragment extends Fragment {
 
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
+            //Maybe wrong JSON saved, delete it for new fetch
+            getContext().deleteFile(Tools.QUESTIONS_DB);
         }
 
     }
@@ -113,7 +133,7 @@ public class StartRallyFragment extends Fragment {
             ArrayList<QuestionRepresentation> array, JSONArray jsonArray, String type)
             throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
-            array.add(new QuestionRepresentation(type, jsonArray.getInt(i)));
+            array.add(new QuestionRepresentation(type, jsonArray.getJSONObject(i)));
         }
         return array;
     }
@@ -133,6 +153,27 @@ public class StartRallyFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        switch (resultCode) {
+            case DataFetcher.STATUS_RUNNING:
+                break;
+            case DataFetcher.STATUS_FINISHED:
+                // Hide progress & extract result from bundle
+                String result = resultData.getString(DataFetcher.RESULT);
+                Log.i(Const.LOGTAG, "New Questions received, saving them! " + result);
+
+                startRally();
+
+                break;
+            case DataFetcher.STATUS_ERROR:
+                // Handle the error
+                String error = resultData.getString(Intent.EXTRA_TEXT);
+                Log.e(Const.LOGTAG, error);
+                break;
+        }
     }
 
     /**

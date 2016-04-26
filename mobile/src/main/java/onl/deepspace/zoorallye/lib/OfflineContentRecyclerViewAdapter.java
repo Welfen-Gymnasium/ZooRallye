@@ -1,4 +1,4 @@
-package onl.deepspace.zoorallye.fragments;
+package onl.deepspace.zoorallye.lib;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,17 +10,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.fragments.OfflineItem;
 
 /**
  */
-public class MyOfflineContentRecyclerViewAdapter extends
-        RecyclerView.Adapter<MyOfflineContentRecyclerViewAdapter.ViewHolder> {
+public class OfflineContentRecyclerViewAdapter extends
+        RecyclerView.Adapter<OfflineContentRecyclerViewAdapter.ViewHolder> {
 
     private final List<OfflineItem> mValues;
     private OfflineItemCommunication mListener;
 
-    public MyOfflineContentRecyclerViewAdapter(List<OfflineItem> items,
-                                               OfflineItemCommunication listener) {
+    public OfflineContentRecyclerViewAdapter(List<OfflineItem> items,
+                                             OfflineItemCommunication listener) {
         mValues = items;
         mListener = listener;
     }

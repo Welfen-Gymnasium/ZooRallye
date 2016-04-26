@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.services.DataFetcher;
+import onl.deepspace.zoorallye.lib.OfflineContentRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of Items.
  */
 public class OfflineContentFragment extends Fragment implements
-        MyOfflineContentRecyclerViewAdapter.OfflineItemCommunication{
+        OfflineContentRecyclerViewAdapter.OfflineItemCommunication{
 
     private int mColumnCount = 1;
 
@@ -61,7 +62,7 @@ public class OfflineContentFragment extends Fragment implements
             ArrayList<OfflineItem> list = new ArrayList<>();
             list.add(new OfflineItem("questions", "Fragen", false));
             list.add(new OfflineItem("4P1shyVmM4", "Zoo Augsburg", true));
-            RecyclerView.Adapter adapter = new MyOfflineContentRecyclerViewAdapter(list, this);
+            RecyclerView.Adapter adapter = new OfflineContentRecyclerViewAdapter(list, this);
             recyclerView.setAdapter(adapter);
         }
         return view;

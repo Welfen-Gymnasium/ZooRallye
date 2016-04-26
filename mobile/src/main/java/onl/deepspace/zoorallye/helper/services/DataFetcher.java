@@ -33,11 +33,11 @@ public class DataFetcher extends IntentService {
 
     Get data via
 
-        DataFetcher.DownloadResultReceiver.Receiver mReceiver;
+        DataFetcher.DownloadResultReceiver mReceiver;
 
         mReceiver = new DownloadResultReceiver(new Handler());
         mReceiver.setReceiver(this);
-        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, DownloadService.class);
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, DataFetcher.class);
 
         // Send optional extras to Download IntentService
         intent.putExtra("url", url);
@@ -123,13 +123,13 @@ public class DataFetcher extends IntentService {
                 }
 
                 bundle.putString(RESULT, result);
-                // receiver.send(STATUS_FINISHED, bundle);
+                receiver.send(STATUS_FINISHED, bundle);
 
             } catch (Exception e) {
 
                 /* Sending error message back to activity */
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
-                // receiver.send(STATUS_ERROR, bundle);
+                receiver.send(STATUS_ERROR, bundle);
             }
         }
         Log.d(LOGTAG, "Service Stopping!");
@@ -138,8 +138,8 @@ public class DataFetcher extends IntentService {
 
     private String downloadData(String requestUrl) throws IOException, DownloadException {
         // TODO: 25.04.2016 Show notification when fetching data with progress how much percent already downloaded
-        InputStream inputStream = null;
-        HttpURLConnection urlConnection = null;
+        InputStream inputStream;
+        HttpURLConnection urlConnection;
 
         /* forming th java.net.URL object */
         URL url = new URL(requestUrl);
