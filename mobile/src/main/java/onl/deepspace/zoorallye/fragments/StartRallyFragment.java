@@ -4,26 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
-import onl.deepspace.zoorallye.helper.QuestionRepresentation;
+import onl.deepspace.zoorallye.helper.Question;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.services.DataFetcher;
 import onl.deepspace.zoorallye.helper.services.DataFetcher.DownloadResultReceiver;
@@ -106,7 +102,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
             JSONArray text = questions.getJSONArray(Const.QUESTION_TYPE_TEXT);
             JSONArray trueFalse = questions.getJSONArray(Const.QUESTION_TYPE_TRUE_FALSE);
 
-            ArrayList<QuestionRepresentation> allQuestion = new ArrayList<>();
+            ArrayList<Question> allQuestion = new ArrayList<>();
             allQuestion = addToArrayList(allQuestion, checkbox, Const.QUESTION_TYPE_CHECKBOX);
             allQuestion = addToArrayList(allQuestion, radio, Const.QUESTION_TYPE_RADIO);
             allQuestion = addToArrayList(allQuestion, seekbar, Const.QUESTION_TYPE_SEEKBAR);
@@ -115,17 +111,18 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
             allQuestion = addToArrayList(allQuestion, trueFalse, Const.QUESTION_TYPE_TRUE_FALSE);
 
             Collections.shuffle(allQuestion);
-
+            // TODO: 26.04.2016 make questions equally valuable
             Log.d(Const.LOGTAG, String.valueOf(allQuestion));
 
-            Bundle questionsBundle = new Bundle();
+            ArrayList<Question> rallyQuestions;
+            try {
+                rallyQuestions = new ArrayList<> (allQuestion.subList(0, questionsCount));
+            } catch (IndexOutOfBoundsException e) {
+                Log.e(Const.LOGTAG, "Too less questions fetched");
+                rallyQuestions = allQuestion;
+            }
 
-            // TODO: 25.04.2016 take first {@var questionsCount} questions from ArrayList for rally
-            // TODO: 25.04.2016 identify question by {@link QuestionRepresentation.getType} ect.
-
-            // TODO: 25.04.2016 Call mListener.onStartRally(Bundle) with args to transfer question infos
-            mListener.onStartRally(questionsBundle);
-
+            mListener.onStartRally(rallyQuestions);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
             //Maybe wrong JSON saved, delete it for new fetch
@@ -134,11 +131,11 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
 
     }
 
-    private ArrayList<QuestionRepresentation> addToArrayList(
-            ArrayList<QuestionRepresentation> array, JSONArray jsonArray, String type)
+    private ArrayList<Question> addToArrayList(
+            ArrayList<Question> array, JSONArray jsonArray, String type)
             throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
-            array.add(new QuestionRepresentation(type, jsonArray.getJSONObject(i)));
+            array.add(new Question(type, jsonArray.getJSONObject(i)));
         }
         return array;
     }
@@ -192,6 +189,6 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnStartRallyListener {
-        void onStartRally(Bundle bundle);
+        void onStartRally(ArrayList<Question> questions);
     }
 }

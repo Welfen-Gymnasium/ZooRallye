@@ -15,10 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.fragments.StartRallyFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
+import onl.deepspace.zoorallye.helper.Question;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
@@ -28,15 +31,18 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         BeaconListener {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
+    private static final String ARG_QUESTIONS = "questions";
+
     Tools.ActionBarToggler toggle;
     private boolean mRallyActive;
+    private ArrayList<Question> mQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rally);
         //GoogleAnalytics
-        AnalyticsTrackers.initialize(this);
+        // AnalyticsTrackers.initialize(this);
 
         //Lianas
         Liana.addLiana((findViewById(R.id.rally_content)));
@@ -66,6 +72,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     private void setup(Bundle savedInstanceState) {
         if(savedInstanceState == null) savedInstanceState = new Bundle();
         mRallyActive = savedInstanceState.getBoolean(ARG_RALLY_ACTIVE, false);
+        mQuestions = savedInstanceState.getParcelableArrayList(ARG_QUESTIONS);
 
         // Setup Tab Layout
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -86,16 +93,17 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     }
 
     @Override
-    public void onStartRally(Bundle bundle) {
-        // TODO: 25.04.2016 Save questions from Bundle, (maybe change data type)
+    public void onStartRally(ArrayList<Question> questions) {
         mRallyActive = true;
-        recreate();
+        mQuestions = questions;
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(mRallyActive) outState.putBoolean(ARG_RALLY_ACTIVE, true);
+        if (mRallyActive) outState.putBoolean(ARG_RALLY_ACTIVE, true);
+        if (mQuestions != null) outState.putParcelableArrayList(ARG_QUESTIONS, mQuestions);
     }
 
     @Override
