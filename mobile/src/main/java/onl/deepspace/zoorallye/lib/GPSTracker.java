@@ -1,4 +1,4 @@
-package onl.deepspace.zoorallye.helper;
+package onl.deepspace.zoorallye.lib;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -10,10 +10,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
 
 public class GPSTracker extends Service implements LocationListener {

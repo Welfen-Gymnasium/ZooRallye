@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
-import onl.deepspace.zoorallye.helper.GPSTracker;
+import onl.deepspace.zoorallye.lib.GPSTracker;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
@@ -52,14 +52,14 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
     private Fragment mBeaconOverlayFragment;
     private boolean inZooInformation = false;
+    private boolean markerCreated = false;
     private final int locationCallback = 1;
 
     private BeaconListener beaconListener;
-
     private GPSTracker gps;
     private View view;
+
     private ImageView map;
-    private Drawable marker;
 
     @Nullable
     @Override
@@ -68,17 +68,13 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
         //Map
         ZoomView mapZoomView = (ZoomView) getActivity().findViewById(R.id.fragment_map_zoom_view);
-        if(mapZoomView != null){
+        if (mapZoomView != null) {
             mapZoomView.setMaxZoom(3f);
-        }
-        else {
+        } else {
             Log.d(Const.LOGTAG, "ZoomView is null. WHY?");
         }
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
-        //drawEnclosures();
 
-        //Marker
-        marker = ResourcesCompat.getDrawable(map.getResources(), R.drawable.ic_map_marker, null);
         //GPS
         Tools.requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, locationCallback);
         gps = new GPSTracker(getActivity(), this);
@@ -99,7 +95,8 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     /**
      * Show an overlay on on tap for several beacons,
      * such as enclosures, animal houses, kiosks, etc.
-     * @param beacon The beacon object with information about the beacon
+     *
+     * @param beacon    The beacon object with information about the beacon
      * @param questions A Bundle of questions to display in the overlay with information to
      *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
      */
@@ -173,6 +170,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(
                 getContext(), "4P1shyVmM4", location, 20)));
 
+    private void setMarkerPosition(final Location location) {
         //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));
         Rect pos = calculateMarkerPosition(location, 100, 110, map.getWidth(), map.getHeight());
 
@@ -189,24 +187,35 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
                 Log.e(Const.LOGTAG, e.getMessage());
             }
 
-            final ImageView posMarker = new ImageView(getContext());
             FrameLayout.LayoutParams vp = new FrameLayout.LayoutParams(
                     map.getWidth() / 10, map.getWidth() / 10);
             vp.setMargins(pos.left, pos.top, 0, 0);
-            posMarker.setLayoutParams(vp);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                posMarker.setElevation(2f);
-                posMarker.setTranslationZ(2f);
-            }
-            posMarker.setImageResource(R.drawable.ic_map_marker);
 
-            // Only the original thread that created a view hierarchy can touch its views.
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(posMarker);
+            if (!markerCreated) {
+                final ImageView posMarker = new ImageView(getContext());
+
+                posMarker.setLayoutParams(vp);
+                posMarker.setImageResource(R.drawable.ic_map_marker);
+                posMarker.setId(R.id.map_marker_id);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    posMarker.setElevation(2f);
+                    posMarker.setTranslationZ(2f);
                 }
-            });
+
+                // Only the original thread that created a view hierarchy can touch its views.
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(posMarker);
+                    }
+                });
+
+                markerCreated = true;
+            }
+            else {
+                getActivity().findViewById(R.id.map_marker_id).setLayoutParams(vp);
+            }
 
         } else if (!inZooInformation) {
             Snackbar.make(view, view.getResources().getString(R.string.outside_zoo),
