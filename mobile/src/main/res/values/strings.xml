@@ -48,5 +48,12 @@
     <string name="hide_beacon_overlay_description" translatable="false">Hide Beacon Overlay</string>
     <string name="loading">Loading</string>
     <string name="gps_permission_denied">GPS Permission denied!</string>
+    <string name="coming_soon">Coming soon!</string>
+    <string name="app_name_beta">Zoo Rally BETA</string>
+    <string name="nav_info">Information</string>
+    <string name="donation_thank_you">Thank you for your donation :)</string>
+    <string name="donation_something_went_wrong">Something went wrong.</string>
+    <string name="action_donate">Donate</string>
+    <string name="donation_text">Click on the Android Robot to support our work on this App. It was a project of our school. Creating the App took us about 400h. \n\n Thank you!</string>
 
 </resources>

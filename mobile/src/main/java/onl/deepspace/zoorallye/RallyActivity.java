@@ -88,8 +88,6 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         if(tab1 != null) tab1.setIcon(mRallyActive ? R.drawable.ic_map : R.drawable.ic_play_arrow);
         TabLayout.Tab tab2 = tabLayout.getTabAt(1);
         if(tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_people : R.drawable.ic_map);
-        TabLayout.Tab tab3 = tabLayout.getTabAt(2);
-        if(tab3 != null) tab3.setIcon(R.drawable.ic_info);
     }
 
     @Override
@@ -147,15 +145,13 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                             new StartRallyFragment();
                 case 1:
                     return mRallyActive ? new MapFragment() : new MapFragment();
-                case 2:
-                    return new MapFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override

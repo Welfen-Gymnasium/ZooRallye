@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="map_marker_id" type="id"></item>
+    <item name="donation_something_went_wrong" type="id">Something went wrong.</item>
 </resources>
