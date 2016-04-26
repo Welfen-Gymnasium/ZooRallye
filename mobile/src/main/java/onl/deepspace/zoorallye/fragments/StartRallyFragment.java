@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -64,8 +67,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_start_rally, container, false);
 
-        final Button startRally = (Button) view.findViewById(R.id.start_rally);
-        startRally.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.start_rally).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startRally();
@@ -116,10 +118,13 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
 
             Log.d(Const.LOGTAG, String.valueOf(allQuestion));
 
+            Bundle questionsBundle = new Bundle();
+
             // TODO: 25.04.2016 take first {@var questionsCount} questions from ArrayList for rally
             // TODO: 25.04.2016 identify question by {@link QuestionRepresentation.getType} ect.
 
             // TODO: 25.04.2016 Call mListener.onStartRally(Bundle) with args to transfer question infos
+            mListener.onStartRally(questionsBundle);
 
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
@@ -161,7 +166,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
             case DataFetcher.STATUS_RUNNING:
                 break;
             case DataFetcher.STATUS_FINISHED:
-                // Hide progress & extract result from bundle
+                // Handle results
                 String result = resultData.getString(DataFetcher.RESULT);
                 Log.i(Const.LOGTAG, "New Questions received, saving them! " + result);
 

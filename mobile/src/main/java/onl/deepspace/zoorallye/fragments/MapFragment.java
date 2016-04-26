@@ -127,6 +127,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public void GPSLocationChanged(Location location) {
         setMarkerPosition(location);
+        checkForBeacon(location);
     }
 
     @Override
@@ -152,23 +153,26 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         Location l = (Location) object;
         drawEnclosures();
         setMarkerPosition(l);
+        checkForBeacon(l);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof BeaconListener){
+        if (context instanceof BeaconListener) {
             beaconListener = (BeaconListener) context;
-        }
-        else{
+        } else {
             throw new RuntimeException(context.toString() + " must implement BeaconListener");
         }
     }
 
-    private void setMarkerPosition(final Location location) {
-        //WhereAmI overlay AFTER Inflation
-        Log.d(Const.LOGTAG, String.valueOf(Tools.getEnclosures(
-                getContext(), "4P1shyVmM4", location, 20)));
+    private void checkForBeacon(Location location) {
+        ArrayList<JSONObject> nearBeacons = Tools.getEnclosures(getContext(), "4P1shyVmM4", location, 15); //near beacons in 15m range
+        for (int i = 0; i < nearBeacons.size(); i++) {
+            // TODO: 26.04.2016 show beacon overlay foreach near beacon
+            Log.d(Const.LOGTAG, "Near beacons: " + String.valueOf(nearBeacons.get(i)));
+        }
+    }
 
     private void setMarkerPosition(final Location location) {
         //Log.d(Const.LOGTAG, String.valueOf(view.getWidth() + " " + map.getWidth()));

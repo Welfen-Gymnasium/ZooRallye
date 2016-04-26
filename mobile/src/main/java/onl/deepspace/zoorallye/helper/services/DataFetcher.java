@@ -53,7 +53,7 @@ public class DataFetcher extends IntentService {
             case DataFetcher.STATUS_RUNNING:
                 break;
             case DataFetcher.STATUS_FINISHED:
-                // Hide progress & extract result from bundle
+                // Handle result
                 String result = resultData.getString(DataFetcher.RESULT);
                 break;
             case DataFetcher.STATUS_ERROR:

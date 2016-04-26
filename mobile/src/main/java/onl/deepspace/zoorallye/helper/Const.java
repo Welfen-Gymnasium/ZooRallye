@@ -58,6 +58,8 @@ public final class Const {
     public static final String QUESTION_ANSWER = "questionAnswer";
     public static final String QUESTION_VISIT_ID = "questionVisitId";
 
+    public static final String QUESTION_BUNDLE_ID = "questionBundleId";
+
     public static final String QUESTION_SCORE = "questionScore";
     public static final String QUESTION_TYPE_SORT = "sort";
     public static final String QUESTION_TYPE_SEEKBAR = "slider";
