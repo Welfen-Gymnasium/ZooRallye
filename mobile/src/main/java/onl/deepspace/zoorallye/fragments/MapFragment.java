@@ -67,12 +67,9 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //Map
-        ZoomView mapZoomView = (ZoomView) getActivity().findViewById(R.id.fragment_map_zoom_view);
-        if (mapZoomView != null) {
-            mapZoomView.setMaxZoom(3f);
-        } else {
-            Log.d(Const.LOGTAG, "ZoomView is null. WHY?");
-        }
+        ZoomView mapZoomView = (ZoomView) view.findViewById(R.id.fragment_map_zoom_view);
+        mapZoomView.setMaxZoom(3f);
+
         map = (ImageView) view.findViewById(R.id.fragment_map_map);
 
         //GPS
@@ -181,7 +178,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         int xMarker = pos.centerX();
         int yMarker = pos.bottom;
 
-        if (xMarker >= 0 && xMarker <= view.getWidth() && yMarker >= 0 &&
+        if (xMarker > 0 && xMarker <= view.getWidth() && yMarker > 0 &&
                 yMarker <= view.getHeight()) {
 
             try {
