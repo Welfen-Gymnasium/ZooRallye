@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +31,12 @@ import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
-import onl.deepspace.zoorallye.lib.GPSTracker;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.AsyncTaskCallback;
 import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 import onl.deepspace.zoorallye.helper.interfaces.GPSCallback;
+import onl.deepspace.zoorallye.lib.GPSTracker;
 import onl.deepspace.zoorallye.lib.ZoomView;
 
 /**
@@ -65,7 +63,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_map, container, false);
-
+        // TODO: 26.04.2016 To large graphics
         //Map
         ZoomView mapZoomView = (ZoomView) view.findViewById(R.id.fragment_map_zoom_view);
         mapZoomView.setMaxZoom(3f);
