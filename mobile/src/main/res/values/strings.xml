@@ -59,5 +59,9 @@
     <string name="questions">Questions</string>
     <string name="download_data_here">Download zoo and question data here.</string>
     <string name="delete_all_data">Delete all data</string>
+    <string name="zoo_opening_hours">Opening hours</string>
+    <string name="zoo_entrance_fee">Entrance fee</string>
+    <string name="zoo_arrival">Arrival</string>
+    <string name="zoo_restaurants">Restaurants</string>
 
 </resources>
