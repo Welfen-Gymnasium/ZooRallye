@@ -48,11 +48,11 @@ public class Strings {
     public static String getAnimal(Context context, String animal) {
         final Resources res = context.getResources();
 
-        animal = BASE_ANIMAL + animal.replaceAll(" ", "_");
+        String idString = BASE_ANIMAL + animal.replaceAll(" ", "_");
 
-        Log.d(Const.LOGTAG, animal);
+        Log.d(Const.LOGTAG, idString);
 
-        int id = res.getIdentifier(animal, "string", context.getPackageName());
+        int id = res.getIdentifier(idString, "string", context.getPackageName());
         Log.d(Const.LOGTAG, id + "");
         if (id == 0)
             return animal;
