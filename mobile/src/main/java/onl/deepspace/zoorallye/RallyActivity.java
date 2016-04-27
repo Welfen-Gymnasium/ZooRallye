@@ -70,9 +70,14 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     }
 
     private void setup(Bundle savedInstanceState) {
-        if(savedInstanceState == null) savedInstanceState = new Bundle();
-        mRallyActive = savedInstanceState.getBoolean(ARG_RALLY_ACTIVE, false);
-        mQuestions = savedInstanceState.getParcelableArrayList(ARG_QUESTIONS);
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            mRallyActive = intent.getBooleanExtra(ARG_RALLY_ACTIVE, false);
+            mQuestions = intent.getParcelableArrayListExtra(ARG_QUESTIONS);
+        } else {
+            mRallyActive = savedInstanceState.getBoolean(ARG_RALLY_ACTIVE, false);
+            mQuestions = savedInstanceState.getParcelableArrayList(ARG_QUESTIONS);
+        }
 
         // Setup Tab Layout
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -87,7 +92,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         TabLayout.Tab tab1 = tabLayout.getTabAt(0);
         if(tab1 != null) tab1.setIcon(mRallyActive ? R.drawable.ic_map : R.drawable.ic_play_arrow);
         TabLayout.Tab tab2 = tabLayout.getTabAt(1);
-        if(tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_people : R.drawable.ic_map);
+        if(tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_menu_info : R.drawable.ic_map);
     }
 
     @Override
@@ -95,6 +100,12 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         mRallyActive = true;
         mQuestions = questions;
 
+        Intent intent = new Intent(this, RallyActivity.class);
+        intent.putExtra(ARG_RALLY_ACTIVE, mRallyActive);
+        intent.putExtra(ARG_QUESTIONS, mQuestions);
+
+        finish();
+        startActivity(intent);
     }
 
     @Override

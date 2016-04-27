@@ -2,12 +2,9 @@ package onl.deepspace.zoorallye;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-
-import onl.deepspace.zoorallye.helper.Liana;
 
 public class LauncherActivity extends AppCompatActivity {
 
@@ -21,6 +18,7 @@ public class LauncherActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                finish();
                 startActivity(new Intent(activity, RallyActivity.class));
             }
         }, 1000);
