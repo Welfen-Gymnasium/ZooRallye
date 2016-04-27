@@ -26,11 +26,10 @@ import com.android.vending.billing.IInAppBillingService;
 import onl.deepspace.zoorallye.fragments.DonationFragment;
 import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
-import onl.deepspace.zoorallye.fragments.ZooInfoFragment;
+import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
-import onl.deepspace.zoorallye.helper.services.DataFetcher;
 
 public class MainActivity extends AppCompatAchievementActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -227,7 +226,7 @@ public class MainActivity extends AppCompatAchievementActivity
             case R.id.nav_offline:
                 return new OfflineContentFragment();
             case R.id.nav_info:
-                return new ZooInfoFragment();
+                return new InfoFragment();
             default:
                 return null;
         }
