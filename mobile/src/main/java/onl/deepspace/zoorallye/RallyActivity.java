@@ -183,7 +183,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(mBeaconOverlayFragment, BEACON_OVERLAY_FRAGMENT);
+            transaction.add(R.id.drawer_layout_rally ,mBeaconOverlayFragment);
             transaction.commit();
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
