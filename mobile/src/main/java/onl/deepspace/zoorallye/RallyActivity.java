@@ -242,7 +242,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                     return mRallyActive ? new MapFragment() :
                             new StartRallyFragment();
                 case 1:
-                    return mRallyActive ? new MapFragment() : new InfoFragment();
+                    return mRallyActive ? new InfoFragment() : new MapFragment();
             }
             return null;
         }
