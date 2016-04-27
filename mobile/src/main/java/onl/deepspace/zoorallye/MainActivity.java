@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
 
 import onl.deepspace.zoorallye.fragments.DonationFragment;
+import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
@@ -221,7 +222,8 @@ public class MainActivity extends AppCompatAchievementActivity
                 return new StatisticsFragment();
             case R.id.nav_donate:
                 return new DonationFragment();
-            //case R.id.nav_offline: return OfflineContentFragment.newInstance();
+            case R.id.nav_offline:
+                return new OfflineContentFragment();
             default:
                 return null;
         }

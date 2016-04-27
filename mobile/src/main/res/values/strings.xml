@@ -55,5 +55,8 @@
     <string name="donation_something_went_wrong">Something went wrong.</string>
     <string name="action_donate">Donate</string>
     <string name="donation_text">Click on the Android Robot to support our work on this App. It was a project of our school. Creating the App took us about 400h. \n\n Thank you!</string>
+    <string name="download_required">Here you can download zoos and questions.</string>
+    <string name="questions">Questions</string>
+    <string name="download_data_here">Download zoo and question data here.</string>
 
 </resources>

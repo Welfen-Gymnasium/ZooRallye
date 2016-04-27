@@ -10,11 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import onl.deepspace.zoorallye.MainActivity;
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.services.DataFetcher;
 import onl.deepspace.zoorallye.lib.OfflineContentRecyclerViewAdapter;
 
@@ -25,6 +28,7 @@ public class OfflineContentFragment extends Fragment implements
         OfflineContentRecyclerViewAdapter.OfflineItemCommunication{
 
     private int mColumnCount = 1;
+    private View recycler;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,19 +53,26 @@ public class OfflineContentFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_offlinecontent_list, container, false);
 
         // TODO NO-IMPORTANCE: 25.04.2016 complete full behavior
+        Toast.makeText(getActivity(), getResources().getString(R.string.download_required), Toast.LENGTH_LONG).show();
 
+        recycler = view.findViewById(R.id.offline_fragment_recycler);
+        
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (recycler instanceof RecyclerView) {
+            Context context = recycler.getContext();
+            RecyclerView recyclerView = (RecyclerView) recycler;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
+            boolean zoosFetched = Tools.getZoos(getContext(), false) != null;
+            boolean questionsFetched = Tools.getQuestions(getContext(), false) != null;
+
             ArrayList<OfflineItem> list = new ArrayList<>();
-            list.add(new OfflineItem("questions", "Fragen", false));
-            list.add(new OfflineItem("4P1shyVmM4", "Zoo Augsburg", true));
+            list.add(new OfflineItem("questions", getResources().getString(R.string.questions), questionsFetched));
+            list.add(new OfflineItem("4P1shyVmM4", "Zoo Augsburg", zoosFetched));
             RecyclerView.Adapter adapter = new OfflineContentRecyclerViewAdapter(list, this);
             recyclerView.setAdapter(adapter);
         }
@@ -78,6 +89,11 @@ public class OfflineContentFragment extends Fragment implements
         intent.putExtra("requestId", item.id.hashCode());
 
         getContext().startService(intent);
+
+        // TODO: 27.04.2016 NOT IMPORTANT find a nicer solution
+        Intent restart = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(Const.NAV_FRAGMENT, R.id.nav_offline);
+        startActivity(restart);
     }
 
     @Override

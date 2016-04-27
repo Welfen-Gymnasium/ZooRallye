@@ -32,7 +32,7 @@ import onl.deepspace.zoorallye.helper.services.DataFetcher.DownloadResultReceive
  * Use the {@link StartRallyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StartRallyFragment extends Fragment implements DataFetcher.DownloadResultReceiver.Receiver{
+public class StartRallyFragment extends Fragment {//} implements DataFetcher.DownloadResultReceiver.Receiver{
 
     private OnStartRallyListener mListener;
 
@@ -78,7 +78,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
         // final int maxScore = questionsCount * Const.SCORE_AVERAGE;
         // int currentMaxScore = 0;
         JSONObject questions = Tools.getQuestions(getContext());
-        if (questions == null) {
+        /*if (questions == null) {
             Log.d(Const.LOGTAG, "Get Questions");
             DataFetcher.DownloadResultReceiver mReceiver;
 
@@ -93,7 +93,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
 
             getActivity().startService(intent);
             return;
-        }
+        }*/
         try {
             JSONArray checkbox = questions.getJSONArray(Const.QUESTION_TYPE_CHECKBOX);
             JSONArray radio = questions.getJSONArray(Const.QUESTION_TYPE_RADIO);
@@ -157,7 +157,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
         mListener = null;
     }
 
-    @Override
+    /*@Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         switch (resultCode) {
             case DataFetcher.STATUS_RUNNING:
@@ -176,7 +176,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
                 Log.e(Const.LOGTAG, error);
                 break;
         }
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this

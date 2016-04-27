@@ -94,9 +94,9 @@ public class DataFetcher extends IntentService {
 
                 /* Sending result back to activity */
                 if (url.contains(Const.ZOOS_API)) {
-                    JSONArray zoos = Tools.getZoos(this);
+                    //JSONArray zoos = Tools.getZoos(this);
                     JSONArray fetchedZoos = new JSONArray(result);
-                    if (zoos != null) {
+                    /*if (zoos != null) {
                         for (int i = 0; i < fetchedZoos.length(); i++) {
                             boolean wasCached = false;
                             JSONObject fetchedZoo = fetchedZoos.getJSONObject(i);
@@ -116,8 +116,9 @@ public class DataFetcher extends IntentService {
                                 zoos.put(fetchedZoo);
                             }
                         }
-                    }
-                    Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
+                    }*/
+                    Tools.setZoos(this, fetchedZoos);
+                    //Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
                 } else if (url.contains(Const.QuestionsAPI)) {
                     Tools.setQuestions(this, new JSONObject(result));
                 }
@@ -125,11 +126,14 @@ public class DataFetcher extends IntentService {
                 bundle.putString(RESULT, result);
                 receiver.send(STATUS_FINISHED, bundle);
 
+            } catch (NullPointerException e) {
+                Log.i(LOGTAG, "No receiver to send back found!");
             } catch (Exception e) {
-
                 /* Sending error message back to activity */
+                e.printStackTrace();
+                Log.e(LOGTAG, e.getMessage());
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
-                receiver.send(STATUS_ERROR, bundle);
+                if(receiver != null) receiver.send(STATUS_ERROR, bundle);
             }
         }
         Log.d(LOGTAG, "Service Stopping!");

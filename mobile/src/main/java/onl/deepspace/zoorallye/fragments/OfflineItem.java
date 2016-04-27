@@ -7,9 +7,9 @@ package onl.deepspace.zoorallye.fragments;
  * {@link onl.deepspace.zoorallye.fragments.OfflineContentFragment}
  */
 public class OfflineItem {
-    public final String id;
-    public final String name;
-    public final boolean offline;
+    public String id;
+    public String name;
+    public boolean offline;
 
     public OfflineItem(String id, String name, boolean offline) {
         this.id = id;

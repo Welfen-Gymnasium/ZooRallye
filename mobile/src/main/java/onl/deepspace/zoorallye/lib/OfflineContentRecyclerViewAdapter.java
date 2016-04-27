@@ -46,6 +46,12 @@ public class OfflineContentRecyclerViewAdapter extends
                 mListener.onItemClick(holder.mItem);
             }
         });
+        holder.mActionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClick(holder.mItem);
+            }
+        });
     }
 
     @Override

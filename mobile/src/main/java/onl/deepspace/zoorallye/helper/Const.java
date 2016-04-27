@@ -12,7 +12,7 @@ public final class Const {
 
     public static final int RALLY_QUESTION_COUNT = 40;
 
-    public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos";
+    public static final String ZOOS_API = "http://api.deepspace.onl/zoorallye/zoos/";
     public static final String ZOO_ID = "id";
     public static final String ZOO_LAT = "latitude";
     public static final String ZOO_LNG = "longitude";
