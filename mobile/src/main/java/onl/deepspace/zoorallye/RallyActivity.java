@@ -5,8 +5,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,8 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import onl.deepspace.zoorallye.fragments.BeaconsOverlayFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.fragments.StartRallyFragment;
 import onl.deepspace.zoorallye.helper.Const;
@@ -27,11 +34,14 @@ import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatAchievementActivity implements
-        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
+        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener, MapFragment.OverlayShow,
         BeaconListener {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
+
+    private Fragment mBeaconOverlayFragment;
+    private static final String BEACON_OVERLAY_FRAGMENT = "beaconOverlayFragment";
 
     Tools.ActionBarToggler toggle;
     private boolean mRallyActive;
@@ -140,6 +150,52 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     @Override
     public void onBeaconClick(Location location) {
         Log.d(Const.LOGTAG, "Beacon click " + location.getLongitude() + " " + location.getLatitude());
+        ArrayList<JSONObject> nearBeacons = Tools.getEnclosures(this, "4P1shyVmM4", location, 1); //near beacons in 1m range
+        
+        if(nearBeacons.size() == 1){
+            // TODO: 27.04.2016 parse questions 
+            showBeaconOverlay(nearBeacons.get(0), null);
+        }
+        else{
+            Log.e(Const.LOGTAG, "There is no beacon defined for location " + String.valueOf(location));
+        }
+    }
+
+    @Override
+    public void onOverlayShow(JSONObject beacon, Question questions) {
+        showBeaconOverlay(beacon, questions);
+    }
+
+    /**
+     * Show an overlay on on tap for several beacons,
+     * such as enclosures, animal houses, kiosks, etc.
+     *
+     * @param beacon    The beacon object with information about the beacon
+     * @param questions A Bundle of questions to display in the overlay with information to
+     *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
+     */
+    private void showBeaconOverlay(JSONObject beacon, Question questions) {
+
+        try {
+            JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
+            ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
+
+            mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(mBeaconOverlayFragment, BEACON_OVERLAY_FRAGMENT);
+            transaction.commit();
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+
+    }
+
+    private void hideBeaconOverlay() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.remove(mBeaconOverlayFragment);
+        transaction.commit();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

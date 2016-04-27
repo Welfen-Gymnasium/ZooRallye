@@ -111,7 +111,7 @@ public class StartRallyFragment extends Fragment implements DataFetcher.Download
             allQuestion = addToArrayList(allQuestion, trueFalse, Const.QUESTION_TYPE_TRUE_FALSE);
 
             Collections.shuffle(allQuestion);
-            // TODO: 26.04.2016 make questions equally valuable
+            // TODO NO-IMPORTANCE: 26.04.2016 make questions equally valuable
             Log.d(Const.LOGTAG, String.valueOf(allQuestion));
 
             ArrayList<Question> rallyQuestions;
