@@ -7,28 +7,32 @@
     app:cardElevation="@dimen/question_image_elevation"
     tools:context="onl.deepspace.zoorallye.fragments.DonationFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/fragment_donation_donate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="64dp"
-            android:src="@drawable/img_android_robot" />
+            <ImageView
+                android:id="@+id/fragment_donation_donate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/img_android_robot" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            android:layout_gravity="start"
-            android:textAlignment="viewStart"
-            android:text="@string/donation_text"
-            android:textColor="#000000"
-            android:textSize="22sp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:layout_gravity="start"
+                android:textAlignment="viewStart"
+                android:text="@string/donation_text"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.v7.widget.CardView>

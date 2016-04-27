@@ -23,11 +23,13 @@ import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 
+import onl.deepspace.zoorallye.fragments.AboutFragment;
 import onl.deepspace.zoorallye.fragments.DonationFragment;
 import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
 import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatAchievementActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Lianas
+        Liana.addLiana(findViewById(R.id.content_frame));
 
         // Opens a specific fragment if defined
         int fragment = getIntent().getIntExtra(Const.NAV_FRAGMENT, 0);
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatAchievementActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -107,8 +112,7 @@ public class MainActivity extends AppCompatAchievementActivity
 
         switch (id) {
             case R.id.action_about:
-                Intent intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
+                openFragment(getFragmentByID(R.id.nav_about));
                 return true;
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, R.string.coming_soon, Toast.LENGTH_SHORT).show();
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatAchievementActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,15 +145,6 @@ public class MainActivity extends AppCompatAchievementActivity
         switch (item.getItemId()) {
             case R.id.nav_rally:
                 intent = new Intent(this, RallyActivity.class);
-                actionBarToggler.runWhenIdle(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(intent);
-                    }
-                });
-                break;
-            case R.id.nav_about:
-                intent = new Intent(this, AboutActivity.class);
                 actionBarToggler.runWhenIdle(new Runnable() {
                     @Override
                     public void run() {
@@ -225,6 +220,8 @@ public class MainActivity extends AppCompatAchievementActivity
                 return new DonationFragment();
             case R.id.nav_offline:
                 return new OfflineContentFragment();
+            case R.id.nav_about:
+                return new AboutFragment();
             case R.id.nav_info:
                 return new InfoFragment();
             default:
