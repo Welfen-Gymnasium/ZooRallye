@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.fragments.BeaconsOverlayFragment;
+import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.fragments.StartRallyFragment;
 import onl.deepspace.zoorallye.helper.Const;
@@ -102,7 +103,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         TabLayout.Tab tab1 = tabLayout.getTabAt(0);
         if (tab1 != null) tab1.setIcon(mRallyActive ? R.drawable.ic_map : R.drawable.ic_play_arrow);
         TabLayout.Tab tab2 = tabLayout.getTabAt(1);
-        if (tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_menu_info : R.drawable.ic_map);
+        if (tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_info : R.drawable.ic_map);
     }
 
     @Override
@@ -241,7 +242,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                     return mRallyActive ? new MapFragment() :
                             new StartRallyFragment();
                 case 1:
-                    return mRallyActive ? new MapFragment() : new MapFragment();
+                    return mRallyActive ? new MapFragment() : new InfoFragment();
             }
             return null;
         }
