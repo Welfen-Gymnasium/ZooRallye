@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.helper.Question;
 
 /**
  * A fragment representing a list of Items.
@@ -22,7 +23,7 @@ public class BeaconsOverlayFragment extends Fragment {
     }
 
     @SuppressWarnings("unused")
-    public static BeaconsOverlayFragment newInstance(ArrayList<String> animals, Bundle questions) {
+    public static BeaconsOverlayFragment newInstance(ArrayList<String> animals, Question questions) {
         return new BeaconsOverlayFragment();
     }
 
