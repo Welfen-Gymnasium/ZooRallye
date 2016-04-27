@@ -43,7 +43,6 @@
     <string name="show_achievements_description">Show achievements</string>
     <string name="show_leaderboards_description">Show Leaderboards</string>
 
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="hide_beacon_overlay_description" translatable="false">Hide Beacon Overlay</string>
     <string name="loading">Loading</string>
     <string name="gps_permission_denied">GPS Permission denied!</string>
@@ -60,10 +59,107 @@
     <string name="delete_all_data">Delete all data</string>
     <string name="overlay_animals">Animals</string>
     <string name="overlay_questions">Questions</string>
-    <string name="overlay_question_divider">:</string>
+    <string name="overlay_question_divider" translatable="false">:&#160;</string>
+    <string name="points_suffix" translatable="false">" P"</string>
+
     <string name="zoo_opening_hours">Opening hours</string>
     <string name="zoo_entrance_fee">Entrance fee</string>
     <string name="zoo_arrival">Arrival</string>
     <string name="zoo_restaurants">Restaurants</string>
 
+    <string name="type_checkbox">Easy selection</string>
+    <string name="type_radio">Multiple selection</string>
+    <string name="type_seekbar">Estimation</string>
+    <string name="type_text">Text question</string>
+    <string name="type_true_false">True-False question</string>
+    <string name="type_sort">Sort question</string>
+
+    <string name="animal_alpaca">alpaca</string>
+    <string name="animal_african_ostrich">african ostrich</string>
+    <string name="animal_alpine_ibex">alpine ibex</string>
+    <string name="animal_american_rhea">american rhea</string>
+    <string name="animal_amphibian">amphibian</string>
+    <string name="animal_antelope">antelope</string>
+    <string name="animal_asian_elephant">asian elephant</string>
+    <string name="animal_baboon">baboon</string>
+    <string name="animal_bear">bear</string>
+    <string name="animal_beaver">beaver</string>
+    <string name="animal_bennett">bennett</string>
+    <string name="animal_bird">bird</string>
+    <string name="animal_black_lemur">black lemur</string>
+    <string name="animal_blesbok">blesbok</string>
+    <string name="animal_brown_bear">brown bear</string>
+    <string name="animal_buffalo">buffalo</string>
+    <string name="animal_capuchin">capuchin</string>
+    <string name="animal_cavy">cavy</string>
+    <string name="animal_chimpanzee">chimpanzee</string>
+    <string name="animal_chinese_muntjac">chinese muntjac</string>
+    <string name="animal_coati">coati</string>
+    <string name="animal_cow">cow</string>
+    <string name="animal_crane">crane</string>
+    <string name="animal_dahome_cow">dahomé cow</string>
+    <string name="animal_degus">degus</string>
+    <string name="animal_donkey">donkey</string>
+    <string name="animal_duck">duck</string>
+    <string name="animal_east_caucasian_tur">east caucasian tur</string>
+    <string name="animal_elephant">elephant</string>
+    <string name="animal_emu">emu</string>
+    <string name="animal_fennec">fennec</string>
+    <string name="animal_flamingo">flamingo</string>
+    <string name="animal_glossy_ibis">glossy ibis</string>
+    <string name="animal_goat">goat</string>
+    <string name="animal_great_gray_owl">great gray owl</string>
+    <string name="animal_grevys_zebra">grevys zebra</string>
+    <string name="animal_ground_hornbill">ground hornbill</string>
+    <string name="animal_hamadryas_baboon">hamadryas baboon</string>
+    <string name="animal_hyena">hyena</string>
+    <string name="animal_ibex">ibex</string>
+    <string name="animal_ibis">ibis</string>
+    <string name="animal_lemur">lemur</string>
+    <string name="animal_leopard">leopard</string>
+    <string name="animal_leopard_cat">leopard cat</string>
+    <string name="animal_lesser_flamingo">lesser flamingo</string>
+    <string name="animal_lion">lion</string>
+    <string name="animal_magellanic_penguin">magellanic penguin</string>
+    <string name="animal_mandrill">mandrill</string>
+    <string name="animal_maned_wolf">maned wolf</string>
+    <string name="animal_meerkat">meerkat</string>
+    <string name="animal_miniature_donkey">miniature donkey</string>
+    <string name="animal_mishmi_takin">mishmi takin</string>
+    <string name="animal_mountain_goat">mountain goat</string>
+    <string name="animal_muntjac">muntjac</string>
+    <string name="animal_native_amphibian">native amphibian</string>
+    <string name="animal_native_fish">native fish</string>
+    <string name="animal_snake">snake</string>
+    <string name="animal_nilgai">nilgai</string>
+    <string name="animal_onager">onager</string>
+    <string name="animal_ostrich">ostrich</string>
+    <string name="animal_otter">otter</string>
+    <string name="animal_owl">owl</string>
+    <string name="animal_pelican">pelican</string>
+    <string name="animal_penguin">penguin</string>
+    <string name="animal_pony">pony</string>
+    <string name="animal_rabbit">rabbit</string>
+    <string name="animal_red_buffalo">red buffalo</string>
+    <string name="animal_rhino">rhino</string>
+    <string name="animal_ring_tailed_lemur">ring tailed lemur</string>
+    <string name="animal_scarlet_ibis">scarlet ibis</string>
+    <string name="animal_sea_bear">sea bear</string>
+    <string name="animal_seal">seal</string>
+    <string name="animal_stork">stork</string>
+    <string name="animal_striped_hyena">striped hyena</string>
+    <string name="animal_sulcata_tortoise">sulcata tortoise</string>
+    <string name="animal_sumatran_tiger">sumatran tiger</string>
+    <string name="animal_takin">takin</string>
+    <string name="animal_tiger">tiger</string>
+    <string name="animal_tortoise">tortoise</string>
+    <string name="animal_tropic_bird">tropic bird</string>
+    <string name="animal_water_buffalo">water buffalo</string>
+    <string name="animal_water_fowl">water fowl</string>
+    <string name="animal_wolf">wolf</string>
+    <string name="animal_zebra">zebra</string>
+    <string name="animal_reptile">reptile</string>
+
+    <string name="zoo_beacon_open_air">Open-Air enclosure</string>
+    <string name="zoo_beacon_animal_house">Animal house</string>
 </resources>

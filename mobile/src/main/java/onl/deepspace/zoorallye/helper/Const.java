@@ -18,6 +18,9 @@ public final class Const {
     public static final String ZOO_LNG = "longitude";
     public static final String ZOO_ANIMALS = "animals";
 
+    public static final String ZOO_BEACON_OPEN_AIR = "open-air enclosure";
+    public static final String ZOO_BEACON_ANIMAL_HOUSE = "animal house";
+
     final public static String QuestionsAPI = "http://api.deepspace.onl/zoorallye/questions";
     final public static String QuestionsAPI_token = "token";
     public static final String QuestionsAPI_SLIDER = "slider";

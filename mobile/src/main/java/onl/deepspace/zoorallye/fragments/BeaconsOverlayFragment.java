@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Question;
+import onl.deepspace.zoorallye.helper.Strings;
 
 /**
  * A fragment representing a list of Items.
@@ -54,13 +56,14 @@ public class BeaconsOverlayFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beacons_overlay, container, false);
 
         TextView beaconType = (TextView) view.findViewById(R.id.beacon_type);
-        beaconType.setText(mBeaconType);
+        beaconType.setText(Strings.getBeaconType(getContext(), mBeaconType));
 
         ViewGroup animalList = (ViewGroup) view.findViewById(R.id.animal_list);
 
@@ -68,8 +71,8 @@ public class BeaconsOverlayFragment extends Fragment {
 
         for (String animal : mAnimals) {
             TextView animalItem = (TextView) inflater
-                    .inflate(R.layout.beacon_overlay_animal_item, animalList);
-            animalItem.setText(animal);
+                    .inflate(R.layout.beacon_overlay_animal_item, (ViewGroup) view, false);
+            animalItem.setText(Strings.getAnimal(getContext(), animal));
             animalList.addView(animalItem);
         }
 
@@ -80,14 +83,15 @@ public class BeaconsOverlayFragment extends Fragment {
                     .inflate(R.layout.beacon_overlay_question_item, questionList);
 
             TextView questionType = (TextView) questionItem.findViewById(R.id.question_type);
-            questionType.setText(question.getType());
+            questionType.setText(Strings.getType(getContext(), question.getType()));
 
             TextView questionAnimal = (TextView) questionItem.findViewById(R.id.question_animal);
             String animal = question.getAnimal();
-            if (animal != null) questionAnimal.setText(animal);
+            if (animal != null) questionAnimal.setText(Strings.getAnimal(getContext(), animal));
 
             TextView questionScore = (TextView) questionItem.findViewById(R.id.question_score);
-            questionScore.setText(question.getScore());
+            questionScore.setText(question.getScore() +
+                    getContext().getString(R.string.points_suffix));
 
             ImageView questionState = (ImageView) questionItem.findViewById(R.id.question_state);
             int state = question.getState();
