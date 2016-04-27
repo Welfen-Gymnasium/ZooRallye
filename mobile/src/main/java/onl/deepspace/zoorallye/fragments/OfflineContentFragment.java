@@ -3,6 +3,7 @@ package onl.deepspace.zoorallye.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +26,7 @@ import onl.deepspace.zoorallye.lib.OfflineContentRecyclerViewAdapter;
  * A fragment representing a list of Items.
  */
 public class OfflineContentFragment extends Fragment implements
-        OfflineContentRecyclerViewAdapter.OfflineItemCommunication{
+        OfflineContentRecyclerViewAdapter.OfflineItemCommunication, DataFetcher.DownloadResultReceiver.Receiver{
 
     private int mColumnCount = 1;
     private View recycler;
@@ -82,18 +83,18 @@ public class OfflineContentFragment extends Fragment implements
     @Override
     public void onItemClick(OfflineItem item) {
         Intent intent = new Intent(Intent.ACTION_SYNC, null, getContext(), DataFetcher.class);
+        DataFetcher.DownloadResultReceiver mReceiver;
+
+        mReceiver = new DataFetcher.DownloadResultReceiver(new Handler());
+        mReceiver.setReceiver(this);
 
         // Send optional extras to Download IntentService
         String url = item.id.equals("questions") ? Const.QuestionsAPI : Const.ZOOS_API + item.id;
         intent.putExtra("url", url);
-        intent.putExtra("requestId", item.id.hashCode());
+        intent.putExtra("receiver", mReceiver);
+        intent.putExtra("requestId", 2001);
 
         getContext().startService(intent);
-
-        // TODO: 27.04.2016 NOT IMPORTANT find a nicer solution
-        Intent restart = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(Const.NAV_FRAGMENT, R.id.nav_offline);
-        startActivity(restart);
     }
 
     @Override
@@ -104,5 +105,10 @@ public class OfflineContentFragment extends Fragment implements
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        ((MainActivity) getActivity()).openFragment(((MainActivity) getActivity()).getFragmentByID(R.id.nav_offline));
     }
 }

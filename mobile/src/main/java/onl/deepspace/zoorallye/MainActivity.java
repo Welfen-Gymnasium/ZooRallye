@@ -29,6 +29,7 @@ import onl.deepspace.zoorallye.fragments.StatisticsFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
+import onl.deepspace.zoorallye.helper.services.DataFetcher;
 
 public class MainActivity extends AppCompatAchievementActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatAchievementActivity
 
     }
 
-    private void openFragment(Fragment fragment) {
+    public void openFragment(Fragment fragment) {
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatAchievementActivity
         }
     }
 
-    private Fragment getFragmentByID(int id) {
+    public Fragment getFragmentByID(int id) {
         switch (id) {
             case R.id.nav_statistics:
                 return new StatisticsFragment();
@@ -228,5 +229,4 @@ public class MainActivity extends AppCompatAchievementActivity
                 return null;
         }
     }
-
 }

@@ -150,8 +150,6 @@ public class Tools {
 
         try {
             JSONArray zooArray = getZoos(context);
-
-            Log.d(Const.LOGTAG, "getEnclosures: " + String.valueOf(getZoos(context)));
             if (zooArray != null) {
                 for (int i = 0; i < zooArray.length(); i++) {
                     if (zooArray.getJSONObject(i).get(Const.ZOO_ID).equals(zooId)) {
