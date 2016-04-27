@@ -104,7 +104,6 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     public void onStartRally(ArrayList<Question> questions) {
         mRallyActive = true;
         mQuestions = questions;
-
     }
 
     @Override
@@ -143,7 +142,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         
         if(nearBeacons.size() == 1){
             // TODO: 27.04.2016 parse questions 
-            showBeaconOverlay(nearBeacons.get(0), null);
+            showBeaconOverlay(nearBeacons.get(0), getQuestionsForBeacon(nearBeacons.get(0)));
         }
         else{
             Log.e(Const.LOGTAG, "There is no beacon defined for location " + String.valueOf(location));
@@ -152,7 +151,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
 
     @Override
     public void onOverlayShow(JSONObject beacon, Question questions) {
-        showBeaconOverlay(beacon, questions);
+        showBeaconOverlay(beacon, getQuestionsForBeacon(beacon));
     }
 
     /**
@@ -163,7 +162,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
      * @param questions A Bundle of questions to display in the overlay with information to
      *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
      */
-    private void showBeaconOverlay(JSONObject beacon, Question questions) {
+    private void showBeaconOverlay(JSONObject beacon, ArrayList<Question> questions) {
 
         try {
             JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
@@ -185,6 +184,29 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(mBeaconOverlayFragment);
         transaction.commit();
+    }
+
+    private ArrayList<Question> getQuestionsForBeacon(JSONObject beacon){
+        ArrayList<Question> returnList = null;
+
+        try {
+            for (int i = 0; i < mQuestions.size(); i++) {
+                String questionsEnclosure = mQuestions.get(i).getValue().getString("enclosure");
+                JSONArray beaconEnclosureList = beacon.getJSONArray("animals");
+
+                for (int h = 0; h < beaconEnclosureList.length(); h++) {
+                    if(beaconEnclosureList.getString(h).equals(questionsEnclosure)){
+                        returnList.add(mQuestions.get(i));
+                    }
+                }
+
+            }
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        }
+
+        return returnList;
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

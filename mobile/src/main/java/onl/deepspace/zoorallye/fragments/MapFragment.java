@@ -124,14 +124,18 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         }
     }
 
-    private void checkForBeacon(Location location) {
-        ArrayList<JSONObject> nearBeacons = Tools.getEnclosures(getContext(), "4P1shyVmM4", location, 15); //near beacons in 15m range
-        for (int i = 0; i < nearBeacons.size(); i++) {
-            // TODO: 26.04.2016 show beacon overlay foreach near beacon
-            Log.d(Const.LOGTAG, "Near beacons: " + String.valueOf(nearBeacons.get(i)));
+    private void checkForBeacon(Location location){
+        checkForBeacon(location, 1);
+    }
+    private void checkForBeacon(Location location, int range) {
+        ArrayList<JSONObject> nearBeacons = Tools.getEnclosures(getContext(), "4P1shyVmM4", location, range); //near beacons in range
+
+        if(nearBeacons.size() == 0 && range < 16){
+            checkForBeacon(location, range + 1);
         }
-        if(nearBeacons.size() != 0)
+        else{
             ((OverlayShow) getActivity()).onOverlayShow(nearBeacons.get(0), null);
+        }
     }
 
     private void setMarkerPosition(final Location location) {

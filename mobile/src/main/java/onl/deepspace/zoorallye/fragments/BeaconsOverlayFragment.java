@@ -23,7 +23,7 @@ public class BeaconsOverlayFragment extends Fragment {
     }
 
     @SuppressWarnings("unused")
-    public static BeaconsOverlayFragment newInstance(ArrayList<String> animals, Question questions) {
+    public static BeaconsOverlayFragment newInstance(ArrayList<String> animals, ArrayList<Question> questions) {
         return new BeaconsOverlayFragment();
     }
 
