@@ -1,110 +1,116 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
     tools:context=".fragments.InfoFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/fragment_zoo_info_opening_hours"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:cardBackgroundColor="#EC407A">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/fragment_zoo_info_opening_hours"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/zoo_opening_hours"
-            android:textColor="#fff"
-            android:textSize="20sp" />
+            android:layout_margin="16dp"
+            android:elevation="4dp"
+            app:cardBackgroundColor="#EC407A">
 
-        <ImageView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/zoo_opening_hours"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:src="@drawable/ic_link" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/fragment_zoo_info_entrance_fee"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="10dp"
-            android:src="@drawable/ic_link" />
+            android:layout_margin="16dp"
+            android:elevation="4dp"
+            app:cardBackgroundColor="#26A69A">
 
-    </android.support.v7.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/zoo_entrance_fee"
+                android:textColor="#fff"
+                android:textSize="20sp" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/fragment_zoo_info_entrance_fee"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:cardBackgroundColor="#26A69A">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:src="@drawable/ic_link" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/fragment_zoo_info_restaurants"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/zoo_entrance_fee"
-            android:textColor="#fff"
-            android:textSize="20sp" />
+            android:layout_margin="16dp"
+            android:elevation="4dp"
+            app:cardBackgroundColor="@color/colorAccent">
 
-        <ImageView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/zoo_restaurants"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:src="@drawable/ic_link" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/fragment_zoo_info_arrival"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="10dp"
-            android:src="@drawable/ic_link" />
+            android:layout_margin="16dp"
+            android:elevation="4dp"
+            app:cardBackgroundColor="#5C6BC0">
 
-    </android.support.v7.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/zoo_arrival"
+                android:textColor="#fff"
+                android:textSize="20sp" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/fragment_zoo_info_restaurants"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:cardBackgroundColor="@color/colorAccent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:src="@drawable/ic_link" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/zoo_restaurants"
-            android:textColor="#fff"
-            android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="10dp"
-            android:src="@drawable/ic_link" />
+    </LinearLayout>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/fragment_zoo_info_arrival"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:cardBackgroundColor="#5C6BC0">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/zoo_arrival"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="10dp"
-            android:src="@drawable/ic_link" />
-
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>
+</ScrollView>
