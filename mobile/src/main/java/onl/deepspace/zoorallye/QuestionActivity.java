@@ -94,8 +94,8 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         float lowerMax = correctAnswer - min;
         float maxDist = upperMax > lowerMax ? upperMax : lowerMax;
 
-        int step = (int) (Const.SCORE_SLIDER / maxDist);
-        int score = (int) (Const.SCORE_SLIDER - (step * offset));
+        int step = (int) (Const.SCORE_SEEKBAR / maxDist);
+        int score = (int) (Const.SCORE_SEEKBAR - (step * offset));
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, Float.toString(userAnswer),
                 Float.toString(correctAnswer), Integer.toString(score));

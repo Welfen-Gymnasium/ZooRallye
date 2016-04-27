@@ -14,12 +14,18 @@ import org.json.JSONObject;
  */
 public class Question implements Parcelable {
 
+    public static final int STATE_UNKNOWN = 0;
+    public static final int STATE_CORRECT = 1;
+    public static final int STATE_WRONG = 2;
+
     private String type;
     private JSONObject value;
+    private int state;
 
     public Question(String type, JSONObject value) {
         this.type = type;
         this.value = value;
+        this.state = STATE_UNKNOWN;
     }
 
     public Question(Parcel parcel) {
@@ -29,6 +35,11 @@ public class Question implements Parcelable {
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
+        this.state = parcel.readInt();
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getType() {
@@ -37,6 +48,38 @@ public class Question implements Parcelable {
 
     public JSONObject getValue() {
         return value;
+    }
+
+    public String getAnimal() {
+        try {
+            return value.getString(Const.QUESTIONS_ENCLOSURE);
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            return null;
+        }
+    }
+
+    public int getScore() {
+        switch (type) {
+            case Const.QUESTION_TYPE_CHECKBOX:
+                return Const.SCORE_CHECKBOX;
+            case Const.QUESTION_TYPE_RADIO:
+                return Const.SCORE_RADIO;
+            case Const.QUESTION_TYPE_SEEKBAR:
+                return Const.SCORE_SEEKBAR;
+            case Const.QUESTION_TYPE_TEXT:
+                return Const.SCORE_TEXT;
+            case Const.QUESTION_TYPE_TRUE_FALSE:
+                return Const.SCORE_TRUE_FALSE;
+            case Const.QUESTION_TYPE_SORT:
+                return Const.SCORE_SORT;
+            default:
+                return 0;
+        }
+    }
+
+    public int getState() {
+        return this.state;
     }
 
     @Override
@@ -66,5 +109,6 @@ public class Question implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(type);
         dest.writeString(value.toString());
+        dest.writeInt(state);
     }
 }

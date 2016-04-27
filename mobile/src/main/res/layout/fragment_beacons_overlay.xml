@@ -32,12 +32,12 @@
                 android:contentDescription="@string/hide_beacon_overlay_description"
                 android:src="@drawable/ic_arrow_forward"/>
             <TextView
+                android:id="@+id/beacon_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:gravity="center_horizontal"
-                android:textSize="@dimen/beacon_overlay_header_size"
-                android:text="Gehege"/>
+                android:textSize="@dimen/beacon_overlay_header_size"/>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -46,6 +46,7 @@
             android:layout_marginBottom="@dimen/beacons_overlay_cards_spacing"
             app:cardElevation="8dp">
             <LinearLayout
+                android:id="@+id/animal_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -55,32 +56,9 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:gravity="center_horizontal"
-                    android:text="Tiere"
+                    android:text="@string/overlay_animals"
                     android:textSize="@dimen/beacon_overlay_header_size"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Giraffe"
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Elefant"
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Rhinozeros"
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
@@ -90,6 +68,7 @@
             android:layout_marginBottom="@dimen/beacons_overlay_cards_spacing"
             app:cardElevation="8dp">
             <LinearLayout
+                android:id="@+id/question_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -99,32 +78,110 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:gravity="center_horizontal"
-                    android:text="Fragen"
+                    android:text="@string/overlay_questions"
                     android:textSize="@dimen/beacon_overlay_header_size"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Frage 1: ..."
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/question_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Mehrfachauswahl"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text=": "/>
+                    <TextView
+                        android:id="@+id/question_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Alpensteinbock"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:text="100 P"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_check_circle"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Frage 2: ..."
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/question_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Mehrfachauswahl"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text=": "/>
+                    <TextView
+                        android:id="@+id/question_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Alpensteinbock"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:text="100 P"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_cross_circle"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:padding="8dp"
-                    android:gravity="center_horizontal"
-                    android:text="Frage 3: ..."
-                    android:textSize="@dimen/beacon_overlay_item_size"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/question_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Mehrfachauswahl"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text=": "/>
+                    <TextView
+                        android:id="@+id/question_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Alpensteinbock"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:text="100 P"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_unkown_circle"/>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
