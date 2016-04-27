@@ -267,12 +267,6 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         }
     }
 
-        /*BitmapDrawable dr = new BitmapDrawable(bmOverlay);
-        dr.setBounds(0, 0, view.getWidth(), view.getHeight());
-
-        map.setImageDrawable(dr);*/
-
-
     private class GetPosition extends AsyncTask<AsyncTaskCallback, Void, Location> {
 
         private AsyncTaskCallback asyncTaskCallback;

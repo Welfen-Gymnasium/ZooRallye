@@ -127,6 +127,8 @@ public class StartRallyFragment extends Fragment {//} implements DataFetcher.Dow
             Log.e(Const.LOGTAG, e.getMessage());
             //Maybe wrong JSON saved, delete it for new fetch
             getContext().deleteFile(Tools.QUESTIONS_DB);
+        } catch (NullPointerException e){
+            Log.w(Const.LOGTAG, "Questions not fetched resulted in " + e.getMessage());
         }
 
     }

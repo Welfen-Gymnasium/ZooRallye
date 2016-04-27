@@ -100,9 +100,9 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
         TabLayout.Tab tab1 = tabLayout.getTabAt(0);
-        if(tab1 != null) tab1.setIcon(mRallyActive ? R.drawable.ic_map : R.drawable.ic_play_arrow);
+        if (tab1 != null) tab1.setIcon(mRallyActive ? R.drawable.ic_map : R.drawable.ic_play_arrow);
         TabLayout.Tab tab2 = tabLayout.getTabAt(1);
-        if(tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_menu_info : R.drawable.ic_map);
+        if (tab2 != null) tab2.setIcon(mRallyActive ? R.drawable.ic_menu_info : R.drawable.ic_map);
     }
 
     @Override
@@ -152,19 +152,17 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     public void onBeaconClick(Location location) {
         Log.d(Const.LOGTAG, "Beacon click " + location.getLongitude() + " " + location.getLatitude());
         ArrayList<JSONObject> nearBeacons = Tools.getEnclosures(this, "4P1shyVmM4", location, 1); //near beacons in 1m range
-        
-        if(nearBeacons.size() == 1){
-            // TODO: 27.04.2016 parse questions 
+
+        if (nearBeacons.size() == 1 && mRallyActive) {
             showBeaconOverlay(nearBeacons.get(0), getQuestionsForBeacon(nearBeacons.get(0)));
-        }
-        else{
+        } else {
             Log.e(Const.LOGTAG, "There is no beacon defined for location " + String.valueOf(location));
         }
     }
 
     @Override
     public void onOverlayShow(JSONObject beacon, Question questions) {
-        showBeaconOverlay(beacon, getQuestionsForBeacon(beacon));
+        if (mRallyActive) showBeaconOverlay(beacon, getQuestionsForBeacon(beacon));
     }
 
     /**
@@ -176,18 +174,23 @@ public class RallyActivity extends AppCompatAchievementActivity implements
      *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
      */
     private void showBeaconOverlay(JSONObject beacon, ArrayList<Question> questions) {
+        if (questions != null) {
+            try {
+                JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
+                ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
 
-        try {
-            JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
-            ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
-
-            mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.drawer_layout_rally ,mBeaconOverlayFragment);
-            transaction.commit();
-        } catch (JSONException e) {
-            Log.e(Const.LOGTAG, e.getMessage());
+                mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.add(R.id.drawer_layout_rally, mBeaconOverlayFragment);
+                transaction.commit();
+            } catch (JSONException e) {
+                Log.e(Const.LOGTAG, e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.i(Const.LOGTAG, "No questions for this beacon.");
         }
 
     }
@@ -199,16 +202,18 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         transaction.commit();
     }
 
-    private ArrayList<Question> getQuestionsForBeacon(JSONObject beacon){
+    private ArrayList<Question> getQuestionsForBeacon(JSONObject beacon) {
         ArrayList<Question> returnList = null;
-
         try {
             for (int i = 0; i < mQuestions.size(); i++) {
                 String questionsEnclosure = mQuestions.get(i).getValue().getString("enclosure");
                 JSONArray beaconEnclosureList = beacon.getJSONArray("animals");
 
                 for (int h = 0; h < beaconEnclosureList.length(); h++) {
-                    if(beaconEnclosureList.getString(h).equals(questionsEnclosure)){
+                    if (beaconEnclosureList.getString(h).equals(questionsEnclosure)) {
+                        if(returnList == null){
+                            returnList = new ArrayList<>(); //need this to parse null if no question set
+                        }
                         returnList.add(mQuestions.get(i));
                     }
                 }
@@ -217,6 +222,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
+
 
         return returnList;
 
