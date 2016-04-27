@@ -63,7 +63,6 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_map, container, false);
-        // TODO: 26.04.2016 To large graphics
         //Map
         ZoomView mapZoomView = (ZoomView) view.findViewById(R.id.fragment_map_zoom_view);
         mapZoomView.setMaxZoom(3f);
