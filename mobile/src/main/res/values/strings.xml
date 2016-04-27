@@ -61,5 +61,9 @@
     <string name="overlay_animals">Animals</string>
     <string name="overlay_questions">Questions</string>
     <string name="overlay_question_divider">:</string>
+    <string name="zoo_opening_hours">Opening hours</string>
+    <string name="zoo_entrance_fee">Entrance fee</string>
+    <string name="zoo_arrival">Arrival</string>
+    <string name="zoo_restaurants">Restaurants</string>
 
 </resources>

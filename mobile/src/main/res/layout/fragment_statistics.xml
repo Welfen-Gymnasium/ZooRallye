@@ -20,6 +20,7 @@
             android:id="@+id/question_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="#EF5350"
             app:cardElevation="@dimen/question_image_elevation">
 
             <LinearLayout

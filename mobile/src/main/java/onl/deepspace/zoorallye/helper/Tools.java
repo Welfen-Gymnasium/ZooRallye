@@ -149,7 +149,7 @@ public class Tools {
         ArrayList<JSONObject> returnList = new ArrayList<>();
 
         try {
-            JSONArray zooArray = getZoos(context);
+            JSONArray zooArray = getZoos(context, false);
             if (zooArray != null) {
                 for (int i = 0; i < zooArray.length(); i++) {
                     if (zooArray.getJSONObject(i).get(Const.ZOO_ID).equals(zooId)) {

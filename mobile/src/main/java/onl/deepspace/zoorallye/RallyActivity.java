@@ -179,7 +179,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                 JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
                 ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
 
-                mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(animalList, questions);
+                mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(beacon.getString("type"), animalList, questions);
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.add(R.id.drawer_layout_rally, mBeaconOverlayFragment);

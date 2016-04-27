@@ -34,4 +34,18 @@
     <string name="show_achievements_description">Errungenschaften anzeigen</string>
     <string name="show_leaderboards_description">Rangliste anzeigen</string>
     <string name="coming_soon">In Kürze verfügbar!</string>
+    <string name="action_donate">Spenden</string>
+    <string name="app_name_beta">Zoo Rallye BETA</string>
+    <string name="delete_all_data">Alle Daten löschen</string>
+    <string name="donation_something_went_wrong">Etwas ist schief gelaufen.</string>
+    <string name="donation_text">Klicke auf den Android Roboter um uns bei unserer Arbeit mit dieser App zu unterstützen. Sie war ein Schulprojekt. Wir haben die app in ca 400 Arbeitsstunden erstellt. \n\n Herzlichen Dank!</string>
+    <string name="donation_thank_you">Danke für deine Spende</string>
+    <string name="download_data_here">Hier kannst du Zoo- und Fragendaten herunterladen.</string>
+    <string name="download_required">Hier kannst du Zoo- und Fragendaten herunterladen.</string>
+    <string name="nav_info">Informationen</string>
+    <string name="questions">Fragen</string>
+    <string name="zoo_arrival">Anreise</string>
+    <string name="zoo_entrance_fee">Eintrittspreise</string>
+    <string name="zoo_opening_hours">Öffnungszeiten</string>
+    <string name="zoo_restaurants">Gastronomie</string>
 </resources>

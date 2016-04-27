@@ -109,7 +109,10 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
     @Override
     public void asyncTaskCallback(Object object) {
         Location l = (Location) object;
-        createBeacons();
+
+        JSONArray zoos = Tools.getZoos(getContext(), false);
+        if(zoos != null) createBeacons(zoos);
+
         setMarkerPosition(l);
         checkForBeacon(l);
     }
@@ -213,59 +216,55 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
         return rect;
     }
 
-    private void createBeacons() {
+    private void createBeacons(JSONArray zoos) {
+
         try {
-            JSONArray zoos = Tools.getZoos(getContext());
+            for (int i = 0; i < zoos.length(); i++) {
+                if (zoos.getJSONObject(i).get(Const.ZOO_ID).equals("4P1shyVmM4")) {
+                    JSONObject zoo = zoos.getJSONObject(i);
+                    for (int h = 0; h < zoo.getJSONArray("beacons").length(); h++) {
+                        JSONObject enc = zoo.getJSONArray("beacons").getJSONObject(h);
+                        final Location loc = new Location("beacon");
 
-            if (zoos != null) {
-                for (int i = 0; i < zoos.length(); i++) {
-                    if (zoos.getJSONObject(i).get(Const.ZOO_ID).equals("4P1shyVmM4")) {
-                        JSONObject zoo = zoos.getJSONObject(i);
-                        for (int h = 0; h < zoo.getJSONArray("beacons").length(); h++) {
-                            JSONObject enc = zoo.getJSONArray("beacons").getJSONObject(h);
-                            final Location loc = new Location("beacon");
+                        loc.setLatitude(enc.getDouble("latitude"));
+                        loc.setLongitude(enc.getDouble("longitude"));
 
-                            loc.setLatitude(enc.getDouble("latitude"));
-                            loc.setLongitude(enc.getDouble("longitude"));
+                        int refX = map.getWidth();//getActivity().findViewById(R.id.rally_content).getWidth()
+                        //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).leftMargin
+                        //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).rightMargin;
+                        int refY = map.getHeight();
 
-                            int refX = map.getWidth();//getActivity().findViewById(R.id.rally_content).getWidth()
-                            //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).leftMargin
-                            //- ((ViewGroup.MarginLayoutParams) map.getLayoutParams()).rightMargin;
-                            int refY = map.getHeight();
+                        Rect rect = calculateMarkerPosition(loc, 24, 24, refX, refY);
+                        int x = rect.left;
+                        int y = rect.top;
 
-                            Rect rect = calculateMarkerPosition(loc, 24, 24, refX, refY);
-                            int x = rect.left;
-                            int y = rect.top;
-
-                            ImageView encMarker = new ImageView(getContext());
-                            FrameLayout.LayoutParams vp = new FrameLayout.LayoutParams(
-                                    refX / 20, refX / 20);
-                            vp.setMargins(x, y, 0, 0);
-                            encMarker.setLayoutParams(vp);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                encMarker.setElevation(2f);
-                                encMarker.setTranslationZ(2f);
-                            }
-                            int icon = enc.getString("type").equals("animal house") ? R.drawable.ic_animal_house : R.drawable.ic_enclosure;
-                            encMarker.setImageResource(icon);
-                            encMarker.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    beaconListener.onBeaconClick(loc);
-                                }
-                            });
-
-                            ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(encMarker);
+                        ImageView encMarker = new ImageView(getContext());
+                        FrameLayout.LayoutParams vp = new FrameLayout.LayoutParams(
+                                refX / 20, refX / 20);
+                        vp.setMargins(x, y, 0, 0);
+                        encMarker.setLayoutParams(vp);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            encMarker.setElevation(2f);
+                            encMarker.setTranslationZ(2f);
                         }
-                    }
+                        int icon = enc.getString("type").equals("animal house") ? R.drawable.ic_animal_house : R.drawable.ic_enclosure;
+                        encMarker.setImageResource(icon);
+                        encMarker.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                beaconListener.onBeaconClick(loc);
+                            }
+                        });
 
+                        ((FrameLayout) getActivity().findViewById(R.id.fragment_map_map_container)).addView(encMarker);
+                    }
                 }
             }
-
-        } catch (JSONException e) {
-            Log.e(Const.LOGTAG, e.getMessage());
+        } catch (JSONException e1) {
+            e1.printStackTrace();
         }
     }
+
 
     private class GetPosition extends AsyncTask<AsyncTaskCallback, Void, Location> {
 
