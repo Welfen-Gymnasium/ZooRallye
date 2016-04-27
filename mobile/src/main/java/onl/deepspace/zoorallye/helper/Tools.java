@@ -189,6 +189,12 @@ public class Tools {
         }
     }
 
+    public static void deleteAppData(Context context) {
+        context.deleteFile(QUESTIONS_DB);
+        context.deleteFile(ANSWER_DB);
+        context.deleteFile(ZOO_DB);
+    }
+
     public static class ActionBarToggler extends ActionBarDrawerToggle {
 
         private Runnable runnable;

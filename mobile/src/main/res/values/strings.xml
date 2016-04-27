@@ -58,5 +58,6 @@
     <string name="download_required">Here you can download zoos and questions.</string>
     <string name="questions">Questions</string>
     <string name="download_data_here">Download zoo and question data here.</string>
+    <string name="delete_all_data">Delete all data</string>
 
 </resources>

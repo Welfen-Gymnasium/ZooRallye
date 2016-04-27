@@ -53,9 +53,6 @@ public class OfflineContentFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offlinecontent_list, container, false);
 
-        // TODO NO-IMPORTANCE: 25.04.2016 complete full behavior
-        Toast.makeText(getActivity(), getResources().getString(R.string.download_required), Toast.LENGTH_LONG).show();
-
         recycler = view.findViewById(R.id.offline_fragment_recycler);
         
         // Set the adapter
@@ -77,6 +74,15 @@ public class OfflineContentFragment extends Fragment implements
             RecyclerView.Adapter adapter = new OfflineContentRecyclerViewAdapter(list, this);
             recyclerView.setAdapter(adapter);
         }
+
+        view.findViewById(R.id.fragment_offline_content_delete_data).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteAppData(getContext());
+                refreshFragment();
+            }
+        });
+
         return view;
     }
 
@@ -109,6 +115,10 @@ public class OfflineContentFragment extends Fragment implements
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
+        refreshFragment();
+    }
+
+    private void refreshFragment(){
         ((MainActivity) getActivity()).openFragment(((MainActivity) getActivity()).getFragmentByID(R.id.nav_offline));
     }
 }
