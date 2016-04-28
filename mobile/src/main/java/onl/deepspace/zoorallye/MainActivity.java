@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -20,6 +21,9 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.android.vending.billing.IInAppBillingService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import onl.deepspace.zoorallye.fragments.AboutFragment;
 import onl.deepspace.zoorallye.fragments.DonationFragment;
@@ -131,6 +135,35 @@ public class MainActivity extends AppCompatAchievementActivity
                 info = getResources().getString(R.string.donation_thank_you);
             }
 
+            //consume purchase
+            try{
+                final IInAppBillingService service = mService;
+                final String token = new JSONObject(
+                        data.getStringExtra("INAPP_PURCHASE_DATA "))
+                        .getString("purchaseToken");
+
+                new AsyncTask<Object, Object, Object>(){
+                    @Override
+                    protected Object doInBackground(Object... params) {
+                        try {
+                            int response = service.consumePurchase(3, getPackageName(), token);
+
+                            if(response == RESULT_OK){
+                                Log.i(Const.LOGTAG, "Purchase consumed!");
+                            }
+                            else{
+                                Log.i(Const.LOGTAG, "Purchase not consumed " + String.valueOf(response));
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             Snackbar.make(findViewById(R.id.drawer_layout), info, Snackbar.LENGTH_LONG).show();
         }
     }
@@ -196,6 +229,8 @@ public class MainActivity extends AppCompatAchievementActivity
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e){
             e.printStackTrace();
         }
 
