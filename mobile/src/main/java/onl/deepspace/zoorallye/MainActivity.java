@@ -17,17 +17,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 
 import onl.deepspace.zoorallye.fragments.AboutFragment;
 import onl.deepspace.zoorallye.fragments.DonationFragment;
+import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
-import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatAchievementActivity
 
             if(mService != null){
                 Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
-                        "android.test.purchased", "inapp", "");
+                        "zoo_rallye_donation", "inapp", "");
                 PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
                 startIntentSenderForResult(pendingIntent.getIntentSender(),
                         1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
@@ -195,7 +193,6 @@ public class MainActivity extends AppCompatAchievementActivity
             else{
                 Log.d(Const.LOGTAG, "Failed to bind billing-service");
             }
-
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IntentSender.SendIntentException e) {

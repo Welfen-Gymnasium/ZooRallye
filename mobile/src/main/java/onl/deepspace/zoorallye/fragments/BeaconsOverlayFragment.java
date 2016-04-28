@@ -31,6 +31,8 @@ public class BeaconsOverlayFragment extends Fragment {
     private ArrayList<String> mAnimals;
     private ArrayList<Question> mQuestions;
 
+    private HideOverlayListener mCommunicator;
+
     public BeaconsOverlayFragment() {
     }
 
@@ -112,16 +114,36 @@ public class BeaconsOverlayFragment extends Fragment {
             if (iconId != 0) questionState.setImageResource(iconId);
         }
 
+        ImageView hideOverlay = (ImageView) view.findViewById(R.id.hide_beacon_overlay);
+        hideOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCommunicator.hideBeaconOverlay();
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof HideOverlayListener) {
+            mCommunicator = (HideOverlayListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnStartRallyListener");
+        }
     }
 
     @Override
     public void onDetach() {
-        super.onDetach();
+        super.onDestroyView();
+        mCommunicator = null;
     }
+
+    public interface HideOverlayListener {
+        void hideBeaconOverlay();
+    }
+
 }

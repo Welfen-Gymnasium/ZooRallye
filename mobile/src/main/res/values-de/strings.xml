@@ -143,4 +143,6 @@
     <string name="animal_zebra">Zebra</string>
     <string name="zoo_beacon_animal_house">Tierhaus</string>
     <string name="zoo_beacon_open_air">Außengehege</string>
+    <string name="animal_cormorant">Kormoran</string>
+    <string name="animal_kangaroo">Känguru</string>
 </resources>

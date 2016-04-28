@@ -30,6 +30,8 @@
                 android:layout_marginStart="8dp"
                 android:rotation="180"
                 android:contentDescription="@string/hide_beacon_overlay_description"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
                 android:src="@drawable/ic_arrow_forward"/>
             <TextView
                 android:id="@+id/beacon_type"

@@ -163,4 +163,5 @@
 
     <string name="zoo_beacon_open_air">Open-Air enclosure</string>
     <string name="zoo_beacon_animal_house">Animal house</string>
+    <string name="animal_cormorant">cormorant</string>
 </resources>

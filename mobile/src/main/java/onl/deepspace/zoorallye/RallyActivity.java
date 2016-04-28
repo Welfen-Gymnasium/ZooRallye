@@ -35,8 +35,8 @@ import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatAchievementActivity implements
-        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener, MapFragment.OverlayShow,
-        BeaconListener {
+        NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
+        MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.HideOverlayListener {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
@@ -196,7 +196,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
 
     }
 
-    private void hideBeaconOverlay() {
+    @Override
+    public void hideBeaconOverlay() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(mBeaconOverlayFragment);
