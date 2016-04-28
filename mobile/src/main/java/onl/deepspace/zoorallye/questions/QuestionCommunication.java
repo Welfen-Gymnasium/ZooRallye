@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface QuestionCommunication {
     void reclineQuestion();
     void submitSort(ArrayList<String> userAnswer, float percentCorrect);
-    void submitSeekbar(float userAnswer, float offset);
+    void submitSeekbar(double userAnswer, double offset);
     void submitRadio(String userAnswer, boolean isCorrect);
     void submitCheckbox(ArrayList<String> userAnswer, float percentCorrect);
     void submitText(String userAnswer, boolean isCorrect);

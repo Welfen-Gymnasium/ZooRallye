@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import onl.deepspace.zoorallye.R;
+import onl.deepspace.zoorallye.helper.Const;
 import onl.deepspace.zoorallye.helper.Question;
 import onl.deepspace.zoorallye.helper.Strings;
 
@@ -31,7 +33,9 @@ public class BeaconsOverlayFragment extends Fragment {
     private ArrayList<String> mAnimals;
     private ArrayList<Question> mQuestions;
 
-    private HideOverlayListener mCommunicator;
+    private ViewGroup mQuestionList;
+
+    private BeaconOverlayListener mCommunicator;
 
     public BeaconsOverlayFragment() {
     }
@@ -73,16 +77,19 @@ public class BeaconsOverlayFragment extends Fragment {
 
         for (String animal : mAnimals) {
             TextView animalItem = (TextView) inflater
-                    .inflate(R.layout.beacon_overlay_animal_item, (ViewGroup) view, false);
+                    .inflate(R.layout.beacon_overlay_animal_item, animalList, false);
             animalItem.setText(Strings.getAnimal(getContext(), animal));
             animalList.addView(animalItem);
         }
 
-        ViewGroup questionList = (ViewGroup) view.findViewById(R.id.question_list);
+        mQuestionList = (ViewGroup) view.findViewById(R.id.question_list);
+        mQuestionList.removeViewsInLayout(1, mQuestionList.getChildCount() - 1);
+
+        Log.d(Const.LOGTAG, mQuestions.size() + "");
 
         for (Question question : mQuestions) {
             ViewGroup questionItem = (ViewGroup) inflater
-                    .inflate(R.layout.beacon_overlay_question_item, questionList);
+                    .inflate(R.layout.beacon_overlay_question_item, mQuestionList, false);
 
             TextView questionType = (TextView) questionItem.findViewById(R.id.question_type);
             questionType.setText(Strings.getType(getContext(), question.getType()));
@@ -112,6 +119,15 @@ public class BeaconsOverlayFragment extends Fragment {
                     iconId = 0;
             }
             if (iconId != 0) questionState.setImageResource(iconId);
+
+            questionItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    questionClicked(v);
+                }
+            });
+
+            mQuestionList.addView(questionItem);
         }
 
         ImageView hideOverlay = (ImageView) view.findViewById(R.id.hide_beacon_overlay);
@@ -125,14 +141,31 @@ public class BeaconsOverlayFragment extends Fragment {
         return view;
     }
 
+    private void questionClicked(View view) {
+        int index = getIndexForView(mQuestionList, view) - 1;
+        if (index >= 0 && index < mQuestions.size()) {
+            Question question = mQuestions.get(index);
+            mCommunicator.showQuestion(question);
+        } else {
+            Log.e(Const.LOGTAG, "Didn't found view");
+        }
+    }
+
+    private int getIndexForView(ViewGroup group, View view) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            if(view == group.getChildAt(i)) return i;
+        }
+        return -1;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof HideOverlayListener) {
-            mCommunicator = (HideOverlayListener) context;
+        if (context instanceof BeaconOverlayListener) {
+            mCommunicator = (BeaconOverlayListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnStartRallyListener");
+                    + " must implement BeaconOverlayListener");
         }
     }
 
@@ -142,8 +175,9 @@ public class BeaconsOverlayFragment extends Fragment {
         mCommunicator = null;
     }
 
-    public interface HideOverlayListener {
+    public interface BeaconOverlayListener {
         void hideBeaconOverlay();
+        void showQuestion(Question question);
     }
 
 }

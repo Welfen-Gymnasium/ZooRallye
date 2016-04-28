@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,10 +22,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import onl.deepspace.zoorallye.MainActivity;
 import onl.deepspace.zoorallye.R;
-import onl.deepspace.zoorallye.helper.services.DataFetcher;
 
 /**
  * Created by Sese on 03.04.2016.
@@ -258,6 +257,13 @@ public class Tools {
         for (int i = 0; i < array.length(); i++) {
             list.add(array.getString(i));
         }
+        return list;
+    }
+
+    public static ArrayList<String> string2ArrayList(String string) {
+        String[] stringParts = string.split(",");
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, stringParts);
         return list;
     }
 }

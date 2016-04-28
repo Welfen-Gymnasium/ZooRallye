@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -36,13 +37,14 @@ import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatAchievementActivity implements
         NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
-        MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.HideOverlayListener {
+        MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.BeaconOverlayListener {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
 
+    public static final int SHOW_QUESTION = 384;
+
     private Fragment mBeaconOverlayFragment;
-    private static final String BEACON_OVERLAY_FRAGMENT = "beaconOverlayFragment";
 
     Tools.ActionBarToggler toggle;
     private boolean mRallyActive;
@@ -202,6 +204,40 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(mBeaconOverlayFragment);
         transaction.commit();
+    }
+
+    @Override
+    public void showQuestion(Question question) {
+        if (question.getState() == Question.STATE_UNKNOWN) {
+            Intent intent = new Intent(this, QuestionActivity.class);
+            intent.putExtra(Const.QUESTION, question);
+            startActivityForResult(intent, SHOW_QUESTION);
+            hideBeaconOverlay();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == SHOW_QUESTION) {
+            Question answeredQuestion = data.getParcelableExtra(Const.QUESTION);
+            String type = answeredQuestion.getType();
+            String id = answeredQuestion.getId();
+            int state = answeredQuestion.getState();
+            int index = getIndexForQuestion(type, id);
+            if (index >= 0) {
+                mQuestions.get(index).setState(state);
+            }
+        }
+    }
+
+    private int getIndexForQuestion(String type, String id) {
+        for (int i=0; i<mQuestions.size(); i++) {
+            Question question = mQuestions.get(i);
+            if (type.equals(question.getType()) && id.equals(question.getId())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private ArrayList<Question> getQuestionsForBeacon(JSONObject beacon) {

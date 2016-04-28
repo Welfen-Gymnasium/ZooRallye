@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
 
@@ -36,10 +39,10 @@ public class SeekbarFragment extends Fragment {
     private QuestionCommunication mCommunicator;
 
     private String mQuestion;
-    private float mMin;
-    private float mMax;
-    private float mStep;
-    private float mAnswer;
+    private double mMin;
+    private double mMax;
+    private double mStep;
+    private double mAnswer;
     private String mImage;
 
     public SeekbarFragment() {
@@ -57,15 +60,15 @@ public class SeekbarFragment extends Fragment {
      * @param answer The correct answer.
      * @return A new instance of fragment SeekbarFragment.
      */
-    public static SeekbarFragment newInstance(String question, float min, float max,
-                                              float step, float answer, String image) {
+    public static SeekbarFragment newInstance(String question, double min, double max,
+                                              double step, double answer, String image) {
         SeekbarFragment fragment = new SeekbarFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
-        args.putFloat(ARG_MIN, min);
-        args.putFloat(ARG_MAX, max);
-        args.putFloat(ARG_STEP, step);
-        args.putFloat(ARG_ANSWER, answer);
+        args.putDouble(ARG_MIN, min);
+        args.putDouble(ARG_MAX, max);
+        args.putDouble(ARG_STEP, step);
+        args.putDouble(ARG_ANSWER, answer);
         args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
@@ -77,10 +80,10 @@ public class SeekbarFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             mQuestion = args.getString(ARG_QUESTION);
-            mMin = args.getFloat(ARG_MIN);
-            mMax = args.getFloat(ARG_MAX);
-            mStep = args.getFloat(ARG_STEP);
-            mAnswer = args.getFloat(ARG_ANSWER);
+            mMin = args.getDouble(ARG_MIN);
+            mMax = args.getDouble(ARG_MAX);
+            mStep = args.getDouble(ARG_STEP);
+            mAnswer = args.getDouble(ARG_ANSWER);
             mImage = args.getString(ARG_IMAGE);
         }
     }
@@ -114,13 +117,16 @@ public class SeekbarFragment extends Fragment {
         final CustomSeekBar customSeekBar = (CustomSeekBar) mView.findViewById(R.id.seekBar);
         customSeekBar.setFloatRange(mMin, mMax, mStep);
 
+        Locale locale = getResources().getConfiguration().locale;
+        final NumberFormat format = NumberFormat.getInstance(locale);
+
         final TextView label = (TextView) mView.findViewById(R.id.label_seekbar);
-        label.setText(Float.toString(customSeekBar.getFloatProgress()));
+        label.setText(format.format(customSeekBar.getFloatProgress()));
 
         customSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                label.setText(Float.toString(customSeekBar.getFloatProgress()));
+                label.setText(format.format(customSeekBar.getFloatProgress()));
             }
 
             @Override
@@ -134,11 +140,12 @@ public class SeekbarFragment extends Fragment {
             }
         });
 
+
         TextView min = (TextView) mView.findViewById(R.id.seekbar_min);
-        min.setText(Float.toString(mMin));
+        min.setText(format.format(mMin));
 
         TextView max = (TextView) mView.findViewById(R.id.seekbar_max);
-        max.setText(Float.toString(mMax));
+        max.setText(format.format(mMax));
 
         final Button recline = (Button) mView.findViewById(R.id.recline_seekbar);
         recline.setOnClickListener(new View.OnClickListener() {
@@ -168,8 +175,8 @@ public class SeekbarFragment extends Fragment {
     private void submitAnswer() {
         if (mCommunicator != null) {
             CustomSeekBar seekbar = (CustomSeekBar) mView.findViewById(R.id.seekBar);
-            float userAnswer = seekbar.getFloatProgress();
-            float offset = Math.abs(userAnswer - mAnswer);
+            double userAnswer = seekbar.getFloatProgress();
+            double offset = Math.abs(userAnswer - mAnswer);
             mCommunicator.submitSeekbar(userAnswer, offset);
         } else {
             Log.e(Const.LOGTAG,"mCommunicator is null: Did you implement QuestionCommunication to your activity?");

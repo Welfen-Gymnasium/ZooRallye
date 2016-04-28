@@ -46,8 +46,22 @@ public class Question implements Parcelable {
         return type;
     }
 
-    public JSONObject getValue() {
-        return value;
+    public String getId() {
+        try {
+            return value.getString(Const.QUESTIONS_ID);
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            return "-1";
+        }
+    }
+
+    public String getQuestion() {
+        try {
+            return value.getString(Const.QUESTIONS_QUESTION);
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            return "";
+        }
     }
 
     public String getAnimal() {
@@ -80,6 +94,10 @@ public class Question implements Parcelable {
 
     public int getState() {
         return this.state;
+    }
+
+    public JSONObject getValue() {
+        return value;
     }
 
     @Override
