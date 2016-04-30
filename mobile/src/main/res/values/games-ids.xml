@@ -4,8 +4,12 @@ Google Play game services IDs.
 Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
-    <string name="app_id" translatable="false">542116190807</string>
-    <string name="package_name" translatable="false">onl.deepspace.zoorallye</string>
-    <string name="achievement_welcome_to_zoo" translatable="false">CgkI17SSxeMPEAIQAQ</string>
-    <string name="leaderboard_total_question_points_earned" translatable="false">CgkI17SSxeMPEAIQAw</string>
+  <string name="app_id">542116190807</string>
+  <string name="package_name">onl.deepspace.zoorallye</string>
+  <string name="achievement_welcome_to_zoo">CgkI17SSxeMPEAIQAQ</string>
+  <string name="achievement_answered_first_question">CgkI17SSxeMPEAIQBA</string>
+  <string name="achievement_answered_10_questions">CgkI17SSxeMPEAIQBQ</string>
+  <string name="achievement_answered_25_questions">CgkI17SSxeMPEAIQBg</string>
+  <string name="achievement_answered_50_questions">CgkI17SSxeMPEAIQBw</string>
+  <string name="leaderboard_total_question_points_earned">CgkI17SSxeMPEAIQAw</string>
 </resources>
