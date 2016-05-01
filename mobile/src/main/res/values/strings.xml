@@ -170,4 +170,7 @@
     <string name="really_stop_rally">Do you really want to stop the rally?</string>
     <string name="stop_rally_yes">Yes</string>
     <string name="stop_rally_no">No</string>
+    <string name="thanks_for_participating">Thanks for participating, your Score:</string>
+    <string name="share_with_friends">Share with Friends</string>
+    <string name="back_to_rallly">Back to Rallly</string>
 </resources>

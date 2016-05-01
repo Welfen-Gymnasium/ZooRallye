@@ -152,4 +152,7 @@
     <string name="stop_rally">Rallye beenden</string>
     <string name="stop_rally_no">Nein</string>
     <string name="stop_rally_yes">Ja</string>
+    <string name="back_to_rallly">Zurück zur Rallye</string>
+    <string name="share_with_friends">Mit Freunden teilen</string>
+    <string name="thanks_for_participating">Danke für\'s teilnehmen, deine Punktzahl:</string>
 </resources>

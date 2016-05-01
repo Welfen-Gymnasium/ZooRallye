@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Thanks for participating, your Score:"
+        android:text="@string/thanks_for_participating"
         android:textSize="25sp"/>
 
     <TextView
@@ -34,12 +34,12 @@
         android:id="@+id/share_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Share with Friends"/>
+        android:text="@string/share_with_friends"/>
 
     <Button
         android:id="@+id/back_to_rally"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back to Rallly"/>
+        android:text="@string/back_to_rallly"/>
 
 </LinearLayout>
