@@ -1,7 +1,9 @@
 package onl.deepspace.zoorallye;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -38,7 +41,8 @@ import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 
 public class RallyActivity extends AppCompatAchievementActivity implements
         NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
-        MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.BeaconOverlayListener {
+        MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.BeaconOverlayListener,
+        InfoFragment.InfoFragmentCommunication{
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
@@ -48,12 +52,15 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     public static final int SHOW_QUESTION = 384;
 
     private Fragment mBeaconOverlayFragment;
+    private InfoFragment mInfoFragment;
+
+    private AlertDialog mDialog;
 
     Tools.ActionBarToggler toggle;
     private boolean mRallyActive;
     private ArrayList<Question> mQuestions;
-    private int mTotalScore;
-    private int mQuestionsAnswered;
+    private int mScore;
+    private int mAnsweredQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +99,13 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             Intent intent = getIntent();
             mRallyActive = intent.getBooleanExtra(ARG_RALLY_ACTIVE, false);
             mQuestions = intent.getParcelableArrayListExtra(ARG_QUESTIONS);
-            mTotalScore = intent.getIntExtra(ARG_TOTAL_SCORE, 0);
-            mQuestionsAnswered = intent.getIntExtra(ARG_QUESTIONS_ANSWERED, 0);
+            mScore = intent.getIntExtra(ARG_TOTAL_SCORE, 0);
+            mAnsweredQuestions = intent.getIntExtra(ARG_QUESTIONS_ANSWERED, 0);
         } else {
             mRallyActive = savedInstanceState.getBoolean(ARG_RALLY_ACTIVE, false);
             mQuestions = savedInstanceState.getParcelableArrayList(ARG_QUESTIONS);
-            mTotalScore = savedInstanceState.getInt(ARG_TOTAL_SCORE, 0);
-            mQuestionsAnswered = savedInstanceState.getInt(ARG_QUESTIONS_ANSWERED, 0);
+            mScore = savedInstanceState.getInt(ARG_TOTAL_SCORE, 0);
+            mAnsweredQuestions = savedInstanceState.getInt(ARG_QUESTIONS_ANSWERED);
         }
 
         // Setup Tab Layout
@@ -136,8 +143,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         super.onSaveInstanceState(outState);
         if (mRallyActive) outState.putBoolean(ARG_RALLY_ACTIVE, true);
         if (mQuestions != null) outState.putParcelableArrayList(ARG_QUESTIONS, mQuestions);
-        outState.putInt(ARG_TOTAL_SCORE, mTotalScore);
-        outState.putInt(ARG_QUESTIONS_ANSWERED, mQuestionsAnswered);
+        outState.putInt(ARG_TOTAL_SCORE, mScore);
+        outState.putInt(ARG_QUESTIONS_ANSWERED, mAnsweredQuestions);
     }
 
     @Override
@@ -193,10 +200,11 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                 JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
                 ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
 
-                mBeaconOverlayFragment = BeaconsOverlayFragment.newInstance(beacon.getString("type"), animalList, questions);
+                mBeaconOverlayFragment = BeaconsOverlayFragment
+                        .newInstance(beacon.getString("type"), animalList, questions);
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.drawer_layout_rally, mBeaconOverlayFragment);
+                transaction.add(R.id.rally_container, mBeaconOverlayFragment);
                 transaction.commit();
             } catch (JSONException e) {
                 Log.e(Const.LOGTAG, e.getMessage());
@@ -215,6 +223,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(mBeaconOverlayFragment);
         transaction.commit();
+        mBeaconOverlayFragment = null;
     }
 
     @Override
@@ -232,8 +241,27 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         if (resultCode == Activity.RESULT_OK && requestCode == SHOW_QUESTION) {
             Question answeredQuestion = data.getParcelableExtra(Const.QUESTION);
             int score = data.getIntExtra(Const.QUESTION_SCORE, 0);
-            mTotalScore += score;
-            updatePlayGames();
+
+            SharedPreferences prefs = getSharedPreferences(Const.PREFS, MODE_PRIVATE);
+            int totalScore = prefs.getInt(Const.PREF_TOTAL_SCORE, 0);
+            int answeredQuestions = prefs.getInt(Const.PREF_TOTAL_ANSWERED_QUESTIONS, 0);
+
+            answeredQuestions++;
+            mAnsweredQuestions++;
+            totalScore += score;
+            mScore += score;
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(Const.PREF_TOTAL_SCORE, totalScore);
+            editor.putInt(Const.PREF_TOTAL_ANSWERED_QUESTIONS, answeredQuestions);
+            editor.apply();
+
+            if (mInfoFragment != null) {
+                mInfoFragment.setScore(mScore);
+                mInfoFragment.setAnsweredQuestions(mAnsweredQuestions);
+            }
+
+            updatePlayGames(mScore, answeredQuestions);
 
             String type = answeredQuestion.getType();
             String id = answeredQuestion.getId();
@@ -245,22 +273,67 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         }
     }
 
-    private void updatePlayGames() {
+    private void updatePlayGames(int score, int questionsAnswered) {
         try {
             submitLeaderBoardScore(
-                    getString(R.string.leaderboard_total_question_points_earned), mTotalScore);
-            if (mQuestionsAnswered >= 1)
+                    getString(R.string.leaderboard_total_question_points_earned), score);
+            if (questionsAnswered >= 1)
                 unlockAchievement(getString(R.string.achievement_answered_first_question));
-            if (mQuestionsAnswered >= 10)
+            if (questionsAnswered >= 10)
                 unlockAchievement(getString(R.string.achievement_answered_first_question));
-            if (mQuestionsAnswered >= 25)
+            if (questionsAnswered >= 25)
                 unlockAchievement(getString(R.string.achievement_answered_first_question));
-            if (mQuestionsAnswered >= 50)
+            if (questionsAnswered >= 50)
                 unlockAchievement(getString(R.string.achievement_answered_first_question));
         } catch (Exceptions.GooglePlayUnconnectedException e) {
             Log.e(Const.LOGTAG, e.getMessage());
             signIn();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mRallyActive) {
+            if (mBeaconOverlayFragment == null) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.stop_rally));
+                builder.setMessage(getString(R.string.really_stop_rally));
+                builder.setCancelable(false);
+
+                builder.setPositiveButton(R.string.stop_rally_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.stop_rally_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogDismiss();
+                    }
+                });
+                mDialog = builder.show();
+            } else {
+                hideBeaconOverlay();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void dialogDismiss() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onStopRally() {
+        Intent intent = new Intent(this, RallyFinishedActivity.class);
+        intent.putExtra(Const.RALLY_FINISHED_SCORE, mScore);
+        startActivity(intent);
+        finish();
     }
 
     private int getIndexForQuestion(String type, String id) {
@@ -312,7 +385,11 @@ public class RallyActivity extends AppCompatAchievementActivity implements
                     return mRallyActive ? new MapFragment() :
                             new StartRallyFragment();
                 case 1:
-                    return mRallyActive ? new InfoFragment() : new MapFragment();
+                    if (mRallyActive) {
+                        return mInfoFragment =
+                                InfoFragment.newInstance(true, mScore, mAnsweredQuestions);
+                    }
+                    return new MapFragment();
             }
             return null;
         }

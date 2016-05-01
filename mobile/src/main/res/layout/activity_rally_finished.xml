@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="onl.deepspace.zoorallye.RallyFinishedActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_drawer"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Thanks for participating, your Score:"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/total_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="50sp"/>
+
+    <Button
+        android:id="@+id/share_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share with Friends"/>
+
+    <Button
+        android:id="@+id/back_to_rally"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Rallly"/>
+
+</LinearLayout>

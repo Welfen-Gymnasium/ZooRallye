@@ -24,7 +24,7 @@
                 android:layout_height="@dimen/question_image_height"
                 android:background="@color/question_image_background"
                 android:contentDescription="@string/question_image_description"
-                android:src="@drawable/animal_wolf" />
+                android:src="@drawable/img_drawer" />
         </android.support.v7.widget.CardView>
 
         <TextView

@@ -41,7 +41,7 @@ public class Strings {
             case Const.QUESTION_TYPE_SORT:
                 return res.getString(R.string.type_sort);
             default:
-                return "";
+                return type;
         }
     }
 

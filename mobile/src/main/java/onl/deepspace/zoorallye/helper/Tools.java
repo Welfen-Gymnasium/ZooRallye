@@ -78,9 +78,12 @@ public class Tools {
 
     public static JSONArray getZoos(Context context, boolean downloadIfNotExist) {
         try {
-            FileInputStream stream = context.openFileInput(ZOO_DB);
-            String jsonString = streamToString(stream);
-            return new JSONArray(jsonString);
+            if (context != null) {
+                FileInputStream stream = context.openFileInput(ZOO_DB);
+                String jsonString = streamToString(stream);
+                return new JSONArray(jsonString);
+            }
+            return null;
         } catch (IOException | JSONException e) {
             if(downloadIfNotExist){
                 Log.w(Const.LOGTAG, "Try to fetch new zoo data because of " + e.getMessage());

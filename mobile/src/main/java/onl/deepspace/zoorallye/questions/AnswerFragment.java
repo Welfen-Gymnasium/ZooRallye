@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.questions;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,14 +24,15 @@ public class AnswerFragment extends Fragment {
     private static final String ARG_USER = "userAnswer";
     private static final String ARG_CORRECT = "correctAnswer";
     private static final String ARG_SCORES = "scores";
+    private static final String ARG_IMAGE = "image";
 
-    private View mView;
     private QuestionCommunication mCommunicator;
 
     private String mQuestion;
     private String mUser;
     private String mCorrect;
     private String mScores;
+    private String mImage;
 
     public AnswerFragment() {
         // Required empty public constructor
@@ -46,13 +48,15 @@ public class AnswerFragment extends Fragment {
      * @param scores The scores the user got for his answer.
      * @return A new instance of fragment AnswerFragment.
      */
-    public static AnswerFragment newInstance(String question, String userAnswer, String correctAnswer, String scores) {
+    public static AnswerFragment newInstance(String question, String userAnswer,
+                                             String correctAnswer, String scores, String image) {
         AnswerFragment fragment = new AnswerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION, question);
         args.putString(ARG_USER, userAnswer);
         args.putString(ARG_CORRECT, correctAnswer);
         args.putString(ARG_SCORES, scores);
+        args.putString(ARG_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +70,7 @@ public class AnswerFragment extends Fragment {
             mUser = args.getString(ARG_USER);
             mCorrect = args.getString(ARG_CORRECT);
             mScores = args.getString(ARG_SCORES);
+            mImage = args.getString(ARG_IMAGE);
         }
     }
 
@@ -73,7 +78,7 @@ public class AnswerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_answer, container, false);
+        View mView = inflater.inflate(R.layout.fragment_answer, container, false);
 
         // Init communication with activity
         try {
@@ -83,6 +88,14 @@ public class AnswerFragment extends Fragment {
         }
 
         // TODO: 30.04.2016 Set image to question image
+        Resources res = getResources();
+        int id = 0;
+        if (mImage != null)
+            id = res.getIdentifier(mImage, "drawable", getContext().getPackageName());
+        if (id == 0)
+            id = res.getIdentifier("img_drawer", "drawable", getContext().getPackageName());
+        ImageView image = (ImageView) mView.findViewById(R.id.question_image);
+        image.setImageResource(id);
 
         // Set TextViews with infos about the previous answered question
         TextView question = (TextView) mView.findViewById(R.id.question);

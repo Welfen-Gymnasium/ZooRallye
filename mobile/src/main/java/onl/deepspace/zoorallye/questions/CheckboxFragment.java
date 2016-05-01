@@ -101,12 +101,13 @@ public class CheckboxFragment extends Fragment {
 
         // Setup image
         ImageView image = (ImageView) mView.findViewById(R.id.question_image);
-        if (mImage == null) image.setVisibility(View.GONE);
-        else {
-            Resources res = getResources();
-            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
-            image.setImageResource(resId);
-        }
+        Resources res = getResources();
+        int id = 0;
+        if (mImage != null)
+            id = res.getIdentifier(mImage, "drawable", getContext().getPackageName());
+        if (id == 0)
+            id = res.getIdentifier("img_drawer", "drawable", getContext().getPackageName());
+        image.setImageResource(id);
 
         // Init checkbox fragment
         TextView question = (TextView) mView.findViewById(R.id.question);
@@ -158,6 +159,8 @@ public class CheckboxFragment extends Fragment {
                 else
                     correctUserItems--;
             }
+
+            correctUserItems = (correctUserItems < 0) ? 0 : correctUserItems;
 
             float percentCorrect = (100 * correctUserItems) / correctItems;
             percentCorrect /= 100;

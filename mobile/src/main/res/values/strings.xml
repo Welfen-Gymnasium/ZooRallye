@@ -67,8 +67,8 @@
     <string name="zoo_arrival">Arrival</string>
     <string name="zoo_restaurants">Restaurants</string>
 
-    <string name="type_checkbox">Easy selection</string>
-    <string name="type_radio">Multiple selection</string>
+    <string name="type_checkbox">Multiple selection</string>
+    <string name="type_radio">Easy selection</string>
     <string name="type_seekbar">Estimation</string>
     <string name="type_text">Text question</string>
     <string name="type_true_false">True-False question</string>
@@ -164,4 +164,10 @@
     <string name="zoo_beacon_open_air">Open-Air enclosure</string>
     <string name="zoo_beacon_animal_house">Animal house</string>
     <string name="animal_cormorant">cormorant</string>
+    <string name="stop_rally">Stop Rally</string>
+    <string name="answered_questions">Answered Questions</string>
+    <string name="remaining_questions">Remaining Questions</string>
+    <string name="really_stop_rally">Do you really want to stop the rally?</string>
+    <string name="stop_rally_yes">Yes</string>
+    <string name="stop_rally_no">No</string>
 </resources>

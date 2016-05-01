@@ -101,12 +101,13 @@ public class RadioFragment extends Fragment {
 
         // Setup image
         ImageView image = (ImageView) mView.findViewById(R.id.question_image);
-        if (mImage == null) image.setVisibility(View.GONE);
-        else {
-            Resources res = getResources();
-            int resId = res.getIdentifier(mImage, "drawable", getActivity().getPackageName());
-            image.setImageResource(resId);
-        }
+        Resources res = getResources();
+        int id = 0;
+        if (mImage != null)
+            id = res.getIdentifier(mImage, "drawable", getContext().getPackageName());
+        if (id == 0)
+            id = res.getIdentifier("img_drawer", "drawable", getContext().getPackageName());
+        image.setImageResource(id);
 
         // Init radio fragment
         TextView question = (TextView) mView.findViewById(R.id.question);
@@ -115,7 +116,10 @@ public class RadioFragment extends Fragment {
         RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.container_radio);
 
         for (int i = 0; i < mAllAnswers.size(); i++) {
-            RadioButton button = (RadioButton) inflater.inflate(R.layout.radio_view, radioGroup, false);
+            RadioButton button = new RadioButton(getContext());
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            button.setLayoutParams(layoutParams);
             String answer = mAllAnswers.get(i);
             button.setHint(answer);
             radioGroup.addView(button);

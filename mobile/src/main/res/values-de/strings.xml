@@ -51,8 +51,8 @@
     <string name="animal_alpaca">Alpaka</string>
     <string name="overlay_animals">Tiere</string>
     <string name="overlay_questions">Fragen</string>
-    <string name="type_checkbox">Einfachauswahl</string>
-    <string name="type_radio">Mehrfachauswahl</string>
+    <string name="type_checkbox">Mehrfachauswahl</string>
+    <string name="type_radio">Einfachauswahl</string>
     <string name="type_seekbar">Schätzung</string>
     <string name="type_sort">Sortierfrage</string>
     <string name="type_text">Textfrage</string>
@@ -145,4 +145,11 @@
     <string name="zoo_beacon_open_air">Außengehege</string>
     <string name="animal_cormorant">Kormoran</string>
     <string name="animal_kangaroo">Känguru</string>
+    <string name="current_score">Aktuelle Punktzahl</string>
+    <string name="answered_questions">Beantwortete Fragen</string>
+    <string name="really_stop_rally">Willst du wirklich die Rallye beenden?</string>
+    <string name="remaining_questions">Verbleibende Fragen</string>
+    <string name="stop_rally">Rallye beenden</string>
+    <string name="stop_rally_no">Nein</string>
+    <string name="stop_rally_yes">Ja</string>
 </resources>

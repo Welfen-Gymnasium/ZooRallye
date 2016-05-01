@@ -8,6 +8,10 @@ package onl.deepspace.zoorallye.helper;
 public final class Const {
     final public static String LOGTAG = "ZooRally";
 
+    public static final String PREFS = "onl.deepspace.zoorallye.preferences";
+    public static final String PREF_TOTAL_SCORE = "prefTotalScore";
+    public static final String PREF_TOTAL_ANSWERED_QUESTIONS = "prefTotalAnsweredQuestions";
+
     public static final String NAV_FRAGMENT = "selectedFragment";
 
     public static final int RALLY_QUESTION_COUNT = 40;
@@ -80,4 +84,6 @@ public final class Const {
     public static final int SCORE_SEEKBAR = 300;
     public static final int SCORE_AVERAGE = (SCORE_TRUE_FALSE + SCORE_RADIO + SCORE_TEXT +
             SCORE_CHECKBOX + SCORE_SORT) / 5; // Score text
+
+    public static final String RALLY_FINISHED_SCORE = "rallyFinishedScore";
 }

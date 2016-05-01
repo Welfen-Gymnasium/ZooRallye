@@ -36,7 +36,8 @@ import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
 
 public class MainActivity extends AppCompatAchievementActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        InfoFragment.InfoFragmentCommunication {
 
     Tools.ActionBarToggler actionBarToggler;
     IInAppBillingService mService;
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatAchievementActivity
                 mService = IInAppBillingService.Stub.asInterface(service);
             }
         };
+    }
+
+    @Override
+    public void onStopRally() {
+        // do nothing, as rally is not active
     }
 
     @Override

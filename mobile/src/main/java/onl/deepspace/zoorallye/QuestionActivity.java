@@ -104,7 +104,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -155,7 +155,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -194,7 +194,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -236,7 +236,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -277,7 +277,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -320,7 +320,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mScore = score;
 
         AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                Integer.toString(mScore));
+                Integer.toString(mScore), mImage);
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -371,7 +371,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         Fragment fragment;
         if(mAnswered) {
             fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
-                    Integer.toString(mScore));
+                    Integer.toString(mScore), mImage);
         } else {
             String answer;
             ArrayList<String> answers;
