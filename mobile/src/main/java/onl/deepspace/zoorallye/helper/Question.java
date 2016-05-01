@@ -98,7 +98,7 @@ public class Question implements Parcelable {
 
     public String getImage() {
         try {
-            return value.getString(Const.QUESTION_IMAGE);
+            return value.getString(Const.QUESTIONS_IMAGE);
         } catch (JSONException e) {
             Log.w(Const.LOGTAG, "No Image defined");
             return null;

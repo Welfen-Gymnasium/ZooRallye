@@ -37,6 +37,7 @@ public final class Const {
     public static final String QUESTIONS_ID = "id";
     public static final String QUESTIONS_QUESTION = "question";
     public static final String QUESTIONS_ENCLOSURE = "enclosure";
+    public static final String QUESTIONS_IMAGE = "image";
     public static final String QUESTIONS_ANSWER = "answer";
     public static final String QUESTIONS_ANSWERS = "answers";
     public static final String QUESTIONS_FALSE_ANSWERS = "falseAnswers";
@@ -74,8 +75,8 @@ public final class Const {
     public static final String QUESTION_TYPE_RADIO = "radio";
     public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
     public static final String QUESTION_TYPE_TEXT = "text";
-
     public static final String QUESTION_TYPE_TRUE_FALSE = "trueFalse";
+
     public static final int SCORE_TRUE_FALSE = 100;
     public static final int SCORE_RADIO = 150;
     public static final int SCORE_TEXT = 200; // average credits
