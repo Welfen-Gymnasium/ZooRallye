@@ -2,6 +2,7 @@ package onl.deepspace.zoorallye;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +35,11 @@ import onl.deepspace.zoorallye.questions.TrueFalseFragment;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionCommunication {
 
+    private static final String ARG_ANSWERED = "answered";
+    private static final String ARG_USER_ANSWER = "userAnswer";
+    private static final String ARG_CORRECT_ANSWER = "correctAnswer";
+    private static final String ARG_SCORE = "score";
+
     private Question mQuestionObject;
     private String mQuestion;
     private String mQuestionId;
@@ -42,13 +48,17 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     private String mImage;
     private Fragment mActiveFragment;
 
+    private boolean mAnswered;
+    private String mUserAnswer;
+    private String mCorrectAnswer;
+    private int mScore;
+
     private NumberFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
 
         Locale locale = getResources().getConfiguration().locale;
         format = NumberFormat.getInstance(locale);
@@ -59,7 +69,14 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         mQuestionId = mQuestionObject.getId();
         mType = mQuestionObject.getType();
         mValues = mQuestionObject.getValue();
-        mImage = mQuestionObject.getType();
+        mImage = mQuestionObject.getImage();
+
+        if (savedInstanceState != null) {
+            mAnswered = savedInstanceState.getBoolean(ARG_ANSWERED, false);
+            mUserAnswer = savedInstanceState.getString(ARG_USER_ANSWER, "");
+            mCorrectAnswer = savedInstanceState.getString(ARG_CORRECT_ANSWER, "");
+            mScore = savedInstanceState.getInt(ARG_SCORE, 0);
+        }
 
         try {
             setupQuestionFragment();
@@ -74,15 +91,20 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
                 .setState(percentCorrect == 1f ? Question.STATE_CORRECT : Question.STATE_WRONG);
         String correctAnswer = "";
         try {
-            correctAnswer= Tools.jsonArrayToArrayList(
-                    mValues.getJSONArray(Const.QUESTIONS_ANSWERS)).toString();
+            correctAnswer = mValues.getString(Const.QUESTIONS_ANSWERS);
 
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
         int score = (int) (Const.SCORE_SORT * percentCorrect);
-        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer.toString(),
-                correctAnswer, Integer.toString(score));
+
+        mAnswered = true;
+        mUserAnswer = userAnswer.toString();
+        mCorrectAnswer = correctAnswer;
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -127,8 +149,13 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         int step = (int) (Const.SCORE_SEEKBAR / maxDist);
         int score = (int) (Const.SCORE_SEEKBAR - (step * offset));
 
-        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, format.format(userAnswer),
-                format.format(correctAnswer), Integer.toString(score));
+        mAnswered = true;
+        mUserAnswer = format.format(userAnswer);
+        mCorrectAnswer = format.format(correctAnswer);
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -161,8 +188,13 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
             Log.e(Const.LOGTAG, e.getMessage());
         }
         int score = isCorrect ? Const.SCORE_RADIO : 0;
-        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer, correctAnswer,
-                Integer.toString(score));
+        mAnswered = true;
+        mUserAnswer = userAnswer;
+        mCorrectAnswer = correctAnswer;
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -191,15 +223,20 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
                 .setState(percentCorrect == 1f ? Question.STATE_CORRECT : Question.STATE_WRONG);
         String correctAnswer = "";
         try {
-            correctAnswer = Tools.jsonArrayToArrayList(
-                    mValues.getJSONArray(Const.QUESTIONS_ANSWERS)).toString();;
+            correctAnswer = mValues.getString(Const.QUESTIONS_ANSWERS);
         } catch (JSONException e) {
             Log.e(Const.LOGTAG, e.getMessage());
         }
 
         int score = (int) (Const.SCORE_CHECKBOX * percentCorrect);
-        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer.toString(),
-                correctAnswer, Integer.toString(score));
+
+        mAnswered = true;
+        mUserAnswer = userAnswer.toString();
+        mCorrectAnswer = correctAnswer;
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -234,8 +271,13 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
         int score = isCorrect ? Const.SCORE_TEXT : 0;
 
-        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, userAnswer, correctAnswer,
-                Integer.toString(score));
+        mAnswered = true;
+        mUserAnswer = userAnswer;
+        mCorrectAnswer = correctAnswer;
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -272,8 +314,13 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         String user = userAnswer ? getString(R.string.answer_true) : getString(R.string.answer_false);
         int score = isCorrect ? Const.SCORE_TRUE_FALSE : 0;
 
-        AnswerFragment fragment =
-                AnswerFragment.newInstance(mQuestion, user, correct, Integer.toString(score));
+        mAnswered = true;
+        mUserAnswer = user;
+        mCorrectAnswer = correct;
+        mScore = score;
+
+        AnswerFragment fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                Integer.toString(mScore));
         showAnswer(fragment);
 
         JSONObject answer = new JSONObject();
@@ -298,7 +345,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
     @Override
     public void reclineQuestion() {
-        // TODO: 30.03.2016 Recline question
         finish();
     }
 
@@ -306,6 +352,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
     public void finishQuestion() {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(Const.QUESTION, mQuestionObject);
+        resultIntent.putExtra(Const.QUESTION_SCORE, mScore);
         setResult(RESULT_OK, resultIntent);
         finish();
     }
@@ -322,44 +369,48 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
 
     private void setupQuestionFragment() throws JSONException {
         Fragment fragment;
-        String answer;
-        ArrayList<String> answers;
-        ArrayList<String> falseAnswers;
-        ViewGroup root = (ViewGroup) findViewById(R.id.question_root);
-        switch (mType) {
-            case Const.QUESTION_TYPE_SORT:
-                answers = Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_ANSWERS));
-                fragment = SortFragment.newInstance(mQuestion, answers, mImage);
-                break;
-            case Const.QUESTION_TYPE_SEEKBAR:
-                double min = mValues.getDouble(Const.QUESTIONS_MIN);
-                double max = mValues.getDouble(Const.QUESTIONS_MAX);
-                double step = mValues.getDouble(Const.QUESTIONS_STEP);
-                double fAnswer = mValues.getDouble(Const.QUESTIONS_ANSWER);
-                fragment = SeekbarFragment.newInstance(mQuestion, min, max, step, fAnswer, mImage);
-                break;
-            case Const.QUESTION_TYPE_RADIO:
-                answer = mValues.getString(Const.QUESTIONS_ANSWER);
-                falseAnswers =
-                        Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_FALSE_ANSWERS));
-                fragment = RadioFragment.newInstance(mQuestion, answer, falseAnswers, mImage);
-                break;
-            case Const.QUESTION_TYPE_CHECKBOX:
-                answers = Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_ANSWERS));
-                falseAnswers =
-                        Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_FALSE_ANSWERS));
-                fragment = CheckboxFragment.newInstance(mQuestion, answers,falseAnswers, mImage);
-                break;
-            case Const.QUESTION_TYPE_TEXT:
-                answer = mValues.getString(Const.QUESTIONS_ANSWER);
-                fragment = TextFragment.newInstance(mQuestion, answer, mImage);
-                break;
-            case Const.QUESTION_TYPE_TRUE_FALSE:
-                boolean bAnswer = mValues.getBoolean(Const.QUESTIONS_ANSWER);
-                fragment = TrueFalseFragment.newInstance(mQuestion, bAnswer, mImage);
-                break;
-            default:
-                throw new IllegalStateException("Type: " + mType + " not found.");
+        if(mAnswered) {
+            fragment = AnswerFragment.newInstance(mQuestion, mUserAnswer, mCorrectAnswer,
+                    Integer.toString(mScore));
+        } else {
+            String answer;
+            ArrayList<String> answers;
+            ArrayList<String> falseAnswers;
+            switch (mType) {
+                case Const.QUESTION_TYPE_SORT:
+                    answers = Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_ANSWERS));
+                    fragment = SortFragment.newInstance(mQuestion, answers, mImage);
+                    break;
+                case Const.QUESTION_TYPE_SEEKBAR:
+                    double min = mValues.getDouble(Const.QUESTIONS_MIN);
+                    double max = mValues.getDouble(Const.QUESTIONS_MAX);
+                    double step = mValues.getDouble(Const.QUESTIONS_STEP);
+                    double fAnswer = mValues.getDouble(Const.QUESTIONS_ANSWER);
+                    fragment = SeekbarFragment.newInstance(mQuestion, min, max, step, fAnswer, mImage);
+                    break;
+                case Const.QUESTION_TYPE_RADIO:
+                    answer = mValues.getString(Const.QUESTIONS_ANSWER);
+                    falseAnswers =
+                            Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_FALSE_ANSWERS));
+                    fragment = RadioFragment.newInstance(mQuestion, answer, falseAnswers, mImage);
+                    break;
+                case Const.QUESTION_TYPE_CHECKBOX:
+                    answers = Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_ANSWERS));
+                    falseAnswers =
+                            Tools.string2ArrayList(mValues.getString(Const.QUESTIONS_FALSE_ANSWERS));
+                    fragment = CheckboxFragment.newInstance(mQuestion, answers, falseAnswers, mImage);
+                    break;
+                case Const.QUESTION_TYPE_TEXT:
+                    answer = mValues.getString(Const.QUESTIONS_ANSWER);
+                    fragment = TextFragment.newInstance(mQuestion, answer, mImage);
+                    break;
+                case Const.QUESTION_TYPE_TRUE_FALSE:
+                    boolean bAnswer = mValues.getBoolean(Const.QUESTIONS_ANSWER);
+                    fragment = TrueFalseFragment.newInstance(mQuestion, bAnswer, mImage);
+                    break;
+                default:
+                    throw new IllegalStateException("Type: " + mType + " not found.");
+            }
         }
         openFragment(fragment);
     }
@@ -372,5 +423,14 @@ public class QuestionActivity extends AppCompatActivity implements QuestionCommu
         transaction.add(R.id.question_root, fragment);
         transaction.commit();
         mActiveFragment = fragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean(ARG_ANSWERED, mAnswered);
+        outState.putString(ARG_USER_ANSWER, mUserAnswer);
+        outState.putString(ARG_CORRECT_ANSWER, mCorrectAnswer);
+        outState.putInt(ARG_SCORE, mScore);
     }
 }

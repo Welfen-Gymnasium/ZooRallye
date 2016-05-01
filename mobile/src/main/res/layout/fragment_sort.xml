@@ -37,7 +37,8 @@
         xmlns:dslv="http://schemas.android.com/apk/res-auto"
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:dividerHeight="2dp"
         dslv:drag_enabled="true"
         dslv:collapsed_height="2dp"
@@ -65,7 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_toEndOf="@id/recline_sort"
+            android:layout_toRightOf="@id/recline_sort"
             android:text="@string/question_submit" />
     </RelativeLayout>
 </LinearLayout>

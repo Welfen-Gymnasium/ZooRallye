@@ -29,6 +29,7 @@ import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.fragments.MapFragment;
 import onl.deepspace.zoorallye.fragments.StartRallyFragment;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Question;
 import onl.deepspace.zoorallye.helper.Tools;
@@ -41,6 +42,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
+    private static final String ARG_TOTAL_SCORE = "totalScore";
+    private static final String ARG_QUESTIONS_ANSWERED = "questionsAnswered";
 
     public static final int SHOW_QUESTION = 384;
 
@@ -49,6 +52,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     Tools.ActionBarToggler toggle;
     private boolean mRallyActive;
     private ArrayList<Question> mQuestions;
+    private int mTotalScore;
+    private int mQuestionsAnswered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +92,13 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             Intent intent = getIntent();
             mRallyActive = intent.getBooleanExtra(ARG_RALLY_ACTIVE, false);
             mQuestions = intent.getParcelableArrayListExtra(ARG_QUESTIONS);
+            mTotalScore = intent.getIntExtra(ARG_TOTAL_SCORE, 0);
+            mQuestionsAnswered = intent.getIntExtra(ARG_QUESTIONS_ANSWERED, 0);
         } else {
             mRallyActive = savedInstanceState.getBoolean(ARG_RALLY_ACTIVE, false);
             mQuestions = savedInstanceState.getParcelableArrayList(ARG_QUESTIONS);
+            mTotalScore = savedInstanceState.getInt(ARG_TOTAL_SCORE, 0);
+            mQuestionsAnswered = savedInstanceState.getInt(ARG_QUESTIONS_ANSWERED, 0);
         }
 
         // Setup Tab Layout
@@ -127,6 +136,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         super.onSaveInstanceState(outState);
         if (mRallyActive) outState.putBoolean(ARG_RALLY_ACTIVE, true);
         if (mQuestions != null) outState.putParcelableArrayList(ARG_QUESTIONS, mQuestions);
+        outState.putInt(ARG_TOTAL_SCORE, mTotalScore);
+        outState.putInt(ARG_QUESTIONS_ANSWERED, mQuestionsAnswered);
     }
 
     @Override
@@ -220,6 +231,10 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == SHOW_QUESTION) {
             Question answeredQuestion = data.getParcelableExtra(Const.QUESTION);
+            int score = data.getIntExtra(Const.QUESTION_SCORE, 0);
+            mTotalScore += score;
+            updatePlayGames();
+
             String type = answeredQuestion.getType();
             String id = answeredQuestion.getId();
             int state = answeredQuestion.getState();
@@ -227,6 +242,24 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             if (index >= 0) {
                 mQuestions.get(index).setState(state);
             }
+        }
+    }
+
+    private void updatePlayGames() {
+        try {
+            submitLeaderBoardScore(
+                    getString(R.string.leaderboard_total_question_points_earned), mTotalScore);
+            if (mQuestionsAnswered >= 1)
+                unlockAchievement(getString(R.string.achievement_answered_first_question));
+            if (mQuestionsAnswered >= 10)
+                unlockAchievement(getString(R.string.achievement_answered_first_question));
+            if (mQuestionsAnswered >= 25)
+                unlockAchievement(getString(R.string.achievement_answered_first_question));
+            if (mQuestionsAnswered >= 50)
+                unlockAchievement(getString(R.string.achievement_answered_first_question));
+        } catch (Exceptions.GooglePlayUnconnectedException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+            signIn();
         }
     }
 

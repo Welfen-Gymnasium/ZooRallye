@@ -96,6 +96,15 @@ public class Question implements Parcelable {
         return this.state;
     }
 
+    public String getImage() {
+        try {
+            return value.getString(Const.QUESTION_IMAGE);
+        } catch (JSONException e) {
+            Log.w(Const.LOGTAG, "No Image defined");
+            return null;
+        }
+    }
+
     public JSONObject getValue() {
         return value;
     }

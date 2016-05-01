@@ -115,7 +115,7 @@ public class CheckboxFragment extends Fragment {
         LinearLayout checkboxGroup = (LinearLayout) mView.findViewById(R.id.container_checkbox);
 
         for (int i = 0; i < mAllAnswers.size(); i++) {
-            CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox_view, checkboxGroup);
+            CheckBox checkBox = (CheckBox) inflater.inflate(R.layout.checkbox_view, checkboxGroup, false);
             checkBox.setHint(mAllAnswers.get(i));
             checkboxGroup.addView(checkBox);
         }
@@ -147,16 +147,20 @@ public class CheckboxFragment extends Fragment {
 
     private void submitAnswer() {
         if (mCommunicator != null) {
-            LinearLayout checkboxGroup = (LinearLayout) mView.findViewById(R.id.container_radio);
+            LinearLayout checkboxGroup = (LinearLayout) mView.findViewById(R.id.container_checkbox);
             int correctItems = mAnswers.size();
             int correctUserItems = 0;
 
             ArrayList<String> userAnswer = getUserAnswer(checkboxGroup);
             for (int i = 0; i < userAnswer.size(); i++) {
-                if (isCorrectAnswer(userAnswer.get(i))) correctUserItems++;
+                if (isCorrectAnswer(userAnswer.get(i)))
+                    correctUserItems++;
+                else
+                    correctUserItems--;
             }
 
-            float percentCorrect = 100 / correctItems * correctUserItems;
+            float percentCorrect = (100 * correctUserItems) / correctItems;
+            percentCorrect /= 100;
 
             mCommunicator.submitCheckbox(userAnswer, percentCorrect);
         } else {
@@ -175,7 +179,9 @@ public class CheckboxFragment extends Fragment {
 
     private boolean isCorrectAnswer(String userAnswer) {
         for (int i = 0; i < mAnswers.size(); i++) {
-            if(userAnswer.equals(mAllAnswers.get(i))) return true;
+            String answer = mAnswers.get(i);
+            if(userAnswer.equals(answer))
+                return true;
         }
         return false;
     }

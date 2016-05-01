@@ -226,9 +226,15 @@ public class Tools {
         }
     }
 
+    /**
+     * Check if user is in a specific area
+     * @param currentPosition The current position
+     * @param area The center of the area
+     * @param range m to each side from middle of beacon
+     * @return If user is in area
+     */
     private static boolean inArea(Location currentPosition, Location area, double range) {
 
-        double beaconRange = range; //m to each side from middle of beacon
         double r_earth = 6378000; //m
 
         double currentLongitude = currentPosition.getLongitude();
@@ -237,11 +243,11 @@ public class Tools {
         double areaCenterLongitude = area.getLongitude();
         double areaCenterLatitude = area.getLatitude();
 
-        double northSouthRange = (beaconRange / r_earth) * (180 / Math.PI);
+        double northSouthRange = (range / r_earth) * (180 / Math.PI);
         double areaTop = areaCenterLatitude - northSouthRange;
         double areaBottom = areaCenterLatitude + northSouthRange;
 
-        double areaEastWestRange = (beaconRange / r_earth) * (180 / Math.PI)
+        double areaEastWestRange = (range / r_earth) * (180 / Math.PI)
                 / Math.cos(currentLatitdude * Math.PI / 180);
         double areaLeft = areaCenterLongitude - areaEastWestRange;
         double areaRight = areaCenterLongitude + areaEastWestRange;

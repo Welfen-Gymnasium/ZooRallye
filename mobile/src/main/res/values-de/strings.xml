@@ -27,7 +27,7 @@
     <string name="zoo_map_description">Karte eines Zoos</string>
     <string name="back_to_quiz_description">Zurück zum Quiz</string>
     <string name="answer_user">Deine Antwort</string>
-    <string name="answer_scores">Punktestand</string>
+    <string name="answer_scores">Punkte</string>
     <string name="answer_correct">Richtige Antwort:</string>
     <string name="gps_permission_denied">GPS Erlaubniss verweigert!</string>
     <string name="loading">Lade</string>

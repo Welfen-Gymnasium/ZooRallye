@@ -82,6 +82,8 @@ public class AnswerFragment extends Fragment {
             throw new ClassCastException(getActivity().toString() + " must implement QuestionCommunication");
         }
 
+        // TODO: 30.04.2016 Set image to question image
+
         // Set TextViews with infos about the previous answered question
         TextView question = (TextView) mView.findViewById(R.id.question);
         question.setText(mQuestion);

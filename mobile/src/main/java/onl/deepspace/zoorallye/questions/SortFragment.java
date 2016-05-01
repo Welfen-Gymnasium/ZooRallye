@@ -183,7 +183,8 @@ public class SortFragment extends ListFragment {
                 if(mAnswers.get(i).equals(userAnswer.get(i))) correctUserItems++;
             }
 
-            float percentCorrect = 100 / correctItems * correctUserItems;
+            float percentCorrect = (100 * correctUserItems) / correctItems;
+            percentCorrect /= 100;
 
             mCommunicator.submitSort(userAnswer, percentCorrect);
         } else {

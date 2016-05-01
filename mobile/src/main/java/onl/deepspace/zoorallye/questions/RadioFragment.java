@@ -115,10 +115,10 @@ public class RadioFragment extends Fragment {
         RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.container_radio);
 
         for (int i = 0; i < mAllAnswers.size(); i++) {
-            RadioButton button = (RadioButton) inflater
-                    .inflate(R.layout.radio_view, radioGroup).findViewById(R.id.radio_button);
+            RadioButton button = (RadioButton) inflater.inflate(R.layout.radio_view, radioGroup, false);
             String answer = mAllAnswers.get(i);
             button.setHint(answer);
+            radioGroup.addView(button);
         }
 
         final Button recline = (Button) mView.findViewById(R.id.recline_radio);
