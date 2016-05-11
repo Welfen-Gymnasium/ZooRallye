@@ -103,21 +103,25 @@ public class BeaconsOverlayFragment extends Fragment {
 
                 ImageView questionState = (ImageView) questionItem.findViewById(R.id.question_state);
                 int state = question.getState();
-                int iconId;
+                int iconId, colorId = 0;
                 switch (state) {
                     case Question.STATE_UNKNOWN:
                         iconId = R.drawable.ic_unkown_circle;
                         break;
                     case Question.STATE_CORRECT:
                         iconId = R.drawable.ic_check_circle;
+                        colorId = getResources().getColor(R.color.answerTrue);
                         break;
                     case Question.STATE_WRONG:
                         iconId = R.drawable.ic_cross_circle;
+                        colorId = getResources().getColor(R.color.answerFalse);
                         break;
                     default:
                         iconId = 0;
+                        colorId = 0;
                 }
                 if (iconId != 0) questionState.setImageResource(iconId);
+                if (colorId != 0) questionItem.setBackgroundColor(colorId);
 
                 questionItem.setOnClickListener(new View.OnClickListener() {
                     @Override
