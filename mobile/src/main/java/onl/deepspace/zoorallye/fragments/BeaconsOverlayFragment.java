@@ -85,49 +85,49 @@ public class BeaconsOverlayFragment extends Fragment {
         mQuestionList = (ViewGroup) view.findViewById(R.id.question_list);
         mQuestionList.removeViewsInLayout(1, mQuestionList.getChildCount() - 1);
 
-        Log.d(Const.LOGTAG, mQuestions.size() + "");
+        if(mQuestions != null){
+            for (Question question : mQuestions) {
+                ViewGroup questionItem = (ViewGroup) inflater
+                        .inflate(R.layout.beacon_overlay_question_item, mQuestionList, false);
 
-        for (Question question : mQuestions) {
-            ViewGroup questionItem = (ViewGroup) inflater
-                    .inflate(R.layout.beacon_overlay_question_item, mQuestionList, false);
+                TextView questionType = (TextView) questionItem.findViewById(R.id.question_type);
+                questionType.setText(Strings.getType(getContext(), question.getType()));
 
-            TextView questionType = (TextView) questionItem.findViewById(R.id.question_type);
-            questionType.setText(Strings.getType(getContext(), question.getType()));
+                TextView questionAnimal = (TextView) questionItem.findViewById(R.id.question_animal);
+                String animal = question.getAnimal();
+                if (animal != null) questionAnimal.setText(Strings.getAnimal(getContext(), animal));
 
-            TextView questionAnimal = (TextView) questionItem.findViewById(R.id.question_animal);
-            String animal = question.getAnimal();
-            if (animal != null) questionAnimal.setText(Strings.getAnimal(getContext(), animal));
+                TextView questionScore = (TextView) questionItem.findViewById(R.id.question_score);
+                questionScore.setText(question.getScore() +
+                        getContext().getString(R.string.points_suffix));
 
-            TextView questionScore = (TextView) questionItem.findViewById(R.id.question_score);
-            questionScore.setText(question.getScore() +
-                    getContext().getString(R.string.points_suffix));
-
-            ImageView questionState = (ImageView) questionItem.findViewById(R.id.question_state);
-            int state = question.getState();
-            int iconId;
-            switch (state) {
-                case Question.STATE_UNKNOWN:
-                    iconId = R.drawable.ic_unkown_circle;
-                    break;
-                case Question.STATE_CORRECT:
-                    iconId = R.drawable.ic_check_circle;
-                    break;
-                case Question.STATE_WRONG:
-                    iconId = R.drawable.ic_cross_circle;
-                    break;
-                default:
-                    iconId = 0;
-            }
-            if (iconId != 0) questionState.setImageResource(iconId);
-
-            questionItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    questionClicked(v);
+                ImageView questionState = (ImageView) questionItem.findViewById(R.id.question_state);
+                int state = question.getState();
+                int iconId;
+                switch (state) {
+                    case Question.STATE_UNKNOWN:
+                        iconId = R.drawable.ic_unkown_circle;
+                        break;
+                    case Question.STATE_CORRECT:
+                        iconId = R.drawable.ic_check_circle;
+                        break;
+                    case Question.STATE_WRONG:
+                        iconId = R.drawable.ic_cross_circle;
+                        break;
+                    default:
+                        iconId = 0;
                 }
-            });
+                if (iconId != 0) questionState.setImageResource(iconId);
 
-            mQuestionList.addView(questionItem);
+                questionItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        questionClicked(v);
+                    }
+                });
+
+                mQuestionList.addView(questionItem);
+            }
         }
 
         ImageView hideOverlay = (ImageView) view.findViewById(R.id.hide_beacon_overlay);
