@@ -42,7 +42,7 @@ import onl.deepspace.zoorallye.helper.interfaces.BeaconListener;
 public class RallyActivity extends AppCompatAchievementActivity implements
         NavigationView.OnNavigationItemSelectedListener, StartRallyFragment.OnStartRallyListener,
         MapFragment.OverlayShow, BeaconListener, BeaconsOverlayFragment.BeaconOverlayListener,
-        InfoFragment.InfoFragmentCommunication{
+        InfoFragment.InfoFragmentCommunication {
 
     private static final String ARG_RALLY_ACTIVE = "rallyActive";
     private static final String ARG_QUESTIONS = "questions";
@@ -195,24 +195,20 @@ public class RallyActivity extends AppCompatAchievementActivity implements
      *                  invoke the {@link onl.deepspace.zoorallye.QuestionActivity}
      */
     private void showBeaconOverlay(JSONObject beacon, ArrayList<Question> questions) {
-        if (questions != null) {
-            try {
-                JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
-                ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
+        try {
+            JSONArray animals = beacon.getJSONArray(Const.ZOO_ANIMALS);
+            ArrayList<String> animalList = Tools.jsonArrayToArrayList(animals);
 
-                mBeaconOverlayFragment = BeaconsOverlayFragment
-                        .newInstance(beacon.getString("type"), animalList, questions);
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.rally_container, mBeaconOverlayFragment);
-                transaction.commit();
-            } catch (JSONException e) {
-                Log.e(Const.LOGTAG, e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            Log.i(Const.LOGTAG, "No questions for this beacon.");
+            mBeaconOverlayFragment = BeaconsOverlayFragment
+                    .newInstance(beacon.getString("type"), animalList, questions);
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(R.id.rally_container, mBeaconOverlayFragment);
+            transaction.commit();
+        } catch (JSONException e) {
+            Log.e(Const.LOGTAG, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -226,13 +222,20 @@ public class RallyActivity extends AppCompatAchievementActivity implements
         mBeaconOverlayFragment = null;
     }
 
+    public void updateBeaconOverlay() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(mBeaconOverlayFragment);
+        transaction.attach(mBeaconOverlayFragment);
+        transaction.commitAllowingStateLoss();
+    }
+
     @Override
     public void showQuestion(Question question) {
         if (question.getState() == Question.STATE_UNKNOWN) {
             Intent intent = new Intent(this, QuestionActivity.class);
             intent.putExtra(Const.QUESTION, question);
             startActivityForResult(intent, SHOW_QUESTION);
-            hideBeaconOverlay();
         }
     }
 
@@ -270,6 +273,8 @@ public class RallyActivity extends AppCompatAchievementActivity implements
             if (index >= 0) {
                 mQuestions.get(index).setState(state);
             }
+
+            updateBeaconOverlay();
         }
     }
 
@@ -337,7 +342,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
     }
 
     private int getIndexForQuestion(String type, String id) {
-        for (int i=0; i<mQuestions.size(); i++) {
+        for (int i = 0; i < mQuestions.size(); i++) {
             Question question = mQuestions.get(i);
             if (type.equals(question.getType()) && id.equals(question.getId())) {
                 return i;
@@ -355,7 +360,7 @@ public class RallyActivity extends AppCompatAchievementActivity implements
 
                 for (int h = 0; h < beaconEnclosureList.length(); h++) {
                     if (beaconEnclosureList.getString(h).equals(questionsEnclosure)) {
-                        if(returnList == null){
+                        if (returnList == null) {
                             returnList = new ArrayList<>(); //need this to parse null if no question set
                         }
                         returnList.add(mQuestions.get(i));

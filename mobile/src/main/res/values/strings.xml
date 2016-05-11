@@ -173,4 +173,5 @@
     <string name="thanks_for_participating">Thanks for participating, your Score:</string>
     <string name="share_with_friends">Share with Friends</string>
     <string name="back_to_rallly">Back to Rallly</string>
+    <string name="current_score">Current score</string>
 </resources>

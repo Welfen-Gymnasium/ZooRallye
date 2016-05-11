@@ -31,6 +31,7 @@ import onl.deepspace.zoorallye.fragments.InfoFragment;
 import onl.deepspace.zoorallye.fragments.OfflineContentFragment;
 import onl.deepspace.zoorallye.fragments.StatisticsFragment;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Exceptions;
 import onl.deepspace.zoorallye.helper.Liana;
 import onl.deepspace.zoorallye.helper.Tools;
 import onl.deepspace.zoorallye.helper.activities.AppCompatAchievementActivity;
@@ -167,6 +168,8 @@ public class MainActivity extends AppCompatAchievementActivity
                     }
                 }.execute();
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e){
                 e.printStackTrace();
             }
 

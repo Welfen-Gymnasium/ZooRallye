@@ -1,5 +1,6 @@
 package onl.deepspace.zoorallye.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class OfflineContentFragment extends Fragment implements
         OfflineContentRecyclerViewAdapter.OfflineItemCommunication, DataFetcher.DownloadResultReceiver.Receiver{
 
     private int mColumnCount = 1;
-    private View recycler;
+    private View recycler, view;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,7 +52,7 @@ public class OfflineContentFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_offlinecontent_list, container, false);
+        view = inflater.inflate(R.layout.fragment_offlinecontent_list, container, false);
 
         recycler = view.findViewById(R.id.offline_fragment_recycler);
         
@@ -79,7 +80,11 @@ public class OfflineContentFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 Tools.deleteAppData(getContext());
-                refreshFragment();
+
+                Activity activity = getActivity();
+                if(activity instanceof MainActivity){
+                    refreshFragment((MainActivity) activity);
+                }
             }
         });
 
@@ -115,10 +120,13 @@ public class OfflineContentFragment extends Fragment implements
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
-        refreshFragment();
+        Activity activity = getActivity();
+        if(activity instanceof MainActivity){
+            refreshFragment((MainActivity) activity);
+        }
     }
 
-    private void refreshFragment(){
-        ((MainActivity) getActivity()).openFragment(((MainActivity) getActivity()).getFragmentByID(R.id.nav_offline));
+    private void refreshFragment(MainActivity activity){
+        activity.openFragment(activity.getFragmentByID(R.id.nav_offline));
     }
 }

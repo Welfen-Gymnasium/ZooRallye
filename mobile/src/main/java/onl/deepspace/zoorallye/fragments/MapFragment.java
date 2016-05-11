@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
@@ -284,7 +285,12 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
                 setMarkerPosition(l);
             } else {
-                gps.showSettingsAlert();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gps.showSettingsAlert();
+                    }
+                });
             }
             return l;
         }

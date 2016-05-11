@@ -116,7 +116,7 @@ public class StartRallyFragment extends Fragment {//} implements DataFetcher.Dow
 
             ArrayList<Question> rallyQuestions;
             try {
-                rallyQuestions = new ArrayList<> (allQuestion.subList(0, questionsCount));
+                rallyQuestions = allQuestion;//new ArrayList<> (allQuestion.subList(0, questionsCount));
             } catch (IndexOutOfBoundsException e) {
                 Log.e(Const.LOGTAG, "Too less questions fetched");
                 rallyQuestions = allQuestion;
