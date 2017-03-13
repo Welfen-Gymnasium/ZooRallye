@@ -102,24 +102,24 @@ public class StartRallyFragment extends Fragment {//} implements DataFetcher.Dow
             JSONArray text = questions.getJSONArray(Const.QUESTION_TYPE_TEXT);
             JSONArray trueFalse = questions.getJSONArray(Const.QUESTION_TYPE_TRUE_FALSE);
 
-            ArrayList<Question> allQuestion = new ArrayList<>();
-            allQuestion = addToArrayList(allQuestion, checkbox, Const.QUESTION_TYPE_CHECKBOX);
-            allQuestion = addToArrayList(allQuestion, radio, Const.QUESTION_TYPE_RADIO);
-            allQuestion = addToArrayList(allQuestion, seekbar, Const.QUESTION_TYPE_SEEKBAR);
-            allQuestion = addToArrayList(allQuestion, sort, Const.QUESTION_TYPE_SORT);
-            allQuestion = addToArrayList(allQuestion, text, Const.QUESTION_TYPE_TEXT);
-            allQuestion = addToArrayList(allQuestion, trueFalse, Const.QUESTION_TYPE_TRUE_FALSE);
+            ArrayList<Question> allQuestions = new ArrayList<>();
+            allQuestions = addToArrayList(allQuestions, checkbox, Const.QUESTION_TYPE_CHECKBOX);
+            allQuestions = addToArrayList(allQuestions, radio, Const.QUESTION_TYPE_RADIO);
+            allQuestions = addToArrayList(allQuestions, seekbar, Const.QUESTION_TYPE_SEEKBAR);
+            allQuestions = addToArrayList(allQuestions, sort, Const.QUESTION_TYPE_SORT);
+            allQuestions = addToArrayList(allQuestions, text, Const.QUESTION_TYPE_TEXT);
+            allQuestions = addToArrayList(allQuestions, trueFalse, Const.QUESTION_TYPE_TRUE_FALSE);
 
-            Collections.shuffle(allQuestion);
+            Collections.shuffle(allQuestions);
             // TODO NO-IMPORTANCE: 26.04.2016 make questions equally valuable
-            Log.d(Const.LOGTAG, String.valueOf(allQuestion));
+            Log.d(Const.LOGTAG, String.valueOf(allQuestions));
 
             ArrayList<Question> rallyQuestions;
             try {
-                rallyQuestions = new ArrayList<> (allQuestion.subList(0, questionsCount));
+                rallyQuestions = allQuestions;
             } catch (IndexOutOfBoundsException e) {
                 Log.e(Const.LOGTAG, "Too less questions fetched");
-                rallyQuestions = allQuestion;
+                rallyQuestions = allQuestions;
             }
 
             mListener.onStartRally(rallyQuestions);
