@@ -1,6 +1,7 @@
 package onl.deepspace.zoorallye.lib;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.fragments.OfflineItem;
+import onl.deepspace.zoorallye.helper.Const;
 
 /**
  */
@@ -37,8 +39,14 @@ public class OfflineContentRecyclerViewAdapter extends
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mNameView.setText(mValues.get(position).name);
-        holder.mActionView.setBackgroundResource((mValues.get(position).offline) ?
-                R.drawable.ic_offline : R.drawable.ic_download);
+
+        if (mValues.get(position).offline) {
+            Log.d(Const.LOGTAG, "Offline: true");
+            holder.mActionView.setImageResource(R.drawable.ic_offline_pin);
+        } else {
+            Log.d(Const.LOGTAG, "Offline: false");
+            holder.mActionView.setImageResource(R.drawable.ic_download);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

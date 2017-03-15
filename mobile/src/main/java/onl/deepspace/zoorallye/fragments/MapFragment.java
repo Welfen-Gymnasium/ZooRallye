@@ -190,7 +190,7 @@ public class MapFragment extends Fragment implements GPSCallback, AsyncTaskCallb
 
         } else if (!inZooInformation) {
             Snackbar.make(view, view.getResources().getString(R.string.outside_zoo),
-                    Snackbar.LENGTH_LONG).show();
+                    Snackbar.LENGTH_SHORT).show();
             inZooInformation = true;
         }
     }

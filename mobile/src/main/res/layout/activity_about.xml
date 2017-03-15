@@ -52,6 +52,24 @@
             android:contentDescription="@string/wgs_logo_description"
             android:src="@drawable/wgs_logo" />
 
+        <ImageView
+                android:id="@+id/fragment_donation_donate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/img_android_robot"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:layout_gravity="start"
+                android:textAlignment="viewStart"
+                android:text="@string/donation_text"
+                android:textColor="#555"
+                android:textSize="16sp"/>
+
     </LinearLayout>
 
 </ScrollView>

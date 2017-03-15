@@ -121,6 +121,8 @@ public class DataFetcher extends IntentService {
                     //Tools.setZoos(this, (zoos != null) ? zoos : fetchedZoos);
                 } else if (url.contains(Const.QuestionsAPI)) {
                     Tools.setQuestions(this, new JSONObject(result));
+                } else {
+                    throw new Exception("Nothing fetched!");
                 }
 
                 bundle.putString(RESULT, result);
@@ -166,6 +168,7 @@ public class DataFetcher extends IntentService {
         if (statusCode == 200) {
             inputStream = new BufferedInputStream(urlConnection.getInputStream());
             String response = convertInputStreamToString(inputStream);
+            Log.d(Const.LOGTAG, response);
             return response;
         } else {
             throw new DownloadException("Failed to fetch data!!");

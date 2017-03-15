@@ -14,10 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 import onl.deepspace.zoorallye.R;
 import onl.deepspace.zoorallye.helper.Const;
+import onl.deepspace.zoorallye.helper.Tools;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -184,13 +188,26 @@ public class InfoFragment extends Fragment {
 
     private void updateTextViews(int score, int answeredQuestions) {
         Locale locale = getResources().getConfiguration().locale;
+        JSONObject questions = Tools.getQuestions(getContext());
+        int questionCount = 0;
+        try {
+            questionCount = questions.getJSONArray(Const.QuestionsAPI_SLIDER).length() +
+                            questions.getJSONArray(Const.QuestionsAPI_RADIO).length() +
+                    questions.getJSONArray(Const.QuestionsAPI_CHECKBOX).length() +
+                    questions.getJSONArray(Const.QuestionsAPI_SORT).length() +
+                    questions.getJSONArray(Const.QuestionsAPI_TRUE_FALSE).length() +
+                    questions.getJSONArray(Const.QuestionsAPI_TEXT).length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         if (mScoreValue != null)
             mScoreValue.setText(String.format(locale, "%d", score));
         if (mAnsweredValue != null)
             mAnsweredValue.setText(String.format(locale, "%d", answeredQuestions));
         if (mRemainingValue != null)
             mRemainingValue.setText(String.format(locale, "%d",
-                Const.RALLY_QUESTION_COUNT - answeredQuestions));
+                     questionCount - answeredQuestions));
     }
 
     @Override
